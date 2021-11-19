@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GMesh / PyGMesh How-tos &#8212; Underworld 3</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet" />
-  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -55,7 +55,10 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -94,7 +97,7 @@
   </a>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Instruction Manual
  </span>
@@ -123,7 +126,7 @@
   </ul>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Theory
  </span>
@@ -162,7 +165,7 @@
   </ul>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Notebooks
  </span>
@@ -181,7 +184,7 @@
   </ul>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Tutorials
  </span>
@@ -210,7 +213,7 @@
   </ul>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Glossary
  </span>
@@ -222,7 +225,7 @@
   </a>
  </li>
 </ul>
-<p class="caption" role="heading">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Bibliography
  </span>
@@ -374,6 +377,18 @@
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#structured-regular-mesh-3d-wip-should-use-extruded-surface">
      Structured Regular Mesh 3D (WIP, should use extruded surface)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#labelling">
+   Labelling
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#unstructured-mesh">
+     Unstructured Mesh
     </a>
    </li>
   </ul>
@@ -582,133 +597,273 @@
 <h2>Structured Regular Mesh 3D (WIP, should use extruded surface)<a class="headerlink" href="#structured-regular-mesh-3d-wip-should-use-extruded-surface" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with pygmsh.geo.Geometry() as geom:</span>
+<span class="c1">#     p1 = geom.add_point((0.,0.,0.))</span>
+<span class="c1">#     p2 = geom.add_point((1.,0.,0.))</span>
+<span class="c1">#     p3 = geom.add_point((0.,1.,0.))</span>
+<span class="c1">#     p4 = geom.add_point((1.,1.,0.))</span>
+<span class="c1">#     p5 = geom.add_point((0.,0.,1.))</span>
+<span class="c1">#     p6 = geom.add_point((1.,0.,1.))</span>
+<span class="c1">#     p7 = geom.add_point((0.,1.,1.))</span>
+<span class="c1">#     p8 = geom.add_point((1.,1.,1.))    </span>
+    
+<span class="c1">#     l1 = geom.add_line(p1, p2)</span>
+<span class="c1">#     l2 = geom.add_line(p2, p4)</span>
+<span class="c1">#     l3 = geom.add_line(p4, p3)</span>
+<span class="c1">#     l4 = geom.add_line(p3, p1)</span>
+    
+<span class="c1">#     ## Front</span>
+<span class="c1">#     cl = geom.add_curve_loop((l1, l2, l3, l4))</span>
+<span class="c1">#     front = geom.add_surface(cl)</span>
+    
+<span class="c1">#     l1 = geom.add_line(p5, p6)</span>
+<span class="c1">#     l2 = geom.add_line(p6, p7)</span>
+<span class="c1">#     l3 = geom.add_line(p7, p8)</span>
+<span class="c1">#     l4 = geom.add_line(p8, p5)    </span>
+    
+<span class="c1">#     ## Back</span>
+<span class="c1">#     cl = geom.add_curve_loop((l1, l2, l3, l4))</span>
+<span class="c1">#     back = geom.add_surface(cl)   </span>
+    
+<span class="c1">#     l1 = geom.add_line(p1, p2)</span>
+<span class="c1">#     l2 = geom.add_line(p2, p6)</span>
+<span class="c1">#     l3 = geom.add_line(p6, p5)</span>
+<span class="c1">#     l4 = geom.add_line(p5, p1) </span>
+
+<span class="c1">#     ## Bottom</span>
+<span class="c1">#     cl = geom.add_curve_loop((l1, l2, l3, l4))</span>
+<span class="c1">#     bottom = geom.add_surface(cl)   </span>
+    
+<span class="c1">#     l1 = geom.add_line(p4, p3)</span>
+<span class="c1">#     l2 = geom.add_line(p3, p7)</span>
+<span class="c1">#     l3 = geom.add_line(p7, p8)</span>
+<span class="c1">#     l4 = geom.add_line(p8, p4) </span>
+
+<span class="c1">#     ## Top</span>
+<span class="c1">#     cl = geom.add_curve_loop((l1, l2, l3, l4))</span>
+<span class="c1">#     top = geom.add_surface(cl)</span>
+    
+<span class="c1">#     l1 = geom.add_line(p2, p6)</span>
+<span class="c1">#     l2 = geom.add_line(p6, p7)</span>
+<span class="c1">#     l3 = geom.add_line(p7, p3)</span>
+<span class="c1">#     l4 = geom.add_line(p3, p2) </span>
+
+<span class="c1">#     ## Right</span>
+<span class="c1">#     cl = geom.add_curve_loop((l1, l2, l3, l4))</span>
+<span class="c1">#     right = geom.add_surface(cl)</span>
+    
+<span class="c1">#     l1 = geom.add_line(p1, p5)</span>
+<span class="c1">#     l2 = geom.add_line(p5, p8)</span>
+<span class="c1">#     l3 = geom.add_line(p8, p4)</span>
+<span class="c1">#     l4 = geom.add_line(p4, p1) </span>
+
+<span class="c1">#     ## Left</span>
+<span class="c1">#     cl = geom.add_curve_loop((l1, l2, l3, l4))</span>
+<span class="c1">#     left = geom.add_surface(cl)</span>
+    
+
+<span class="c1">#     geom.set_transfinite_surface(surface=front, arrangement=&quot;Left&quot;, corner_pts=[p1,p2,p3,p4])</span>
+<span class="c1">#     geom.set_transfinite_surface(surface=back, arrangement=&quot;Left&quot;, corner_pts=[p5,p6,p7,p8])</span>
+<span class="c1">#     geom.set_transfinite_surface(surface=bottom, arrangement=&quot;Left&quot;, corner_pts=[p1,p2,p6,p5])</span>
+<span class="c1">#     geom.set_transfinite_surface(surface=top, arrangement=&quot;Left&quot;, corner_pts=[p4,p3,p7,p8])</span>
+<span class="c1">#     geom.set_transfinite_surface(surface=right, arrangement=&quot;Left&quot;, corner_pts=[p2,p6,p7,p3])</span>
+<span class="c1">#     geom.set_transfinite_surface(surface=left, arrangement=&quot;Left&quot;, corner_pts=[p5,p1,p4,p8])</span>
+    
+<span class="c1">#     geom.set_recombined_surfaces(surfaces=[front, back, bottom, top, right, left])</span>
+    
+<span class="c1">#     sloop = geom.add_surface_loop([front, left, bottom, back, right, top])</span>
+<span class="c1">#     volume = geom.add_volume(sloop)</span>
+<span class="c1">#     geom.set_transfinite_volume(volume, corner_pts=[p1, p2, p3, p4, p5, p6, p7, p8])</span>
+
+<span class="c1">#     mesh = geom.generate_mesh()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># with open(&quot;output/regular3d.vtk&quot;, mode=&quot;wb&quot;) as f:</span>
+<span class="c1">#     mesh.write(f, file_format=&quot;vtk&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="labelling">
+<h1>Labelling<a class="headerlink" href="#labelling" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="unstructured-mesh">
+<h2>Unstructured Mesh<a class="headerlink" href="#unstructured-mesh" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">pygmsh</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">Geometry</span><span class="p">()</span> <span class="k">as</span> <span class="n">geom</span><span class="p">:</span>
     <span class="n">p1</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">))</span>
-    <span class="n">p2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">))</span>
-    <span class="n">p3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">))</span>
-    <span class="n">p4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">))</span>
-    <span class="n">p5</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">))</span>
-    <span class="n">p6</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">))</span>
-    <span class="n">p7</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">))</span>
-    <span class="n">p8</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">))</span>    
-    
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">))</span>
+    <span class="n">p3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.</span><span class="p">))</span>
+    <span class="n">p4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_point</span><span class="p">((</span><span class="mf">2.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.</span><span class="p">))</span>
     <span class="n">l1</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
     <span class="n">l2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">p4</span><span class="p">)</span>
     <span class="n">l3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p4</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
     <span class="n">l4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span>
-    
-    <span class="c1">## Front</span>
+    <span class="c1">#geom.add_physical(l1, label=&quot;Bottom&quot;)</span>
     <span class="n">cl</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_curve_loop</span><span class="p">((</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">,</span> <span class="n">l4</span><span class="p">))</span>
-    <span class="n">front</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>
-    
-    <span class="n">l1</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p5</span><span class="p">,</span> <span class="n">p6</span><span class="p">)</span>
-    <span class="n">l2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p6</span><span class="p">,</span> <span class="n">p7</span><span class="p">)</span>
-    <span class="n">l3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p7</span><span class="p">,</span> <span class="n">p8</span><span class="p">)</span>
-    <span class="n">l4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p8</span><span class="p">,</span> <span class="n">p5</span><span class="p">)</span>    
-    
-    <span class="c1">## Back</span>
-    <span class="n">cl</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_curve_loop</span><span class="p">((</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">,</span> <span class="n">l4</span><span class="p">))</span>
-    <span class="n">back</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>   
-    
-    <span class="n">l1</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
-    <span class="n">l2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">p6</span><span class="p">)</span>
-    <span class="n">l3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p6</span><span class="p">,</span> <span class="n">p5</span><span class="p">)</span>
-    <span class="n">l4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p5</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span> 
-
-    <span class="c1">## Bottom</span>
-    <span class="n">cl</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_curve_loop</span><span class="p">((</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">,</span> <span class="n">l4</span><span class="p">))</span>
-    <span class="n">bottom</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>   
-    
-    <span class="n">l1</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p4</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
-    <span class="n">l2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="n">p7</span><span class="p">)</span>
-    <span class="n">l3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p7</span><span class="p">,</span> <span class="n">p8</span><span class="p">)</span>
-    <span class="n">l4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p8</span><span class="p">,</span> <span class="n">p4</span><span class="p">)</span> 
-
-    <span class="c1">## Top</span>
-    <span class="n">cl</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_curve_loop</span><span class="p">((</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">,</span> <span class="n">l4</span><span class="p">))</span>
-    <span class="n">top</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>
-    
-    <span class="n">l1</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">p6</span><span class="p">)</span>
-    <span class="n">l2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p6</span><span class="p">,</span> <span class="n">p7</span><span class="p">)</span>
-    <span class="n">l3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p7</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
-    <span class="n">l4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> 
-
-    <span class="c1">## Right</span>
-    <span class="n">cl</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_curve_loop</span><span class="p">((</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">,</span> <span class="n">l4</span><span class="p">))</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>
-    
-    <span class="n">l1</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p5</span><span class="p">)</span>
-    <span class="n">l2</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p5</span><span class="p">,</span> <span class="n">p8</span><span class="p">)</span>
-    <span class="n">l3</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p8</span><span class="p">,</span> <span class="n">p4</span><span class="p">)</span>
-    <span class="n">l4</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">p4</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span> 
-
-    <span class="c1">## Left</span>
-    <span class="n">cl</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_curve_loop</span><span class="p">((</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l3</span><span class="p">,</span> <span class="n">l4</span><span class="p">))</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>
-    
-
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_transfinite_surface</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">front</span><span class="p">,</span> <span class="n">arrangement</span><span class="o">=</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="n">corner_pts</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p3</span><span class="p">,</span><span class="n">p4</span><span class="p">])</span>
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_transfinite_surface</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">back</span><span class="p">,</span> <span class="n">arrangement</span><span class="o">=</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="n">corner_pts</span><span class="o">=</span><span class="p">[</span><span class="n">p5</span><span class="p">,</span><span class="n">p6</span><span class="p">,</span><span class="n">p7</span><span class="p">,</span><span class="n">p8</span><span class="p">])</span>
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_transfinite_surface</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">bottom</span><span class="p">,</span> <span class="n">arrangement</span><span class="o">=</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="n">corner_pts</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p6</span><span class="p">,</span><span class="n">p5</span><span class="p">])</span>
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_transfinite_surface</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">top</span><span class="p">,</span> <span class="n">arrangement</span><span class="o">=</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="n">corner_pts</span><span class="o">=</span><span class="p">[</span><span class="n">p4</span><span class="p">,</span><span class="n">p3</span><span class="p">,</span><span class="n">p7</span><span class="p">,</span><span class="n">p8</span><span class="p">])</span>
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_transfinite_surface</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">right</span><span class="p">,</span> <span class="n">arrangement</span><span class="o">=</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="n">corner_pts</span><span class="o">=</span><span class="p">[</span><span class="n">p2</span><span class="p">,</span><span class="n">p6</span><span class="p">,</span><span class="n">p7</span><span class="p">,</span><span class="n">p3</span><span class="p">])</span>
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_transfinite_surface</span><span class="p">(</span><span class="n">surface</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">arrangement</span><span class="o">=</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="n">corner_pts</span><span class="o">=</span><span class="p">[</span><span class="n">p5</span><span class="p">,</span><span class="n">p1</span><span class="p">,</span><span class="n">p4</span><span class="p">,</span><span class="n">p8</span><span class="p">])</span>
-    
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_recombined_surfaces</span><span class="p">(</span><span class="n">surfaces</span><span class="o">=</span><span class="p">[</span><span class="n">front</span><span class="p">,</span> <span class="n">back</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">left</span><span class="p">])</span>
-    
-    <span class="n">sloop</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface_loop</span><span class="p">([</span><span class="n">front</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">back</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">top</span><span class="p">])</span>
-    <span class="n">volume</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_volume</span><span class="p">(</span><span class="n">sloop</span><span class="p">)</span>
-    <span class="n">geom</span><span class="o">.</span><span class="n">set_transfinite_volume</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">corner_pts</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span> <span class="n">p5</span><span class="p">,</span> <span class="n">p6</span><span class="p">,</span> <span class="n">p7</span><span class="p">,</span> <span class="n">p8</span><span class="p">])</span>
-
+    <span class="n">surface</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>
     <span class="n">mesh</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">generate_mesh</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output/rectangle.msh&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">Exception</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_37261</span><span class="o">/</span><span class="mf">2746558722.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">82</span>     <span class="c1">#geom.set_transfinite_curve(curve=l4, num_nodes=20, mesh_type=&quot;Progression&quot;, coeff=1.0)</span>
-<span class="g g-Whitespace">     </span><span class="mi">83</span>     <span class="c1">#geom.set_recombined_surfaces(surfaces=[surface])</span>
-<span class="ne">---&gt; </span><span class="mi">84</span>     <span class="n">mesh</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">generate_mesh</span><span class="p">()</span>
+<span class="ne">WriteError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_20558</span><span class="o">/</span><span class="mf">409550977.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output/rectangle.msh&quot;</span><span class="p">)</span>
 
-<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/pygmsh/common/geometry.py</span> in <span class="ni">generate_mesh</span><span class="nt">(self, dim, order, algorithm, verbose)</span>
-<span class="g g-Whitespace">    </span><span class="mi">370</span>             <span class="n">gmsh</span><span class="o">.</span><span class="n">option</span><span class="o">.</span><span class="n">setNumber</span><span class="p">(</span><span class="s2">&quot;Mesh.Algorithm&quot;</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">371</span> 
-<span class="ne">--&gt; </span><span class="mi">372</span>         <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">373</span> 
-<span class="g g-Whitespace">    </span><span class="mi">374</span>         <span class="k">return</span> <span class="n">extract_to_meshio</span><span class="p">()</span>
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/_mesh.py</span> in <span class="ni">write</span><span class="nt">(self, path_or_buf, file_format, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="kn">from</span> <span class="nn">._helpers</span> <span class="kn">import</span> <span class="n">write</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span> 
+<span class="ne">--&gt; </span><span class="mi">219</span>         <span class="n">write</span><span class="p">(</span><span class="n">path_or_buf</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">file_format</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span> 
+<span class="g g-Whitespace">    </span><span class="mi">221</span>     <span class="k">def</span> <span class="nf">get_cells_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 
-<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/gmsh-4.8.4-Linux64-sdk/lib/gmsh.py</span> in <span class="ni">generate</span><span class="nt">(dim)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1521</span>                 <span class="n">byref</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1522</span>             <span class="k">if</span> <span class="n">ierr</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1523</span>                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">logger</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
-<span class="g g-Whitespace">   </span><span class="mi">1524</span> 
-<span class="g g-Whitespace">   </span><span class="mi">1525</span>         <span class="nd">@staticmethod</span>
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/_helpers.py</span> in <span class="ni">write</span><span class="nt">(filename, mesh, file_format, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span> 
+<span class="g g-Whitespace">    </span><span class="mi">140</span>     <span class="c1"># Write</span>
+<span class="ne">--&gt; </span><span class="mi">141</span>     <span class="k">return</span> <span class="n">writer</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<span class="ne">Exception</span>: Incompatible surface 1 in transfinite volume 1
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/main.py</span> in <span class="ni">&lt;lambda&gt;</span><span class="nt">(f, m, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span>     <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="s2">&quot;gmsh22&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;2.2&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+<span class="ne">--&gt; </span><span class="mi">111</span>         <span class="s2">&quot;gmsh&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;4.1&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span> <span class="p">)</span>
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/main.py</span> in <span class="ni">write</span><span class="nt">(filename, mesh, fmt_version, binary, float_fmt)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>             <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> 
+<span class="ne">--&gt; </span><span class="mi">102</span>     <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">float_fmt</span><span class="o">=</span><span class="n">float_fmt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> 
+<span class="g g-Whitespace">    </span><span class="mi">104</span> 
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/_gmsh41.py</span> in <span class="ni">write</span><span class="nt">(filename, mesh, float_fmt, binary)</span>
+<span class="g g-Whitespace">    </span><span class="mi">356</span> 
+<span class="g g-Whitespace">    </span><span class="mi">357</span>         <span class="n">_write_entities</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">cells</span><span class="p">,</span> <span class="n">tag_data</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cell_sets</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">358</span>         <span class="n">_write_nodes</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">,</span> <span class="n">float_fmt</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">359</span>         <span class="n">_write_elements</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">cells</span><span class="p">,</span> <span class="n">tag_data</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">360</span>         <span class="k">if</span> <span class="n">mesh</span><span class="o">.</span><span class="n">gmsh_periodic</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/_gmsh41.py</span> in <span class="ni">_write_nodes</span><span class="nt">(fh, points, cells, point_data, float_fmt, binary)</span>
+<span class="g g-Whitespace">    </span><span class="mi">605</span>         <span class="c1"># nodes. This only makes sense if the cells are of a single type</span>
+<span class="g g-Whitespace">    </span><span class="mi">606</span>         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">607</span>             <span class="k">raise</span> <span class="n">WriteError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">608</span>                 <span class="s2">&quot;Specify entity information (gmsh:dim_tags in point_data) &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">609</span>                 <span class="o">+</span> <span class="s2">&quot;to deal with more than one cell type. &quot;</span>
+
+<span class="ne">WriteError</span>: Specify entity information (gmsh:dim_tags in point_data) to deal with more than one cell type. 
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;output/regular3d.vtk&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">file_format</span><span class="o">=</span><span class="s2">&quot;vtk&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mesh.write<span class="o">??</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geom</span> <span class="o">=</span> <span class="n">pygmsh</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">Geometry</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span><span class="nn">petsc4py</span>
+<span class="n">petsc4py</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geom</span><span class="o">.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pygmsh</span>
+
+<span class="kn">import</span> <span class="nn">pygmsh</span>
+
+<span class="k">with</span> <span class="n">pygmsh</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">Geometry</span><span class="p">()</span> <span class="k">as</span> <span class="n">geom</span><span class="p">:</span>
+    <span class="n">geom</span><span class="o">.</span><span class="n">add_polygon</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+        <span class="p">],</span>
+        <span class="n">mesh_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">generate_mesh</span><span class="p">()</span>
+
+<span class="c1"># mesh.points, mesh.cells, ...</span>
+<span class="c1"># mesh.write(&quot;out.vtk&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;test.msh&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">WriteError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_20558</span><span class="o">/</span><span class="mf">239673612.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mesh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;test.msh&quot;</span><span class="p">)</span>
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/_mesh.py</span> in <span class="ni">write</span><span class="nt">(self, path_or_buf, file_format, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="kn">from</span> <span class="nn">._helpers</span> <span class="kn">import</span> <span class="n">write</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span> 
+<span class="ne">--&gt; </span><span class="mi">219</span>         <span class="n">write</span><span class="p">(</span><span class="n">path_or_buf</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">file_format</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span> 
+<span class="g g-Whitespace">    </span><span class="mi">221</span>     <span class="k">def</span> <span class="nf">get_cells_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/_helpers.py</span> in <span class="ni">write</span><span class="nt">(filename, mesh, file_format, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span> 
+<span class="g g-Whitespace">    </span><span class="mi">140</span>     <span class="c1"># Write</span>
+<span class="ne">--&gt; </span><span class="mi">141</span>     <span class="k">return</span> <span class="n">writer</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/main.py</span> in <span class="ni">&lt;lambda&gt;</span><span class="nt">(f, m, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span>     <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="s2">&quot;gmsh22&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;2.2&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+<span class="ne">--&gt; </span><span class="mi">111</span>         <span class="s2">&quot;gmsh&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="s2">&quot;4.1&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span> <span class="p">)</span>
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/main.py</span> in <span class="ni">write</span><span class="nt">(filename, mesh, fmt_version, binary, float_fmt)</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>             <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span> 
+<span class="ne">--&gt; </span><span class="mi">102</span>     <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">,</span> <span class="n">float_fmt</span><span class="o">=</span><span class="n">float_fmt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span> 
+<span class="g g-Whitespace">    </span><span class="mi">104</span> 
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/_gmsh41.py</span> in <span class="ni">write</span><span class="nt">(filename, mesh, float_fmt, binary)</span>
+<span class="g g-Whitespace">    </span><span class="mi">356</span> 
+<span class="g g-Whitespace">    </span><span class="mi">357</span>         <span class="n">_write_entities</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">cells</span><span class="p">,</span> <span class="n">tag_data</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cell_sets</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">358</span>         <span class="n">_write_nodes</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">cells</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">,</span> <span class="n">float_fmt</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">359</span>         <span class="n">_write_elements</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">cells</span><span class="p">,</span> <span class="n">tag_data</span><span class="p">,</span> <span class="n">binary</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">360</span>         <span class="k">if</span> <span class="n">mesh</span><span class="o">.</span><span class="n">gmsh_periodic</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">~/PROJECTS/Project_underworld3/uw3_venv/lib/python3.9/site-packages/meshio/gmsh/_gmsh41.py</span> in <span class="ni">_write_nodes</span><span class="nt">(fh, points, cells, point_data, float_fmt, binary)</span>
+<span class="g g-Whitespace">    </span><span class="mi">605</span>         <span class="c1"># nodes. This only makes sense if the cells are of a single type</span>
+<span class="g g-Whitespace">    </span><span class="mi">606</span>         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cells</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">607</span>             <span class="k">raise</span> <span class="n">WriteError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">608</span>                 <span class="s2">&quot;Specify entity information (gmsh:dim_tags in point_data) &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">609</span>                 <span class="o">+</span> <span class="s2">&quot;to deal with more than one cell type. &quot;</span>
+
+<span class="ne">WriteError</span>: Specify entity information (gmsh:dim_tags in point_data) to deal with more than one cell type. 
 </pre></div>
 </div>
 </div>
@@ -739,13 +894,8 @@
               </div>
               
         
-            
-
-
-
-<div class='prev-next-bottom'>
-    
-
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'>
 </div>
         
         </div>
@@ -765,8 +915,7 @@
       </div>
     </div>
   
-  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-  
   </body>
 </html>

@@ -54,6 +54,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lectures and Tutorials for Underworld 3" href="../Lectures/Index.html" />
+    <link rel="prev" title="Sample notebooks" href="Index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -277,7 +279,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/Notebooks/NEx_Stokes_mask_jacobians_WIP.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/Notebooks/NEx_Stokes_pyvista_WIP.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -315,7 +317,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/underworldcode/underworld3/master?urlpath=tree/Notebooks/NEx_Stokes_mask_jacobians_WIP.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/underworldcode/underworld3/master?urlpath=tree/Notebooks/NEx_Stokes_pyvista_WIP.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -501,64 +503,35 @@
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Smooth mask functions ... </span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mask_function_factory</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xsi</span><span class="p">):</span>
-    
-    <span class="k">def</span> <span class="nf">tophat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">xsi</span><span class="p">):</span>
-    <span class="n">xx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">offset</span>
-    <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="n">xsi</span>
-    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">((</span><span class="n">xx</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">((</span><span class="n">xx</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span><span class="p">))</span>
-     
-    <span class="k">return</span> <span class="n">tophat</span>
-    
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">off</span> <span class="o">=</span> <span class="n">mask_function_factory</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="k">def</span> <span class="nf">tophat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">offset</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
-    <span class="n">xx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">offset</span>
-    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">((</span><span class="n">xx</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">((</span><span class="n">xx</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">scale</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
-
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">tophat</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="mf">2.0</span><span class="p">),</span>  <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">tophat</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="mf">5.0</span><span class="p">),</span>  <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">tophat</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="mf">10.0</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">tophat</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="mf">20.0</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x14d5c5580&gt;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[0]PETSC ERROR: Argument out of range
+[0]PETSC ERROR: No grid generator of dimension 2 registered You may need to add --download-triangle to your ./configure options
+[0]PETSC ERROR: See https://www.mcs.anl.gov/petsc/documentation/faq.html for trouble shooting.
+[0]PETSC ERROR: Petsc Release Version 3.15.0, unknown 
+[0]PETSC ERROR: Unknown Name on a arch-darwin-c-debug named mhs-062450 by lmoresi Thu Oct 21 21:38:23 2021
+[0]PETSC ERROR: Configure options --with-petsc4py --with-hdf5
+[0]PETSC ERROR: #1 DMPlexGenerate() at /Users/lmoresi/+Underworld/petsc/src/dm/impls/plex/plexgenerate.c:193
+[0]PETSC ERROR: #2 DMPlexCreateBoxMesh_Simplex_Internal() at /Users/lmoresi/+Underworld/petsc/src/dm/impls/plex/plexcreate.c:511
+[0]PETSC ERROR: #3 DMPlexCreateBoxMesh() at /Users/lmoresi/+Underworld/petsc/src/dm/impls/plex/plexcreate.c:1061
 </pre></div>
 </div>
-<img alt="../_images/NEx_Stokes_mask_jacobians_WIP_7_1.png" src="../_images/NEx_Stokes_mask_jacobians_WIP_7_1.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">g3</span><span class="o">/</span><span class="n">zs57lnv5087f66fcky707_ww0000gp</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_13568</span><span class="o">/</span><span class="mf">3907190453.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="n">sys</span><span class="o">.</span><span class="n">pushErrorHandler</span><span class="p">(</span><span class="s2">&quot;traceback&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span> 
+<span class="ne">---&gt; </span><span class="mi">34</span> <span class="n">mesh</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">elementRes</span><span class="o">=</span><span class="p">(</span>    <span class="n">n_els</span><span class="p">,)</span> <span class="o">*</span><span class="n">dim</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">35</span>                     <span class="n">minCoords</span> <span class="o">=</span><span class="p">(</span>       <span class="mf">0.</span><span class="p">,)</span><span class="o">*</span><span class="n">dim</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span>                     <span class="n">maxCoords</span> <span class="o">=</span><span class="p">(</span><span class="n">boxLength</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span>
+
+<span class="nn">~/+Underworld/underworld3/underworld3/mesh.pyx</span> in <span class="ni">underworld3.mesh.Box.__init__</span><span class="nt">()</span>
+
+<span class="nn">PETSc/DMPlex.pyx</span> in <span class="ni">petsc4py.PETSc.DMPlex.createBoxMesh</span><span class="nt">()</span>
+
+<span class="ne">Error</span>: error code 63
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -602,37 +575,203 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0 SNES Function norm 0.0136628 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
-[0]PETSC ERROR: No support for this operation for this object type
-[0]PETSC ERROR: Mat type mffd
-[0]PETSC ERROR: See https://www.mcs.anl.gov/petsc/documentation/faq.html for trouble shooting.
-[0]PETSC ERROR: Petsc Release Version 3.15.0, unknown 
-[0]PETSC ERROR: Unknown Name on a arch-darwin-c-debug named mhs-062450 by lmoresi Mon Oct 18 21:56:52 2021
-[0]PETSC ERROR: Configure options --with-petsc4py --with-hdf5
-[0]PETSC ERROR: #1 MatZeroEntries() at /Users/lmoresi/+Underworld/petsc/src/mat/interface/matrix.c:5976
-[0]PETSC ERROR: #2 DMPlexSNESComputeJacobianFEM() at /Users/lmoresi/+Underworld/petsc/src/snes/utils/dmplexsnes.c:1576
-[0]PETSC ERROR: #3 SNESComputeJacobian_DMLocal() at /Users/lmoresi/+Underworld/petsc/src/snes/utils/dmlocalsnes.c:125
-[0]PETSC ERROR: #4 SNESComputeJacobian() at /Users/lmoresi/+Underworld/petsc/src/snes/interface/snes.c:2713
-[0]PETSC ERROR: #5 SNESSolve_NEWTONLS() at /Users/lmoresi/+Underworld/petsc/src/snes/impls/ls/ls.c:222
-[0]PETSC ERROR: #6 SNESSolve() at /Users/lmoresi/+Underworld/petsc/src/snes/interface/snes.c:4653
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">g3</span><span class="o">/</span><span class="n">zs57lnv5087f66fcky707_ww0000gp</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_39395</span><span class="o">/</span><span class="mf">634049486.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">30</span> 
-<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="n">start_t</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">32</span> <span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">_force_setup</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">33</span> 
-<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="nb">print</span><span class="p">(</span><span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+  ---------- Testing Jacobian -------------
+  Run with -snes_test_jacobian_view and optionally -snes_test_jacobian &lt;threshold&gt; to show difference
+    of hand-coded and finite difference Jacobian entries greater than &lt;threshold&gt;.
+  Testing hand-coded Jacobian, if (for double precision runs) ||J - Jfd||_F/||J||_F is
+    O(1.e-8), the hand-coded Jacobian is probably correct.
+  ||J - Jfd||_F/||J||_F = 0.0230512, ||J - Jfd||_F = 5.43106
+  ---------- Testing Jacobian for preconditioner -------------
+  ||J - Jfd||_F/||J||_F = 0.0232411, ||J - Jfd||_F = 5.47582
+    0 KSP Residual norm 1.366277590386e-02 
+    1 KSP Residual norm 3.980065460893e-03 
+    2 KSP Residual norm 1.411673034520e-04 
+    3 KSP Residual norm 4.784554189417e-05 
+    4 KSP Residual norm 1.776321935746e-05 
+    5 KSP Residual norm 1.284885138241e-05 
+    6 KSP Residual norm 6.647002250028e-06 
+    7 KSP Residual norm 3.206143832100e-06 
+    8 KSP Residual norm 1.810917371956e-06 
+    9 KSP Residual norm 1.211481377781e-06 
 
-<span class="nn">~/+Underworld/underworld3/underworld3/systems/stokes.pyx</span> in <span class="ni">underworld3.systems.stokes.Stokes.solve</span><span class="nt">()</span>
-
-<span class="nn">PETSc/SNES.pyx</span> in <span class="ni">petsc4py.PETSc.SNES.solve</span><span class="nt">()</span>
-
-<span class="ne">Error</span>: error code 56
+  1 SNES Function norm 0.000889925 
+  ---------- Testing Jacobian -------------
+  ||J - Jfd||_F/||J||_F = 0.0230512, ||J - Jfd||_F = 5.43106
+  ---------- Testing Jacobian for preconditioner -------------
+  ||J - Jfd||_F/||J||_F = 0.0232411, ||J - Jfd||_F = 5.47582
+    0 KSP Residual norm 8.899246202867e-04 
+    1 KSP Residual norm 4.883854471555e-05 
+    2 KSP Residual norm 2.490514079648e-05 
+    3 KSP Residual norm 6.432799128230e-06 
+    4 KSP Residual norm 2.503134684044e-06 
+    5 KSP Residual norm 1.796834364656e-06 
+    6 KSP Residual norm 1.108852434149e-06 
+    7 KSP Residual norm 6.437313994041e-07 
+    8 KSP Residual norm 4.126699272318e-07 
+    9 KSP Residual norm 2.753711374558e-07 
+   10 KSP Residual norm 1.835504584288e-07 
+   11 KSP Residual norm 1.563693761906e-07 
+   12 KSP Residual norm 1.174299887252e-07 
+   13 KSP Residual norm 8.883706593442e-08 
+Nonlinear solve did not converge due to DIVERGED_FUNCTION_COUNT iterations 1
+SNES Object: 1 MPI processes
+  type: newtoStokes solve time 356.285315458
+nls
+  maximum iterations=2, maximum function evaluations=10000
+  tolerances: relative=0.001, absolute=1e-50, solution=1e-08
+  total number of linear solver iterations=22
+  total number of function evaluations=12040
+  norm schedule ALWAYS
+  SNESLineSearch Object: 1 MPI processes
+    type: bt
+      interpolation: cubic
+      alpha=1.000000e-04
+    maxstep=1.000000e+08, minlambda=1.000000e-12
+    tolerances: relative=1.000000e-08, absolute=1.000000e-15, lambda=1.000000e-08
+    maximum iterations=40
+  KSP Object: 1 MPI processes
+    type: fgmres
+      restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+      happy breakdown tolerance 1e-30
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=0.0001, absolute=1e-50, divergence=10000.
+    right preconditioning
+    using UNPRECONDITIONED norm type for convergence test
+  PC Object: 1 MPI processes
+    type: fieldsplit
+      FieldSplit with Schur preconditioner, factorization FULL
+      Preconditioner for the Schur complement formed from A11
+      Split info:
+      Split number 0 Defined by IS
+      Split number 1 Defined by IS
+      KSP solver for A00 block
+        KSP Object: (fieldsplit_velocity_) 1 MPI processes
+          type: fgmres
+            restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+            happy breakdown tolerance 1e-30
+          maximum iterations=10000, initial guess is zero
+          tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+          right preconditioning
+          using UNPRECONDITIONED norm type for convergence test
+        PC Object: (fieldsplit_velocity_) 1 MPI processes
+          type: ilu
+            out-of-place factorization
+            0 levels of fill
+            tolerance for zero pivot 2.22045e-14
+            matrix ordering: natural
+            factor fill ratio given 1., needed 1.
+              Factored matrix follows:
+                Mat Object: 1 MPI processes
+                  type: seqaij
+                  rows=1984, cols=1984
+                  package used to perform factorization: petsc
+                  total: nonzeros=34034, allocated nonzeros=34034
+                    using I-node routines: found 1023 nodes, limit used is 5
+          linear system matrix = precond matrix:
+          Mat Object: (fieldsplit_velocity_) 1 MPI processes
+            type: seqaij
+            rows=1984, cols=1984
+            total: nonzeros=34034, allocated nonzeros=34034
+            total number of mallocs used during MatSetValues calls=0
+              using I-node routines: found 1023 nodes, limit used is 5
+      KSP solver for S = A11 - A10 inv(A00) A01 
+        KSP Object: (fieldsplit_pressure_) 1 MPI processes
+          type: gmres
+            restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+            happy breakdown tolerance 1e-30
+          maximum iterations=10000, initial guess is zero
+          tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+          left preconditioning
+          using PRECONDITIONED norm type for convergence test
+        PC Object: (fieldsplit_pressure_) 1 MPI processes
+          type: ilu
+            out-of-place factorization
+            0 levels of fill
+            tolerance for zero pivot 2.22045e-14
+            matrix ordering: natural
+            factor fill ratio given 1., needed 1.
+              Factored matrix follows:
+                Mat Object: 1 MPI processes
+                  type: seqaij
+                  rows=1024, cols=1024
+                  package used to perform factorization: petsc
+                  total: nonzeros=1024, allocated nonzeros=1024
+                    not using I-node routines
+          linear system matrix followed by preconditioner matrix:
+          Mat Object: (fieldsplit_pressure_) 1 MPI processes
+            type: schurcomplement
+            rows=1024, cols=1024
+              Schur complement A11 - A10 inv(A00) A01
+              A11
+                Mat Object: (fieldsplit_pressure_) 1 MPI processes
+                  type: seqaij
+                  rows=1024, cols=1024
+                  total: nonzeros=1024, allocated nonzeros=1024
+                  total number of mallocs used during MatSetValues calls=0
+                    not using I-node routines
+              A10
+                Mat Object: 1 MPI processes
+                  type: seqaij
+                  rows=1024, cols=1984
+                  total: nonzeros=7812, allocated nonzeros=7812
+                  total number of mallocs used during MatSetValues calls=0
+                    not using I-node routines
+              KSP of A00
+                KSP Object: (fieldsplit_velocity_) 1 MPI processes
+                  type: fgmres
+                    restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+                    happy breakdown tolerance 1e-30
+                  maximum iterations=10000, initial guess is zero
+                  tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+                  right preconditioning
+                  using UNPRECONDITIONED norm type for convergence test
+                PC Object: (fieldsplit_velocity_) 1 MPI processes
+                  type: ilu
+                    out-of-place factorization
+                    0 levels of fill
+                    tolerance for zero pivot 2.22045e-14
+                    matrix ordering: natural
+                    factor fill ratio given 1., needed 1.
+                      Factored matrix follows:
+                        Mat Object: 1 MPI processes
+                          type: seqaij
+                          rows=1984, cols=1984
+                          package used to perform factorization: petsc
+                          total: nonzeros=34034, allocated nonzeros=34034
+                            using I-node routines: found 1023 nodes, limit used is 5
+                  linear system matrix = precond matrix:
+                  Mat Object: (fieldsplit_velocity_) 1 MPI processes
+                    type: seqaij
+                    rows=1984, cols=1984
+                    total: nonzeros=34034, allocated nonzeros=34034
+                    total number of mallocs used during MatSetValues calls=0
+                      using I-node routines: found 1023 nodes, limit used is 5
+              A01
+                Mat Object: 1 MPI processes
+                  type: seqaij
+                  rows=1984, cols=1024
+                  total: nonzeros=7812, allocated nonzeros=7812
+                  total number of mallocs used during MatSetValues calls=0
+                    using I-node routines: found 1023 nodes, limit used is 5
+          Mat Object: (fieldsplit_pressure_) 1 MPI processes
+            type: seqaij
+            rows=1024, cols=1024
+            total: nonzeros=1024, allocated nonzeros=1024
+            total number of mallocs used during MatSetValues calls=0
+              not using I-node routines
+    linear system matrix followed by preconditioner matrix:
+    Mat Object: 1 MPI processes
+      type: seqaij
+      rows=3008, cols=3008
+      total: nonzeros=50682, allocated nonzeros=50682
+      total number of mallocs used during MatSetValues calls=0
+        using I-node routines: found 2047 nodes, limit used is 5
+    Mat Object: 1 MPI processes
+      type: seqaij
+      rows=3008, cols=3008
+      total: nonzeros=50682, allocated nonzeros=50682
+      total number of mallocs used during MatSetValues calls=0
+        using I-node routines: found 2047 nodes, limit used is 5
 </pre></div>
 </div>
 </div>
@@ -695,10 +834,19 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "4e36b86ae84143c2bd01ca1364782135", "version_major": 2, "version_minor": 0}
+</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_density</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="mi">33</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0., 0., 0., ..., 1., 1., 1.])
 </pre></div>
 </div>
 </div>
@@ -716,10 +864,50 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;coordinterp_petscspace_degree&#39;: &#39;2&#39;,
+ &#39;dm_plex_hash_box_nijk&#39;: &#39;32&#39;,
+ &#39;dm_plex_hash_location&#39;: None,
+ &#39;dm_plex_separate_marker&#39;: None,
+ &#39;f&#39;: &#39;/Users/lmoresi/Library/Jupyter/runtime/kernel-86175b26-9916-422f-b8b2-501735705ea8.json&#39;,
+ &#39;fieldsplit_pressure_ksp_rtol&#39;: &#39;1e-05&#39;,
+ &#39;fieldsplit_pressure_pc_type&#39;: &#39;ilu&#39;,
+ &#39;fieldsplit_velocity_ksp_type&#39;: &#39;fgmres&#39;,
+ &#39;fieldsplit_velocity_pc_type&#39;: &#39;ilu&#39;,
+ &#39;ksp_monitor&#39;: None,
+ &#39;ksp_rtol&#39;: &#39;0.0001&#39;,
+ &#39;ksp_type&#39;: &#39;fgmres&#39;,
+ &#39;matSwarmVar_petscspace_degree&#39;: &#39;2&#39;,
+ &#39;meshproj_petscspace_degree&#39;: &#39;1&#39;,
+ &#39;p_petscspace_degree&#39;: &#39;0&#39;,
+ &#39;pc_fieldsplit_schur_factorization_type&#39;: &#39;full&#39;,
+ &#39;pc_fieldsplit_schur_precondition&#39;: &#39;a11&#39;,
+ &#39;pc_fieldsplit_type&#39;: &#39;schur&#39;,
+ &#39;pc_type&#39;: &#39;fieldsplit&#39;,
+ &#39;pprivate_petscspace_degree&#39;: &#39;0&#39;,
+ &#39;snes_converged_reason&#39;: None,
+ &#39;snes_max_it&#39;: &#39;2&#39;,
+ &#39;snes_monitor_short&#39;: None,
+ &#39;snes_rtol&#39;: &#39;0.001&#39;,
+ &#39;snes_test_jacobian&#39;: None,
+ &#39;snes_view&#39;: None,
+ &#39;u_petscspace_degree&#39;: &#39;1&#39;,
+ &#39;uprivate_petscspace_degree&#39;: &#39;1&#39;}
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;/var/folders/g3/zs57lnv5087f66fcky707_ww0000gp/T/ipykernel_13568/57376050.py&quot;</span><span class="gt">, line </span><span class="mi">1</span>
+<span class="g g-Whitespace">    </span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">=</span><span class="mi">2</span>
+    <span class="o">^</span>
+<span class="ne">SyntaxError</span>: cannot assign to operator
 </pre></div>
 </div>
 </div>
@@ -860,7 +1048,21 @@
               
         
             <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="Index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sample notebooks</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../Lectures/Index.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Lectures and Tutorials for Underworld 3</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
         
         </div>
