@@ -704,7 +704,7 @@ Info    : [ 90%] Meshing curve 70 (Circle)
 Info    : [100%] Meshing curve 72 (Circle)
 Info    : [100%] Meshing curve 82 (Circle)
 Info    : [100%] Meshing curve 90 (Circle)
-Info    : Done meshing 1D (Wall 0.00196177s, CPU 0.004548s)
+Info    : Done meshing 1D (Wall 0.000956625s, CPU 0.001983s)
 Info    : Meshing 2D...
 Info    : [  0%] Meshing surface 1 (Transfinite)
 Info    : [ 10%] Meshing surface 2 (Transfinite)
@@ -730,7 +730,7 @@ Info    : [ 90%] Meshing surface 95 (Transfinite)
 Info    : [ 90%] Meshing surface 115 (Transfinite)
 Info    : [100%] Meshing surface 117 (Transfinite)
 Info    : [100%] Meshing surface 137 (Transfinite)
-Info    : Done meshing 2D (Wall 0.00490775s, CPU 0.006388s)
+Info    : Done meshing 2D (Wall 0.00339462s, CPU 0.006611s)
 Info    : Meshing 3D...
 Info    : Meshing volume 1 (Transfinite)
 Info    : Meshing volume 13 (Transfinite)
@@ -738,9 +738,9 @@ Info    : Meshing volume 40 (Transfinite)
 Info    : Meshing volume 67 (Transfinite)
 Info    : Meshing volume 94 (Transfinite)
 Info    : Meshing volume 116 (Transfinite)
-Info    : Done meshing 3D (Wall 0.014798s, CPU 0.010008s)
+Info    : Done meshing 3D (Wall 0.00943933s, CPU 0.007839s)
 Info    : Optimizing mesh...
-Info    : Done optimizing mesh (Wall 0.00196516s, CPU 0.001312s)
+Info    : Done optimizing mesh (Wall 0.000570875s, CPU 0.000606s)
 Info    : 43361 nodes 50443 elements
 </pre></div>
 </div>
@@ -749,12 +749,15 @@ Info    : 43361 nodes 50443 elements
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gmsh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;hollow_sphere.msh&quot;</span><span class="p">)</span>
+<span class="n">gmsh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;ignore_hollow_sphere.vtk&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Info    : Writing &#39;hollow_sphere.msh&#39;...
 Info    : Done writing &#39;hollow_sphere.msh&#39;
+Info    : Writing &#39;hollow_sphere.vtk&#39;...
+Info    : Done writing &#39;hollow_sphere.vtk&#39;
 </pre></div>
 </div>
 </div>
@@ -831,9 +834,9 @@ Info    : Done writing &#39;hollow_sphere.msh&#39;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DM Object: DM_0x55ca3d9d45c0_0 1 MPI processes
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DM Object: DM_0x84000000_0 1 MPI processes
   type: plex
-DM_0x55ca3d9d45c0_0 in 3 dimensions:
+DM_0x84000000_0 in 3 dimensions:
   0-cells: 43361
   1-cells: 127832
   2-cells: 125628
@@ -847,6 +850,44 @@ Labels:
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the mesh if in a notebook / serial</span>
+
+<span class="kn">import</span> <span class="nn">meshio</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+<span class="kn">import</span> <span class="nn">vtk</span>
+
+<span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+<span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
+<span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">antialiasing</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">jupyter_backend</span> <span class="o">=</span> <span class="s1">&#39;pythreejs&#39;</span>
+<span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">smooth_shading</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="kn">import</span> <span class="nn">meshio</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">meshio</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;ignore_hollow_sphere.vtk&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">remove_lower_dimensional_cells</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;ignore_hollow_sphere_hexes.vtk&quot;</span><span class="p">)</span>
+
+<span class="n">pvmesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;ignore_hollow_sphere_hexes.vtk&quot;</span><span class="p">)</span>
+
+<span class="n">clipped_stack</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">normal</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">invert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
+
+<span class="c1">#pl.add_mesh(pvmesh,&#39;Blue&#39;, &#39;wireframe&#39; )</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">clipped_stack</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "4d9883433a72404aafdcf4d8a5785617", "version_major": 2, "version_minor": 0}
+</script></div>
 </div>
 </div>
 
