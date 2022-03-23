@@ -30,7 +30,7 @@ vorticity = uw.mesh.MeshVariable('omega',  meshball, 1, degree=1 )
 # +
 swarm = uw.swarm.Swarm(mesh=meshball)
 v_star     = uw.swarm.SwarmVariable("Vs", swarm, meshball.dim, proxy_degree=3)
-remeshed   = uw.swarm.SwarmVariable("Vw", swarm, 1, proxy_degree=3, dtype='int')
+remeshed   = uw.swarm.SwarmVariable("Vw", swarm, 1, dtype='int', _proxy=False)
 X_0        = uw.swarm.SwarmVariable("X0", swarm, meshball.dim, _proxy=False)
 
 swarm.populate(fill_param=4)
@@ -98,7 +98,7 @@ navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / na
 # Velocity boundary conditions
 
 navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Upper",  (0,1))
-navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
+# navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
 
 v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * navier_stokes.u_star_fn
 # -
@@ -178,21 +178,21 @@ def plot_V_mesh(filename):
         del(pl)
 
         
-
-
-# +
-ts = 0
-swarm_loop = 5
-
-Omega = 2.0 * meshball.N.k
-navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
-navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta)
 # -
 
 
+ts = 0
+swarm_loop = 5
 
-for step in range(0,250):
-    delta_t = 5.0 * navier_stokes.estimate_dt()
+
+
+for step in range(0,50):
+    
+    Omega = .0 * meshball.N.k * min(ts/25, 1.0) 
+    navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
+    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta)
+       
+    delta_t = 3.0 * navier_stokes.estimate_dt()
     
     navier_stokes.solve(timestep=delta_t, zero_init_guess=False)
     

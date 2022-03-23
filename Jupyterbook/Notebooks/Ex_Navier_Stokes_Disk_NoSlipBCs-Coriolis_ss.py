@@ -24,7 +24,9 @@ import sympy
 # -
 
 
-expt_name = "SS_NS_flow_coriolis_10"
+expt_name = "SS_NS_flow_coriolis_100"
+
+expt_name
 
 # +
 import meshio
@@ -97,7 +99,7 @@ navier_stokes._u_star_projector.petsc_options.delValue("ksp_monitor")
 navier_stokes._u_star_projector.petsc_options["snes_rtol"] = 1.0e-2
 navier_stokes._u_star_projector.petsc_options["snes_type"] = "newtontr"
 navier_stokes._u_star_projector.smoothing = 0.0 # navier_stokes.viscosity * 1.0e-6
-navier_stokes._u_star_projector.penalty = 0.0001
+navier_stokes._u_star_projector.penalty = 0.0
 
 # Here we replace the time dependence with the steady state advective transport term
 # to lean towards steady state solutions 
@@ -106,7 +108,7 @@ navier_stokes.UF0 =  -navier_stokes.rho * (v_soln.fn - v_soln_1.fn) / navier_sto
 
 # Constant visc
 
-navier_stokes.rho=1000.0
+navier_stokes.rho=1.0
 navier_stokes.theta=0.5
 navier_stokes.penalty=0.0
 navier_stokes.viscosity = 1.0
@@ -116,7 +118,7 @@ navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / na
 # Velocity boundary conditions
 
 navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Upper",  (0,1))
-navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
+# navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
 
 v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * navier_stokes.u_star_fn
 # -
@@ -169,6 +171,9 @@ def plot_V_mesh(filename):
 
         with meshball.access():
             pvmesh.point_data["T"] = uw.function.evaluate(t_soln.fn, meshball.data)
+            pvmesh.point_data["P"] = uw.function.evaluate(p_soln.fn, meshball.data)
+
+
 
         with meshball.access():
             usol = navier_stokes.u.data # - v_inertial.data
@@ -184,7 +189,9 @@ def plot_V_mesh(filename):
         pl.camera.SetPosition(0.0001,0.0001,4.0)
 
         # pl.add_mesh(pvmesh,'Black', 'wireframe')
-        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, 
+        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", 
+                      scalars="P",
+                      show_edges=True, 
                       use_transparency=False, opacity=0.5)
         pl.add_arrows(arrow_loc, arrow_length, mag=0.05)
         
@@ -202,17 +209,13 @@ def plot_V_mesh(filename):
 ts = 0
 swarm_loop = 5
 
-
-
-# +
-
 for step in range(0,50):
     
-    Omega = 10.0 * meshball.N.k * min(ts/25, 1.0) 
+    Omega = 100.0 * meshball.N.k * min(ts/10, 1.0) 
     navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
     navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta)
        
-    delta_t = 10.0 * navier_stokes.estimate_dt()
+    delta_t = 3.0 * navier_stokes.estimate_dt()
     
     navier_stokes.solve(timestep=delta_t, zero_init_guess=False)
     
@@ -221,7 +224,7 @@ for step in range(0,50):
 
 
     with meshball.access(v_soln_1):
-        v_soln_1.data[...] = 0.5 * v_soln_1.data[...] + 0.5 * v_soln.data[...] 
+        v_soln_1.data[...] = 0.9 * v_soln_1.data[...] + 0.1 * v_soln.data[...] 
 
     with swarm.access(v_star):
         v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data)
