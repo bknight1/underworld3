@@ -177,7 +177,7 @@ def plot_V_mesh(filename):
         
         del(pl)
 
-        
+
 # -
 
 
@@ -201,7 +201,7 @@ for step in range(0,50):
 
 
     with meshball.access(v_soln_1):
-        v_soln_1.data[...] = 0.5 * v_soln_1.data[...] + 0.5 * v_soln.data[...] 
+        v_soln_1.data[...] = 0.1 * v_soln_1.data[...] + 0.9 * v_soln.data[...] 
 
     with swarm.access(v_star):
         v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data)

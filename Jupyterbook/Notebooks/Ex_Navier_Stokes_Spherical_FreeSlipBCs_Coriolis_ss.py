@@ -61,10 +61,11 @@
 # +
 visuals = 0
 output_dir = "output"
+expt_name="SS_NS_Sphere_C10"
 
 # Some gmsh issues, so we'll use a pre-built one
 mesh_file = "Sample_Meshes_Gmsh/test_mesh_sphere_at_res_005_c.msh"
-res = 0.2
+res = 0.25
 r_o = 1.0
 r_i = 0.0
 
@@ -106,32 +107,34 @@ meshball = uw.meshes.SphericalShell(dim=3, degree=1,
                                     cell_size=res, 
                                     cell_size_upper=res,
                                     verbose=False)
+# -
+
+meshball.dm.view()
 
 # +
-v_soln  = uw.mesh.MeshVariable('U', meshball, meshball.dim, degree=2 )
-v_soln_1  = uw.mesh.MeshVariable('U_1',    meshball, meshball.dim, degree=2 )
-p_soln  = uw.mesh.MeshVariable('P', meshball, 1, degree=1 )
-t_soln  = uw.mesh.MeshVariable("T", meshball, 1, degree=3 )
+v_soln   = uw.mesh.MeshVariable('U', meshball, meshball.dim, degree=2 )
+v_soln_1 = uw.mesh.MeshVariable('U_1', meshball, meshball.dim, degree=2 )
+p_soln   = uw.mesh.MeshVariable('P', meshball, 1, degree=1 )
+t_soln   = uw.mesh.MeshVariable("T", meshball, 1, degree=3 )
+r        = uw.mesh.MeshVariable('R', meshball, 1, degree=1 )
 
 # vorticity = uw.mesh.MeshVariable('omega',  meshball, 1, degree=1 )
 
 swarm = uw.swarm.Swarm(mesh=meshball)
-v_star     = uw.swarm.SwarmVariable("Vs", swarm, meshball.dim, proxy_degree=3)
+v_star     = uw.swarm.SwarmVariable("Vs", swarm, meshball.dim, proxy_degree=2)
 remeshed   = uw.swarm.SwarmVariable("Vw", swarm, 1, dtype='int', _proxy=False)
 X_0        = uw.swarm.SwarmVariable("X0", swarm, meshball.dim, _proxy=False)
 
-swarm.populate(fill_param=2)
+swarm.populate(fill_param=3)
 
 # +
 # Create a density structure / buoyancy force
 # gravity will vary linearly from zero at the centre 
 # of the sphere to (say) 1 at the surface
 
-
 radius_fn = sympy.sqrt(meshball.rvec.dot(meshball.rvec)) # normalise by outer radius if not 1.0
 unit_rvec = meshball.rvec / (1.0e-10+radius_fn)
 gravity_fn = radius_fn
-
 
 # Some useful coordinate stuff 
 
@@ -139,30 +142,25 @@ x = meshball.N.x
 y = meshball.N.y
 z = meshball.N.z
 
-r  = sympy.sqrt(x**2+y**2+z**2)  # cf radius_fn which is 0->1 
+# r  = sympy.sqrt(x**2+y**2+z**2)  # cf radius_fn which is 0->1 
 th = sympy.atan2(y+1.0e-10,x+1.0e-10)
-ph = sympy.acos(z / (r+1.0e-10))
+ph = sympy.acos(z / (r.fn+1.0e-10))
 
 # 1000 is the penalty value that enforces the free-slip condition
 
 hw = 1000.0 / res 
-surface_fn = sympy.exp(-((r - r_o) / r_o)**2 * hw)
-
+surface_fn = sympy.exp(-((r.fn - r_o) / r_o)**2 * hw)
 
 ## Buoyancy (T) field
 
-t_forcing_fn = 1.0 * (sympy.exp(-5.0*(x**2+(y-0.9)**2)) + sympy.exp(-10.0*((x-0.8)**2+(y+0.25)**2)))
-
-
-# -
-
-
-lons = uw.function.evaluate(th, t_soln.coords)
-lats = uw.function.evaluate(ph, t_soln.coords)
+t_forcing_fn = 1.0 * (sympy.exp(-5.0*(x**2+(y-0.9)**2+z**2)) + sympy.exp(-10.0*((x-0.8)**2+(y+0.25)**2+z**2)))
 
 
 # +
 """
+lons = uw.function.evaluate(th, t_soln.coords)
+lats = uw.function.evaluate(ph, t_soln.coords)
+
 ic_raw = np.loadtxt("./qtemp_6000.xyz")  # Data: lon, lat, ?, ?, ?, T
 ic_data = ic_raw[:,5].reshape(181,361)
 
@@ -196,16 +194,11 @@ with meshball.access(t_soln):
 """
 
 pass
-# -
-
-
-
-
 # +
-vtheta = r * sympy.sin(th)
+# rigid_body_mode = r.fn * sympy.sin(th)
 
-vx = -vtheta*sympy.sin(th)
-vy =  vtheta*sympy.cos(th)
+# vx = -vtheta*sympy.sin(th)
+# vy =  vtheta*sympy.cos(th)
 # +
 # Create NS object
 
@@ -222,11 +215,13 @@ navier_stokes = uw.systems.NavierStokesSwarm(meshball,
                 solver_name="navier_stokes")
 
 navier_stokes.petsc_options.delValue("ksp_monitor") # We can flip the default behaviour at some point
+navier_stokes.petsc_options["snes_rtol"]=3.0e-3 # We can flip the default behaviour at some point
+
 navier_stokes._u_star_projector.petsc_options.delValue("ksp_monitor")
 navier_stokes._u_star_projector.petsc_options["snes_rtol"] = 1.0e-2
 navier_stokes._u_star_projector.petsc_options["snes_type"] = "newtontr"
-navier_stokes._u_star_projector.smoothing = 0.0 # navier_stokes.viscosity * 1.0e-6
-navier_stokes._u_star_projector.penalty = 0.0001
+navier_stokes._u_star_projector.smoothing = navier_stokes.viscosity * 1.0e-6
+navier_stokes._u_star_projector.penalty = 0.0
 
 navier_stokes.theta=0.5
 navier_stokes.viscosity = 1.0
@@ -241,24 +236,32 @@ buoyancy_force = Rayleigh * gravity_fn * t_forcing_fn
 free_slip_penalty = Rayleigh * 1.0e6 *  v_soln.fn.dot(unit_rvec) * surface_fn
 
 navier_stokes.bodyforce = unit_rvec * (buoyancy_force - free_slip_penalty) 
-navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t + 1000.0 * surface_fn)
+navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t + Rayleigh * 1.0e1 * surface_fn)
 
 # Velocity boundary conditions
 
-navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
+# navier_stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Upper", (0,1,2))
+navier_stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Centre", (0,1,2))
+
 
 v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * navier_stokes.u_star_fn
-# -
-
-with meshball.access(t_soln):
-    t_soln.data[...] = uw.function.evaluate(t_forcing_fn, t_soln.coords).reshape(-1,1)
+# v_theta = navier_stokes.u.fn
 
 # +
-navier_stokes.solve(timestep=10.0)
-
-with meshball.access():
-    v_inertial = v_soln.data.copy()
+with meshball.access(r):
+    r.data[:,0]   = uw.function.evaluate(sympy.sqrt(x**2+y**2+z**2), meshball.data)  # cf radius_fn which is 0->1 
     
+with meshball.access(t_soln):
+    t_soln.data[...] = uw.function.evaluate(t_forcing_fn, t_soln.coords).reshape(-1,1)
+    
+
+# +
+navier_stokes.solve(timestep=10000.0)
+
+with meshball.access(v_soln_1):
+    v_inertial = v_soln.data.copy()
+    v_soln_1.data[...] = v_soln.data[...]
+
 with swarm.access(v_star, remeshed, X_0):
     v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data) 
     X_0.data[...] = swarm.data[...] 
@@ -278,9 +281,59 @@ swarm.advection(v_soln.fn,
                 delta_t=navier_stokes.estimate_dt(),
                 restore_points_to_domain_func=points_in_sphere,
                 corrector=False)
+
+
 # -
+def plot_V_mesh(filename):
+# # +
+# check the mesh if in a notebook / serial
+
+    import mpi4py
+
+    if mpi4py.MPI.COMM_WORLD.size==1:
+
+        import numpy as np
+        import pyvista as pv
+        import vtk
+
+        pv.global_theme.background = 'white'
+        pv.global_theme.window_size = [1250, 1250]
+        pv.global_theme.antialiasing = True
+        pv.global_theme.jupyter_backend = 'panel'
+        pv.global_theme.smooth_shading = True
+
+        pvmesh = meshball.mesh2pyvista(elementType=vtk.VTK_TETRA)
+
+        with meshball.access():
+            usol = navier_stokes.u.data.copy()
+            print("usol - magnitude {}".format(np.sqrt((usol**2).mean())))        
 
 
+        pvmesh.point_data["T"]  = uw.function.evaluate(t_forcing_fn, meshball.data)
+        # pvmesh.point_data["S"]  = uw.function.evaluate(surface.fn, meshball.data)
+
+        arrow_loc = np.zeros((navier_stokes.u.coords.shape[0],3))
+        arrow_loc[...] = navier_stokes.u.coords[...]
+
+        arrow_length = np.zeros((navier_stokes.u.coords.shape[0],3))
+        arrow_length[...] = usol[...] 
+
+
+        pl = pv.Plotter()
+
+        # pl.add_mesh(pvmesh,'Black', 'wireframe')
+
+        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
+                      use_transparency=False, opacity=1.0)
+
+        pl.add_arrows(arrow_loc, arrow_length, mag=2.0e1)
+
+        pl.screenshot(filename="{}.png".format(filename), window_size=(2560,2560),
+                      return_img=False)
+        
+        pl.close()
+        
+        del(pl)
 
 
 
@@ -290,29 +343,34 @@ swarm_loop = 5
 # +
 # PSEUDO T-STEP LOOP
 
-for step in range(0,50):
+for step in range(0,5):
     
-    Omega = 100.0 * meshball.N.k * min(ts/20, 1.0) 
+    Omega = 1.0 * meshball.N.k # * min(ts/20, 1.0) 
     navier_stokes.bodyforce = unit_rvec * (buoyancy_force - free_slip_penalty) 
     navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta)
        
     delta_t = 3.0 * navier_stokes.estimate_dt()
     
-    navier_stokes.solve(timestep=delta_t, zero_init_guess=False)
+    navier_stokes.solve(timestep=delta_t, 
+                        zero_init_guess=False)
     
     dv_fn = v_soln.fn - v_soln_1.fn
     _,_,_,_,_,_,deltaV = meshball.stats(dv_fn.dot(dv_fn))
 
 
-    with meshball.access(v_soln_1):
-        v_soln_1.data[...] = 0.9 * v_soln_1.data[...] + 0.1 * v_soln.data[...] 
+    with meshball.access(v_soln,v_soln_1):
+        v_soln.data[...] = 0.5 * v_soln_1.data[...] + 0.5 * v_soln.data[...] 
+        v_soln_1.data[...] = v_soln.data[...] 
+
+
 
     with swarm.access(v_star):
         v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data)
 
     swarm.advection(v_soln.fn, 
-                    delta_t=delta_t,
-                    corrector=False)
+                delta_t=navier_stokes.estimate_dt(),
+                restore_points_to_domain_func=points_in_sphere,
+                corrector=False)
     
     # Restore a subset of points to start
     offset_idx = step%swarm_loop
@@ -331,7 +389,7 @@ for step in range(0,50):
         v_star.data[idx] = uw.function.evaluate(v_soln.fn, swarm.data[idx]) 
 
     if uw.mpi.rank==0:
-        print("Iteration (pseudo timestep) {}, dt {}, deltaV {}".format(ts, delta_t, deltaV))
+        print("Timestep {}, dt {}, deltaV {}".format(ts, delta_t, deltaV))
                 
     if ts%1 == 0:
         # nodal_vorticity_from_v.solve()
@@ -352,35 +410,6 @@ for step in range(0,50):
 
 
 # -
-
-"""
-# Create Stokes object
-
-stokes = Stokes(meshball, velocityField=v_soln, pressureField=p_soln, 
-                u_degree=2, p_degree=1, solver_name="stokes")
-
-# Inexact Jacobian may be OK.
-stokes.petsc_options["snes_rtol"]=1.0e-3
-stokes.petsc_options["ksp_rtol"]=1.0e-3
-stokes.petsc_options["ksp_monitor"]=None
-
-# stokes.petsc_options["fieldsplit_velocity_ksp_rtol"]  = 1.0e-2
-# stokes.petsc_options["fieldsplit_pressure_ksp_rtol"]  = 1.0e-2
-
-stokes.viscosity = 1.0 + iic_delta_eta * iic_fn
-stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Centre" , (0,1,2))
-
-# thermal buoyancy force
-buoyancy_force = Rayleigh * gravity_fn * t_forcing_fn 
-
-# Free slip condition by penalizing radial velocity at the surface (non-linear term)
-free_slip_penalty = Rayleigh * 1.0e6 *  v_soln.fn.dot(unit_rvec) * surface_fn
-
-stokes.bodyforce = unit_rvec * (buoyancy_force - free_slip_penalty) 
-
-# This may help the solvers - penalty in the jacobian preconditioner
-stokes._Ppre_fn = 1.0 / (stokes.viscosity + 1000.0 * surface_fn)]
-"""
 
 # tsize, tmean, tmin, tmax, tsum, tnorm2, trms = t_soln.stats()
 stokes.solve()
@@ -417,17 +446,17 @@ if mpi4py.MPI.COMM_WORLD.size==1:
     pvmesh = meshball.mesh2pyvista(elementType=vtk.VTK_TETRA)
 
     with meshball.access():
-        usol = stokes.u.data.copy()
+        usol = navier_stokes.u.data.copy()
         print("usol - magnitude {}".format(np.sqrt((usol**2).mean())))        
         
   
     pvmesh.point_data["T"]  = uw.function.evaluate(t_forcing_fn, meshball.data)
     # pvmesh.point_data["S"]  = uw.function.evaluate(surface.fn, meshball.data)
 
-    arrow_loc = np.zeros((stokes.u.coords.shape[0],3))
-    arrow_loc[...] = stokes.u.coords[...]
+    arrow_loc = np.zeros((navier_stokes.u.coords.shape[0],3))
+    arrow_loc[...] = navier_stokes.u.coords[...]
     
-    arrow_length = np.zeros((stokes.u.coords.shape[0],3))
+    arrow_length = np.zeros((navier_stokes.u.coords.shape[0],3))
     arrow_length[...] = usol[...] 
     
 
@@ -438,7 +467,7 @@ if mpi4py.MPI.COMM_WORLD.size==1:
     pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
                   use_transparency=False, opacity=1.0)
     
-    pl.add_arrows(arrow_loc, arrow_length, mag=1.0e1)
+    pl.add_arrows(arrow_loc, arrow_length, mag=3.0e1)
     
     pl.show(cpos="xy")
 
