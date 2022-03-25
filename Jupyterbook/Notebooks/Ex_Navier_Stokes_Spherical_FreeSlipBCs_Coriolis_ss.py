@@ -61,11 +61,11 @@
 # +
 visuals = 0
 output_dir = "output"
-expt_name="SS_NS_Sphere_C10"
+expt_name="NS_Sphere_C10"
 
 # Some gmsh issues, so we'll use a pre-built one
 mesh_file = "Sample_Meshes_Gmsh/test_mesh_sphere_at_res_005_c.msh"
-res = 0.25
+res = 0.3
 r_o = 1.0
 r_i = 0.0
 
@@ -146,14 +146,15 @@ z = meshball.N.z
 th = sympy.atan2(y+1.0e-10,x+1.0e-10)
 ph = sympy.acos(z / (r.fn+1.0e-10))
 
-# 1000 is the penalty value that enforces the free-slip condition
-
 hw = 1000.0 / res 
 surface_fn = sympy.exp(-((r.fn - r_o) / r_o)**2 * hw)
 
 ## Buoyancy (T) field
 
-t_forcing_fn = 1.0 * (sympy.exp(-5.0*(x**2+(y-0.9)**2+z**2)) + sympy.exp(-10.0*((x-0.8)**2+(y+0.25)**2+z**2)))
+t_forcing_fn = 1.0 * ( sympy.exp(-5.0*(x**2+(y-0.8)**2+z**2)) + 
+                       sympy.exp(-10.0*((x-0.8)**2+y**2+z**2)) +
+                       sympy.exp(-15.0*(x**2+y**2+(z-0.8)**2))        
+                     )
 
 
 # +
@@ -195,7 +196,21 @@ with meshball.access(t_soln):
 
 pass
 # +
-# rigid_body_mode = r.fn * sympy.sin(th)
+orientation_wrt_z = sympy.atan2(y+1.0e-10,x+1.0e-10)
+v_rbm_z_x = -r.fn * sympy.sin(orientation_wrt_z) * meshball.N.i
+v_rbm_z_y =  r.fn * sympy.cos(orientation_wrt_z) * meshball.N.j
+v_rbm_z   =  v_rbm_z_x + v_rbm_z_y
+
+orientation_wrt_x = sympy.atan2(z+1.0e-10,y+1.0e-10)
+v_rbm_x_y = -r.fn * sympy.sin(orientation_wrt_x) * meshball.N.j
+v_rbm_x_z =  r.fn * sympy.cos(orientation_wrt_x) * meshball.N.k
+v_rbm_x   =  v_rbm_x_z + v_rbm_x_y 
+
+orientation_wrt_y = sympy.atan2(z+1.0e-10,x+1.0e-10)
+v_rbm_y_x = -r.fn * sympy.sin(orientation_wrt_y) * meshball.N.i
+v_rbm_y_z =  r.fn * sympy.cos(orientation_wrt_y) * meshball.N.k
+v_rbm_y   =  v_rbm_y_z + v_rbm_y_x 
+
 
 # vx = -vtheta*sympy.sin(th)
 # vy =  vtheta*sympy.cos(th)
@@ -220,22 +235,27 @@ navier_stokes.petsc_options["snes_rtol"]=3.0e-3 # We can flip the default behavi
 navier_stokes._u_star_projector.petsc_options.delValue("ksp_monitor")
 navier_stokes._u_star_projector.petsc_options["snes_rtol"] = 1.0e-2
 navier_stokes._u_star_projector.petsc_options["snes_type"] = "newtontr"
-navier_stokes._u_star_projector.smoothing = navier_stokes.viscosity * 1.0e-6
+navier_stokes._u_star_projector.smoothing = 0.0 # navier_stokes.viscosity * 1.0e-6
 navier_stokes._u_star_projector.penalty = 0.0
 
 navier_stokes.theta=0.5
 navier_stokes.viscosity = 1.0
 
 # pseudo-steady-state
-# navier_stokes.UF0 =  -navier_stokes.rho * (v_soln.fn - v_soln_1.fn) / navier_stokes.delta_t
+navier_stokes.UF0 =  -navier_stokes.rho * (v_soln.fn - v_soln_1.fn) / navier_stokes.delta_t
 
 # thermal buoyancy force
 buoyancy_force = Rayleigh * gravity_fn * t_forcing_fn 
 
 # Free slip condition by penalizing radial velocity at the surface (non-linear term)
-free_slip_penalty = Rayleigh * 1.0e6 *  v_soln.fn.dot(unit_rvec) * surface_fn
+free_slip_penalty  = Rayleigh * 1.0e6 *  v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn
+solid_body_penalty = 1.0e2   * (v_rbm_x * v_soln.fn.dot(v_rbm_x) + 
+                                v_rbm_y * v_soln.fn.dot(v_rbm_y) +
+                                v_rbm_z * v_soln.fn.dot(v_rbm_z))
 
-navier_stokes.bodyforce = unit_rvec * (buoyancy_force - free_slip_penalty) 
+navier_stokes.bodyforce = unit_rvec * buoyancy_force 
+navier_stokes.bodyforce -= free_slip_penalty + solid_body_penalty     
+
 navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t + Rayleigh * 1.0e1 * surface_fn)
 
 # Velocity boundary conditions
@@ -253,7 +273,7 @@ with meshball.access(r):
     
 with meshball.access(t_soln):
     t_soln.data[...] = uw.function.evaluate(t_forcing_fn, t_soln.coords).reshape(-1,1)
-    
+
 
 # +
 navier_stokes.solve(timestep=10000.0)
@@ -284,6 +304,7 @@ swarm.advection(v_soln.fn,
 
 
 # -
+
 def plot_V_mesh(filename):
 # # +
 # check the mesh if in a notebook / serial
@@ -326,7 +347,7 @@ def plot_V_mesh(filename):
         pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
                       use_transparency=False, opacity=1.0)
 
-        pl.add_arrows(arrow_loc, arrow_length, mag=2.0e1)
+        pl.add_arrows(arrow_loc, arrow_length, mag=30.0)
 
         pl.screenshot(filename="{}.png".format(filename), window_size=(2560,2560),
                       return_img=False)
@@ -343,10 +364,11 @@ swarm_loop = 5
 # +
 # PSEUDO T-STEP LOOP
 
-for step in range(0,5):
+for step in range(0,50):
     
-    Omega = 1.0 * meshball.N.k # * min(ts/20, 1.0) 
-    navier_stokes.bodyforce = unit_rvec * (buoyancy_force - free_slip_penalty) 
+    Omega = 1.0 * meshball.N.k * min(ts/5, 1.0) 
+    navier_stokes.bodyforce = unit_rvec * buoyancy_force 
+    navier_stokes.bodyforce -= free_slip_penalty + solid_body_penalty     
     navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta)
        
     delta_t = 3.0 * navier_stokes.estimate_dt()
@@ -361,8 +383,6 @@ for step in range(0,5):
     with meshball.access(v_soln,v_soln_1):
         v_soln.data[...] = 0.5 * v_soln_1.data[...] + 0.5 * v_soln.data[...] 
         v_soln_1.data[...] = v_soln.data[...] 
-
-
 
     with swarm.access(v_star):
         v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data)
@@ -402,17 +422,10 @@ for step in range(0,5):
         # vorticity.save(savefile)
         # meshball.generate_xdmf(savefile)
         
-    navier_stokes._u_star_projector.smoothing = navier_stokes.viscosity * 1.0e-6
+    # navier_stokes._u_star_projector.smoothing = navier_stokes.viscosity * 1.0e-6
     
     ts += 1
 
-
-
-
-# -
-
-# tsize, tmean, tmin, tmax, tsum, tnorm2, trms = t_soln.stats()
-stokes.solve()
 
 # +
 ## Save data
@@ -446,7 +459,7 @@ if mpi4py.MPI.COMM_WORLD.size==1:
     pvmesh = meshball.mesh2pyvista(elementType=vtk.VTK_TETRA)
 
     with meshball.access():
-        usol = navier_stokes.u.data.copy()
+        usol = uw.function.evaluate(v_soln.fn, navier_stokes.u.coords) - v_inertial
         print("usol - magnitude {}".format(np.sqrt((usol**2).mean())))        
         
   
@@ -459,18 +472,36 @@ if mpi4py.MPI.COMM_WORLD.size==1:
     arrow_length = np.zeros((navier_stokes.u.coords.shape[0],3))
     arrow_length[...] = usol[...] 
     
+    clipped = pvmesh.clip(origin=(0.001,0.0,0.0), normal=(0, 0, 1), invert=False)
 
     pl = pv.Plotter()
+    pl.add_axes()
+    
 
-    # pl.add_mesh(pvmesh,'Black', 'wireframe')
-    
-    pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
+    pl.add_mesh(clipped, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
                   use_transparency=False, opacity=1.0)
+
     
-    pl.add_arrows(arrow_loc, arrow_length, mag=3.0e1)
+    # pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
+    #               use_transparency=False, opacity=1.0)
+    
+    pl.add_arrows(arrow_loc, arrow_length, mag=1.0e2)
     
     pl.show(cpos="xy")
 
 # -
+meshball.stats(v_soln.fn.dot(v_rbm_y)), meshball.stats(v_star.fn.dot(v_rbm_y))
+
+meshball.stats(v_soln.fn.dot(v_rbm_z)), meshball.stats(v_star.fn.dot(v_rbm_z))
+
+meshball.stats(v_soln.fn.dot(v_rbm_x)), meshball.stats(v_star.fn.dot(v_rbm_x))
+
+
+
+
+
+usol
+
+v_inertial
 
 

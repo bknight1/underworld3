@@ -11,17 +11,19 @@ import sympy
 # -
 
 
-expt_name = "NS_flow_coriolis_disk"
+expt_name = "NS_FS_flow_coriolis_disk"
 
 # +
 import meshio
 
-meshball = uw.meshes.SphericalShell(dim=2, radius_outer=1.0, radius_inner=0.0, cell_size=0.05, degree=1, verbose=True)                       
+meshball = uw.meshes.SphericalShell(dim=2, radius_outer=1.0, radius_inner=0.0, cell_size=0.075, degree=1, verbose=False)                       
 
 # +
 v_soln = uw.mesh.MeshVariable('U',meshball, 2, degree=2 )
 p_soln = uw.mesh.MeshVariable('P',meshball, 1, degree=1 )
 t_soln = uw.mesh.MeshVariable("T",meshball, 1, degree=3 )
+r        = uw.mesh.MeshVariable('R', meshball, 1, degree=1 )
+
 
 v_soln_1  = uw.mesh.MeshVariable('U_1',    meshball, meshball.dim, degree=2 )
 vorticity = uw.mesh.MeshVariable('omega',  meshball, 1, degree=1 )
@@ -51,24 +53,20 @@ gravity_fn = radius_fn
 x = meshball.N.x
 y = meshball.N.y
 
-r  = sympy.sqrt(x**2+y**2)
+# r  = sympy.sqrt(x**2+y**2)
 th = sympy.atan2(y+1.0e-5,x+1.0e-5)
 
 # 
-
 Rayleigh = 1.0e2
+
+# 
+hw = 1000.0 / 0.075 
+surface_fn = sympy.exp(-((r.fn - 1.0) / 1.0)**2 * hw)
 # -
 orientation_wrt_z = sympy.atan2(y+1.0e-10,x+1.0e-10)
 v_rbm_z_x = -r.fn * sympy.sin(orientation_wrt_z) * meshball.N.i
 v_rbm_z_y =  r.fn * sympy.cos(orientation_wrt_z) * meshball.N.j
 v_rbm_z   =  v_rbm_z_x + v_rbm_z_y
-
-# +
-# Surface-drive flow, use this bc
-
-# vtheta = r * sympy.sin(th)
-# vx = -vtheta*sympy.sin(th)
-# vy =  vtheta*sympy.cos(th)
 
 # +
 # Create NS object
@@ -90,7 +88,9 @@ navier_stokes._u_star_projector.petsc_options.delValue("ksp_monitor")
 navier_stokes._u_star_projector.petsc_options["snes_rtol"] = 1.0e-2
 navier_stokes._u_star_projector.petsc_options["snes_type"] = "newtontr"
 navier_stokes._u_star_projector.smoothing = 0.0 # navier_stokes.viscosity * 1.0e-6
-navier_stokes._u_star_projector.penalty = 0.0001
+navier_stokes._u_star_projector.penalty = 0.0
+
+navier_stokes.UF0 =  -navier_stokes.rho * (v_soln.fn - v_soln_1.fn) / navier_stokes.delta_t
 
 # Constant visc
 
@@ -98,13 +98,18 @@ navier_stokes.rho=1000.0
 navier_stokes.theta=0.5
 navier_stokes.penalty=0.0
 navier_stokes.viscosity = 1.0
-navier_stokes.bodyforce = 1.0e-32 * meshball.N.i
+
+# Free slip condition by penalizing radial velocity at the surface (non-linear term)
+free_slip_penalty  =  1.0e4 * Rayleigh * v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn 
+solid_body_penalty =  1.0e4 * v_soln.fn.dot(v_rbm_z) * v_rbm_z  
+
+## 
 navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t)
 
 # Velocity boundary conditions
 
-navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Upper",  (0,1))
-# navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
+# navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Upper",  (0,1))
+navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
 
 v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * navier_stokes.u_star_fn
 # -
@@ -112,13 +117,18 @@ v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta)
 t_init = sympy.cos(3*th)
 
 # +
+with meshball.access(r):
+    r.data[:,0]   = uw.function.evaluate(sympy.sqrt(x**2+y**2), meshball.data)  # cf radius_fn which is 0->1 
+
 # Write density into a variable for saving
 
 with meshball.access(t_soln):
     t_soln.data[:,0] = uw.function.evaluate(t_init, t_soln.coords)
-    print(t_soln.data.min(), t_soln.data.max())
+
 # -
 navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
+navier_stokes.bodyforce -= free_slip_penalty + solid_body_penalty 
+
 
 # +
 navier_stokes.solve(timestep=10.0)
@@ -190,12 +200,11 @@ def plot_V_mesh(filename):
 ts = 0
 swarm_loop = 5
 
-
-
-for step in range(0,50):
+for step in range(0,10):
     
-    Omega = .0 * meshball.N.k * min(ts/25, 1.0) 
+    Omega = 1.0 * meshball.N.k * min(ts/5, 1.0) 
     navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
+    navier_stokes.bodyforce -= free_slip_penalty + solid_body_penalty 
     navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta)
        
     delta_t = 3.0 * navier_stokes.estimate_dt()
@@ -284,6 +293,7 @@ if uw.mpi.size==1:
     
     pl = pv.Plotter()
     
+    
 
     # pl.add_mesh(pvmesh,'Black', 'wireframe')
     pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, 
@@ -294,10 +304,6 @@ if uw.mpi.size==1:
 # -
 
 
-pl.camera.GetClippingRange()
-
-((v_inertial - usol)**2).mean()
-
-v_inertial.max()
+meshball.stats(v_soln.fn.dot(v_rbm_z))
 
 # # 
