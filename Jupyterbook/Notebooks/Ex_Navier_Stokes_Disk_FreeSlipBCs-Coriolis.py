@@ -11,7 +11,7 @@ import sympy
 # -
 
 
-expt_name = "NS_FS_flow_coriolis_disk"
+expt_name = "NS_FS_flow_coriolis_disk_500_iii"
 
 # +
 import meshio
@@ -90,28 +90,26 @@ navier_stokes._u_star_projector.petsc_options["snes_type"] = "newtontr"
 navier_stokes._u_star_projector.smoothing = 0.0 # navier_stokes.viscosity * 1.0e-6
 navier_stokes._u_star_projector.penalty = 0.0
 
-navier_stokes.UF0 =  -navier_stokes.rho * (v_soln.fn - v_soln_1.fn) / navier_stokes.delta_t
+# navier_stokes.UF0 =  -navier_stokes.rho * (v_soln.fn - v_soln_1.fn) / navier_stokes.delta_t
+
 
 # Constant visc
 
-navier_stokes.rho=1000.0
+navier_stokes.rho=1.0
 navier_stokes.theta=0.5
 navier_stokes.penalty=0.0
 navier_stokes.viscosity = 1.0
 
 # Free slip condition by penalizing radial velocity at the surface (non-linear term)
 free_slip_penalty  =  1.0e4 * Rayleigh * v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn 
-solid_body_penalty =  1.0e4 * v_soln.fn.dot(v_rbm_z) * v_rbm_z  
-
-## 
-navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t)
 
 # Velocity boundary conditions
 
 # navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Upper",  (0,1))
-navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
+# navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
 
 v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * navier_stokes.u_star_fn
+
 # -
 
 t_init = sympy.cos(3*th)
@@ -125,9 +123,14 @@ with meshball.access(r):
 with meshball.access(t_soln):
     t_soln.data[:,0] = uw.function.evaluate(t_init, t_soln.coords)
 
-# -
+# +
 navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
-navier_stokes.bodyforce -= free_slip_penalty + solid_body_penalty 
+navier_stokes.bodyforce -= free_slip_penalty # + solid_body_penalty 
+
+
+v_proj = navier_stokes._u_star_projector.u
+free_slip_penalty_p  =  100 * v_proj.fn.dot(unit_rvec) * unit_rvec * surface_fn 
+navier_stokes._u_star_projector.F0 =  free_slip_penalty_p # + solid_body_penalty_p)
 
 
 # +
@@ -167,6 +170,8 @@ def plot_V_mesh(filename):
 
         with meshball.access():
             pvmesh.point_data["T"] = uw.function.evaluate(t_soln.fn, meshball.data)
+            pvmesh.point_data["P"] = uw.function.evaluate(p_soln.fn, meshball.data)
+
 
         with meshball.access():
             usol = navier_stokes.u.data # - v_inertial.data
@@ -182,9 +187,9 @@ def plot_V_mesh(filename):
         pl.camera.SetPosition(0.0001,0.0001,4.0)
 
         # pl.add_mesh(pvmesh,'Black', 'wireframe')
-        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, 
+        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="P",
                       use_transparency=False, opacity=0.5)
-        pl.add_arrows(arrow_loc, arrow_length, mag=0.2)
+        pl.add_arrows(arrow_loc, arrow_length, mag=0.03)
         
         pl.screenshot(filename="{}.png".format(filename), window_size=(2560,2560),
                       return_img=False)
@@ -202,24 +207,30 @@ swarm_loop = 5
 
 for step in range(0,10):
     
-    Omega = 1.0 * meshball.N.k * min(ts/5, 1.0) 
+    Omega_0 = 50.0 * min(ts/10, 1.0) 
+    Omega = meshball.N.k * Omega_0
     navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
-    navier_stokes.bodyforce -= free_slip_penalty + solid_body_penalty 
-    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta)
+    navier_stokes.bodyforce -= free_slip_penalty 
+    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta) * (1.0-surface_fn)
        
-    delta_t = 3.0 * navier_stokes.estimate_dt()
+
+    delta_t = 1.0 * navier_stokes.estimate_dt()
     
     navier_stokes.solve(timestep=delta_t, zero_init_guess=False)
+    
+    _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
+    print("Rigid body: {}".format(z_ns))
+
     
     dv_fn = v_soln.fn - v_soln_1.fn
     _,_,_,_,_,_,deltaV = meshball.stats(dv_fn.dot(dv_fn))
 
 
     with meshball.access(v_soln_1):
-        v_soln_1.data[...] = 0.1 * v_soln_1.data[...] + 0.9 * v_soln.data[...] 
+        v_soln_1.data[...] = v_soln.data[...] 
 
     with swarm.access(v_star):
-        v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data)
+        v_star.data[...] = 0.5 * uw.function.evaluate(v_soln.fn, swarm.data) + 0.5 * v_star.data[...] 
 
     swarm.advection(v_soln.fn, 
                     delta_t=delta_t,
@@ -280,10 +291,14 @@ if uw.mpi.size==1:
     
     with meshball.access():
         pvmesh.point_data["T"] = uw.function.evaluate(t_soln.fn, meshball.data)
- 
-    with meshball.access():
-        usol = navier_stokes.u.data # - v_inertial.data
+        pvmesh.point_data["P"] = uw.function.evaluate(p_soln.fn, meshball.data)
 
+    coriolis_term = -sympy.vector.cross(Omega, v_theta)
+
+    with meshball.access():
+        usol  = navier_stokes.u.data # - v_inertial.data
+        corio = uw.function.evaluate(coriolis_term,
+                                     navier_stokes.u.coords)
 
     arrow_loc = np.zeros((navier_stokes.u.coords.shape[0],3))
     arrow_loc[:,0:2] = navier_stokes.u.coords[...]
@@ -291,19 +306,41 @@ if uw.mpi.size==1:
     arrow_length = np.zeros((navier_stokes.u.coords.shape[0],3))
     arrow_length[:,0:2] = usol[...] 
     
-    pl = pv.Plotter()
+    pl = pv.Plotter(window_size=[1000,1000])
     
     
 
     # pl.add_mesh(pvmesh,'Black', 'wireframe')
-    pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, 
+    pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="P",
                   use_transparency=False, opacity=0.5)
-    pl.add_arrows(arrow_loc, arrow_length, mag=0.2)
+    pl.add_arrows(arrow_loc, arrow_length, mag=0.05)
     
     pl.show(cpos="xy")
 # -
 
 
+meshball.stats(sympy.vector.cross(Omega, v_soln.fn).dot(sympy.vector.cross(Omega, v_soln.fn)))
+
 meshball.stats(v_soln.fn.dot(v_rbm_z))
 
-# # 
+meshball.stats(v_soln.fn.dot(v_soln.fn))
+
+meshball.stats( v_soln.fn.dot(v_rbm_z))
+
+meshball.stats((v_soln.fn+0.015*v_rbm_z).dot(v_rbm_z))
+
+meshball.stats(sympy.vector.cross(Omega, v_soln.fn).dot(v_rbm_z))
+
+sympy.vector.cross(Omega, v_soln.fn)
+
+# +
+_,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
+print("Rigid body: {}".format(z_ns))
+
+
+
+# -
+
+x_ns_
+
+
