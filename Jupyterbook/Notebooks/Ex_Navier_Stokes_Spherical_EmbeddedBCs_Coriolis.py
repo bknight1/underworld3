@@ -97,16 +97,54 @@ import sympy
 
 
 # +
-# meshball = uw.meshes.MeshFromGmshFile(dim=3, filename=mesh_file, verbose=True, simplex=True)
-# meshball.meshio.remove_lower_dimensional_cells()
+# Build this one by hand 
 
-meshball = uw.meshes.SphericalShell(dim=3, degree=1, 
-                                    radius_inner=r_i, 
-                                    centre_point=False,
-                                    radius_outer=r_o, 
-                                    cell_size=res, 
-                                    cell_size_upper=res,
-                                    verbose=False)
+csize_local = 0.3
+cell_size_lower = 0.3
+cell_size_upper = 0.2
+radius_outer = 1.0
+radius_inner = 0.0
+
+import pygmsh
+import meshio
+
+# Generate local mesh.
+with pygmsh.geo.Geometry() as geom:
+    
+    geom.characteristic_length_max = csize_local
+    
+    if radius_inner > 0.0:
+        inner  = geom.add_ball((0.0,0.0,0.0),radius_inner, with_volume=False, mesh_size=cell_size_lower)
+        outer = geom.add_ball((0.0,0.0,0.0), radius_outer, with_volume=False, mesh_size=cell_size_upper)
+        domain = geom.add_ball((0.0,0.0,0.0), radius_outer*1.25, mesh_size=cell_size_upper, holes=[inner.surface_loop])
+
+        geom.add_physical(inner.surface_loop.surfaces,  label="Lower")
+        geom.add_physical(outer.surface_loop.surfaces,  label="Upper")
+        geom.add_physical(domain.surface_loop.surfaces, label="Celestial_Sphere")
+        geom.add_physical(domain.volume, label="Elements")
+
+    else:
+        centre = geom.add_point((0.0,0.0,0.0), mesh_size=cell_size_lower)
+        outer = geom.add_ball((0.0,0.0,0.0), radius_outer, with_volume=False, mesh_size=cell_size_upper)
+        domain = geom.add_ball((0.0,0.0,0.0), radius_outer*1.25, mesh_size=cell_size_upper)
+        geom.in_volume(centre, domain.volume)
+        
+        for surf in outer.surface_loop.surfaces:
+            geom.in_volume(surf, domain.volume)
+      
+        geom.add_physical(centre,  label="Centre")
+        geom.add_physical(outer.surface_loop.surfaces, label="Upper")
+        geom.add_physical(domain.surface_loop.surfaces, label="Celestial_Sphere")
+        geom.add_physical(domain.volume, label="Elements")    
+
+
+        
+    geom.generate_mesh(dim=3, verbose=True)
+    geom.save_geometry("ignore_celestial_3d.msh")
+    geom.save_geometry("ignore_celestial_3d.vtk")
+        
+    
+meshball = uw.meshes.MeshFromGmshFile(dim=3, degree=1, filename="ignore_celestial_3d.msh", label_groups=[], simplex=True)
 # -
 
 meshball.dm.view()
@@ -146,8 +184,12 @@ z = meshball.N.z
 th = sympy.atan2(y+1.0e-10,x+1.0e-10)
 ph = sympy.acos(z / (r.fn+1.0e-10))
 
-hw = 1000.0 / res 
-surface_fn = sympy.exp(-((r.fn - r_o) / r_o)**2 * hw)
+# 
+mask_fn     = sympy.Piecewise( ( 1.0,  r.fn <= radius_outer ),                               ( 0, True ))        
+i_mask_fn   = sympy.Piecewise( ( 1.0,  r.fn <  radius_outer ),                               ( 0, True ))
+surface_fn  = sympy.Piecewise( ( 1.0, (r.fn - radius_outer)**2 < 0.05*cell_size_upper**2  ), ( 0, True ))
+sky_mask_fn = sympy.Piecewise( ( 1.0,  r.fn > radius_outer ),                                ( 0,True) )
+
 
 ## Buoyancy (T) field
 
@@ -201,7 +243,6 @@ pass
 # We can remove these after the fact, but also useful to double check
 # that we are not adding anything to excite these modes in the forcing terms. 
 
-
 orientation_wrt_z = sympy.atan2(y+1.0e-10,x+1.0e-10)
 v_rbm_z_x = -r.fn * sympy.sin(orientation_wrt_z) * meshball.N.i
 v_rbm_z_y =  r.fn * sympy.cos(orientation_wrt_z) * meshball.N.j
@@ -242,40 +283,36 @@ navier_stokes._u_star_projector.smoothing = 0.0 # navier_stokes.viscosity * 1.0e
 navier_stokes._u_star_projector.penalty = 0.0
 
 navier_stokes.theta=0.5
-navier_stokes.viscosity = 1.0
+# Constant visc
 
-# pseudo-steady-state
-# navier_stokes.UF0 =  -navier_stokes.rho * (v_soln.fn - v_soln_1.fn) / navier_stokes.delta_t
-
-# thermal buoyancy force
-buoyancy_force = Rayleigh * gravity_fn * t_forcing_fn * (1.0-surface_fn)
+navier_stokes.rho=0.01 + mask_fn * 1.0 
+navier_stokes.theta=0.5
+navier_stokes.penalty=0.0
+navier_stokes.viscosity = 0.1 + mask_fn * 1.0 
 
 # Free slip condition by penalizing radial velocity at the surface (non-linear term)
-free_slip_penalty  = Rayleigh * 1.0e6 *  v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn
-
-navier_stokes.bodyforce = unit_rvec * buoyancy_force 
-navier_stokes.bodyforce -= free_slip_penalty # + solid_body_penalty    
-
-navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t + Rayleigh * 1.0 * surface_fn)
+free_slip_penalty  =  1.0e4 * Rayleigh * v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn 
 
 # Velocity boundary conditions
 
-# navier_stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Upper", (0,1,2))
-# navier_stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Centre", (0,1,2))
-
+navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Celestial_Sphere",  (0,1))
+# navier_stokes.add_dirichlet_bc( (0.0, 0.0), "Centre", (0,1))
 
 v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * navier_stokes.u_star_fn
-# -
 
 
-
-
-
-
-
+# +
 v_proj = navier_stokes._u_star_projector.u
 free_slip_penalty_p  =  100 * v_proj.fn.dot(unit_rvec) * unit_rvec * surface_fn 
 navier_stokes._u_star_projector.F0 =  free_slip_penalty_p
+
+
+navier_stokes.bodyforce = Rayleigh * unit_rvec * t_forcing_fn * i_mask_fn # minus * minus
+navier_stokes.bodyforce -= free_slip_penalty # + solid_body_penalty 
+
+# navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t + Rayleigh * surface_fn)
+
+
 
 # +
 with meshball.access(r):
@@ -286,7 +323,7 @@ with meshball.access(t_soln):
 
 
 # +
-navier_stokes.solve(timestep=10000.0)
+navier_stokes.solve(timestep=100.0)
 
 _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
 _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
@@ -295,10 +332,9 @@ _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
 print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
 
 with meshball.access(v_soln_1):
-    v_inertial = v_soln.data.copy()
     v_soln_1.data[...] = v_soln.data[...]
 
-with swarm.access(v_star, remeshed, X_0):
+with swarm.access(v_star, X_0):
     v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data) 
     X_0.data[...] = swarm.data[...] 
 
@@ -342,13 +378,13 @@ def plot_V_mesh(filename):
         pvmesh = meshball.mesh2pyvista(elementType=vtk.VTK_TETRA)
 
         with meshball.access():
-            usol = navier_stokes.u.data.copy()
+            usol  = uw.function.evaluate(navier_stokes.u.fn * mask_fn,
+                                         navier_stokes.u.coords) 
             print("usol - magnitude {}".format(np.sqrt((usol**2).mean())))        
 
 
-        pvmesh.point_data["T"]  = uw.function.evaluate(t_forcing_fn, meshball.data)
-        pvmesh.point_data["P"]  = uw.function.evaluate(p_soln.fn, meshball.data)
-
+        pvmesh.point_data["T"] = uw.function.evaluate(t_soln.fn*mask_fn, meshball.data)
+        pvmesh.point_data["P"] = uw.function.evaluate(p_soln.fn*mask_fn, meshball.data)
         # pvmesh.point_data["S"]  = uw.function.evaluate(surface.fn, meshball.data)
 
         arrow_loc = np.zeros((navier_stokes.u.coords.shape[0],3))
@@ -386,16 +422,22 @@ for step in range(0,35):
     
     # navier_stokes.petsc_options["snes_type"] = "newtontr"
     
-    Omega_0 = 30.0 * min(ts/30, 1.0) 
+    Omega_0 = 10.0 * min(ts/30, 1.0) 
     Omega = meshball.N.k * Omega_0    
-    navier_stokes.bodyforce = unit_rvec * buoyancy_force 
-    navier_stokes.bodyforce -= free_slip_penalty
-    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta) * (1.0-surface_fn)
-       
-    delta_t = 1.0 * navier_stokes.estimate_dt()
     
-    navier_stokes.solve(timestep=delta_t, 
-                        zero_init_guess=False)
+    navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init * i_mask_fn # minus * minus
+    navier_stokes.bodyforce -= free_slip_penalty 
+    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta) * mask_fn
+    
+    
+    navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + 
+                                    navier_stokes.rho / navier_stokes.delta_t + 
+                                    Omega_0 * mask_fn + 
+                                    Rayleigh * surface_fn)
+       
+    delta_t = 3.0 * navier_stokes.estimate_dt()
+    
+    navier_stokes.solve(timestep=delta_t, zero_init_guess=False)
     
     _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
     _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
