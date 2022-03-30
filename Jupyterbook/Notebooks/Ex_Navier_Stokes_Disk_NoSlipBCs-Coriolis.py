@@ -94,7 +94,7 @@ navier_stokes._u_star_projector.penalty = 0.0001
 
 # Constant visc
 
-navier_stokes.rho=1000.0
+navier_stokes.rho=1.0
 navier_stokes.theta=0.5
 navier_stokes.penalty=0.0
 navier_stokes.viscosity = 1.0

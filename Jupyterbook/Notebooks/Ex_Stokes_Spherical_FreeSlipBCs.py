@@ -109,6 +109,12 @@ meshball = uw.meshes.SphericalShell(dim=3, degree=1,
                                     verbose=False)
 # -
 
+
+
+
+
+
+
 meshball.dm.view()
 
 # +
