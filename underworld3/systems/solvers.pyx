@@ -1313,13 +1313,13 @@ class SNES_NavierStokes_Swarm(SNES_Stokes):
         # (we might want to use v_star for checkpointing though)
 
         if self.projection and (not self.first_solve or _force_u_star_projection):
-            print("Solve Ustar projection, uwfn = {}".format(self._u_star_projector.uw_function))
+            # print("Solve Ustar projection, uwfn = {}".format(self._u_star_projector.uw_function))
             self._u_star_projector.petsc_options["snes_type"] = "newtontr" ## newtonls seems to be problematic when the previous guess is available
             #v_mag_fn = self._u_star_raw_fn.dot(self._u_star_raw_fn)
             #v_stats = self.mesh.stats(v_mag_fn)
             #v_rms = v_stats[6]
             #self._u_star_projector.petsc_options["snes_atol"] = v_rms * 1.0e-2
-            self._u_star_projector.solve(zero_init_guess=False)
+            self._u_star_projector.solve(zero_init_guess=zero_init_guess)
 
         # Over to you Stokes Solver
 
@@ -1336,3 +1336,4 @@ class SNES_NavierStokes_Swarm(SNES_Stokes):
             self._u_star_projector._setup_terms()
 
         super()._setup_terms()
+print

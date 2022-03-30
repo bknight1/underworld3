@@ -61,7 +61,7 @@
 # +
 visuals = 0
 output_dir = "output"
-expt_name="NS_Sphere_C50_iii"
+expt_name="NS_Sphere_C30_iii"
 
 # Some gmsh issues, so we'll use a pre-built one
 mesh_file = "Sample_Meshes_Gmsh/test_mesh_sphere_at_res_005_c.msh"
@@ -125,7 +125,7 @@ v_star     = uw.swarm.SwarmVariable("Vs", swarm, meshball.dim, proxy_degree=2)
 remeshed   = uw.swarm.SwarmVariable("Vw", swarm, 1, dtype='int', _proxy=False)
 X_0        = uw.swarm.SwarmVariable("X0", swarm, meshball.dim, _proxy=False)
 
-swarm.populate(fill_param=3)
+swarm.populate(fill_param=4)
 
 # +
 # Create a density structure / buoyancy force
@@ -226,18 +226,20 @@ navier_stokes = uw.systems.NavierStokesSwarm(meshball,
                 velocityStar_fn=v_star.fn,
                 u_degree=v_soln.degree, 
                 p_degree=p_soln.degree, 
-                rho=1.0,
+                rho=1.0e-3,
                 theta=0.5,
                 verbose=False,
                 projection=True,
                 solver_name="navier_stokes")
 
 navier_stokes.petsc_options.delValue("ksp_monitor") # We can flip the default behaviour at some point
-navier_stokes.petsc_options["snes_rtol"]=3.0e-3 # We can flip the default behaviour at some point
+navier_stokes.petsc_options["snes_rtol"]=3.0e-3 
+navier_stokes.petsc_options["snes_max_it"]=10
 
 navier_stokes._u_star_projector.petsc_options.delValue("ksp_monitor")
 navier_stokes._u_star_projector.petsc_options["snes_rtol"] = 1.0e-3
 navier_stokes._u_star_projector.petsc_options["snes_type"] = "newtontr"
+navier_stokes._u_star_projector.petsc_options["snes_max_it"] = 10
 navier_stokes._u_star_projector.smoothing = 0.0 # navier_stokes.viscosity * 1.0e-6
 navier_stokes._u_star_projector.penalty = 0.0
 
@@ -254,17 +256,19 @@ buoyancy_force = Rayleigh * gravity_fn * t_forcing_fn * (1.0-surface_fn)
 free_slip_penalty  = Rayleigh * 1.0e6 *  v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn
 
 navier_stokes.bodyforce = unit_rvec * buoyancy_force 
-navier_stokes.bodyforce -= free_slip_penalty # + solid_body_penalty    
+navier_stokes.bodyforce -= free_slip_penalty 
 
-navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + navier_stokes.rho / navier_stokes.delta_t + Rayleigh * 1.0 * surface_fn)
+navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + 
+                                navier_stokes.rho / navier_stokes.delta_t + 
+                                Rayleigh * 1.0 * surface_fn)
 
 # Velocity boundary conditions
 
 # navier_stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Upper", (0,1,2))
-# navier_stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Centre", (0,1,2))
+navier_stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Centre", (0,1,2))
 
-
-v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * navier_stokes.u_star_fn
+v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta) * v_soln_1.fn
+# v_theta = navier_stokes.u.fn 
 # -
 
 v_proj = navier_stokes._u_star_projector.u
@@ -280,13 +284,29 @@ with meshball.access(t_soln):
 
 
 # +
-navier_stokes.solve(timestep=10000.0)
+navier_stokes.solve(timestep=1000000.0)
 
-_,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
-_,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
-_,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
+savefile = "output/{}_ts_{}.h5".format(expt_name,-1) 
+meshball.save(savefile)
+v_soln.save(savefile)
+p_soln.save(savefile)
+# vorticity.save(savefile)
+meshball.generate_xdmf(savefile)
+  
+    
+for i in range(5):
 
-print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
+    _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
+    _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
+    _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
+
+    if uw.mpi.rank==0:
+        print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
+
+    with meshball.access(v_soln):
+        v_soln.data[...] -= x_ns * uw.function.evaluate(v_rbm_x + 1.0e-10 * r.fn * meshball.N.i , v_soln.coords)
+        v_soln.data[...] -= y_ns * uw.function.evaluate(v_rbm_y + 1.0e-10 * r.fn * meshball.N.j , v_soln.coords)
+        v_soln.data[...] -= z_ns * uw.function.evaluate(v_rbm_z + 1.0e-10 * r.fn * meshball.N.k , v_soln.coords)
 
 with meshball.access(v_soln_1):
     v_inertial = v_soln.data.copy()
@@ -311,7 +331,6 @@ swarm.advection(v_soln.fn,
                 delta_t=navier_stokes.estimate_dt(),
                 restore_points_to_domain_func=points_in_sphere,
                 corrector=False)
-
 
 # -
 
@@ -368,34 +387,76 @@ def plot_V_mesh(filename):
         
         del(pl)
 
-print("timestep_0 = {}".format(navier_stokes.estimate_dt()))
 
-ts = 0
+delta_t = navier_stokes.estimate_dt()
+if uw.mpi.rank==0:
+    print("timestep_0 = {}".format(delta_t))
+
+savefile = "output/{}_ts_{}.h5".format(expt_name,0) 
+meshball.save(savefile)
+v_soln.save(savefile)
+p_soln.save(savefile)
+# vorticity.save(savefile)
+meshball.generate_xdmf(savefile)
+        
+
+ts = 1
 swarm_loop = 5
 
 # +
 # PSEUDO T-STEP LOOP
 
-for step in range(0,35):
+for step in range(1,100):
     
-    Omega_0 = 30.0 * min(ts/30, 1.0) 
+    Omega_0 = 400.0
     Omega = meshball.N.k * Omega_0    
     navier_stokes.bodyforce = unit_rvec * buoyancy_force 
     navier_stokes.bodyforce -= free_slip_penalty
-    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta) * (1.0-surface_fn)
+    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta ) * (1.0-surface_fn)
+
+    navier_stokes._Ppre_fn = 1.0 / (navier_stokes.viscosity + 
+                                    navier_stokes.rho / navier_stokes.delta_t + 
+                                    navier_stokes.rho * Omega_0 * (1.0 - surface_fn) +
+                                    Rayleigh * 1.0 * surface_fn)
+
        
-    delta_t = 1.0 * navier_stokes.estimate_dt()
+    delta_t = 2.0 * navier_stokes.estimate_dt() # + delta_t) 
     
     navier_stokes.solve(timestep=delta_t, 
                         zero_init_guess=False)
     
+
+    for i in range(5):
+
+        _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
+        _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
+        _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
+
+        if uw.mpi.rank==0:
+            print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
+
+        with meshball.access(v_soln):
+            v_soln.data[...] -= x_ns * uw.function.evaluate(v_rbm_x + 1.0e-10 * r.fn * meshball.N.i , v_soln.coords)
+            v_soln.data[...] -= y_ns * uw.function.evaluate(v_rbm_y + 1.0e-10 * r.fn * meshball.N.j , v_soln.coords)
+            v_soln.data[...] -= z_ns * uw.function.evaluate(v_rbm_z + 1.0e-10 * r.fn * meshball.N.k , v_soln.coords)
+
+
+    _,x_ns,_,_,_,_,_ = meshball.stats(v_star.fn.dot(v_rbm_x))
+    _,y_ns,_,_,_,_,_ = meshball.stats(v_star.fn.dot(v_rbm_y))
+    _,z_ns,_,_,_,_,_ = meshball.stats(v_star.fn.dot(v_rbm_z))
+
+    if uw.mpi.rank==0:
+        print("Rigid body (vstar): {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
+
+
     _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
     _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
     _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
 
-    print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
+    if uw.mpi.rank==0:
+        print("Rigid body (v): {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
 
-    
+
     dv_fn = v_soln.fn - v_soln_1.fn
     _,_,_,_,_,_,deltaV = meshball.stats(dv_fn.dot(dv_fn))
 
@@ -404,7 +465,7 @@ for step in range(0,35):
         v_soln_1.data[...] = v_soln.data[...] 
 
     with swarm.access(v_star):
-        v_star.data[...] = 0.5 * uw.function.evaluate(v_soln.fn, swarm.data) + 0.5 * v_star.data[...]
+        v_star.data[...] = 0.75 * uw.function.evaluate(v_soln.fn, swarm.data) + 0.25 * v_star.data[...]
 
     swarm.advection(v_soln.fn, 
                 delta_t=navier_stokes.estimate_dt(),
@@ -432,16 +493,22 @@ for step in range(0,35):
                 
     if ts%1 == 0:
         # nodal_vorticity_from_v.solve()
-        plot_V_mesh(filename="output/{}_step_{}".format(expt_name,ts))
+        # plot_V_mesh(filename="output/{}_step_{}".format(expt_name,ts))
         
-        # savefile = "output/{}_ts_{}.h5".format(expt_name,step) 
-        # meshball.save(savefile)
-        # v_soln.save(savefile)
-        # p_soln.save(savefile)
+        savefile = "output/{}_ts_{}.h5".format(expt_name,step) 
+        meshball.save(savefile)
+        v_soln.save(savefile)
+        p_soln.save(savefile)
         # vorticity.save(savefile)
-        # meshball.generate_xdmf(savefile)
+        meshball.generate_xdmf(savefile)
         
     # navier_stokes._u_star_projector.smoothing = navier_stokes.viscosity * 1.0e-6
+    navier_stokes.petsc_options["snes_type"]="newtontr"
+    navier_stokes.petsc_options["fieldsplit_velocity_ksp_type"] = "fgmres"
+    navier_stokes.petsc_options["fieldsplit_velocity_ksp_rtol"] = 1.0e-4
+    navier_stokes.petsc_options["fieldsplit_velocity_pc_type"]  = "bjacobi"
+    navier_stokes.petsc_options["fieldsplit_pressure_ksp_rtol"] = 3.e-4
+    navier_stokes.petsc_options["fieldsplit_pressure_pc_type"] = "bjacobi" 
     
     ts += 1
 
@@ -489,9 +556,6 @@ if mpi4py.MPI.COMM_WORLD.size==1:
   
     pvmesh.point_data["T"]  = uw.function.evaluate(t_forcing_fn, meshball.data)
     pvmesh.point_data["P"]  = uw.function.evaluate(p_soln.fn, meshball.data)
-
-    
-    # pvmesh.point_data["S"]  = uw.function.evaluate(surface.fn, meshball.data)
 
     arrow_loc = np.zeros((navier_stokes.u.coords.shape[0],3))
     arrow_loc[...] = navier_stokes.u.coords[...]
