@@ -1,10 +1,5 @@
 # Stokes flow in a Spherical Domain
 #
-# This notebook models slow flow in a viscous sphere (or spherical shell)
-#
-# ## Problem description
-#
-# Assume that the 
 #
 # ## Mathematical formulation
 #
@@ -51,9 +46,6 @@
 # T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r) 
 # \\] 
 
-# ## Coriolis and Lorentz Forces
-#
-# Have to implement the Coriolis as a semi-dynamic term, Lorentz force can be prescribed
 #
 
 # ## Computational script in python
@@ -162,49 +154,10 @@ t_forcing_fn = 1.0 * ( sympy.exp(-10.0*(x**2+(y-0.8)**2+z**2)) +
 
 
 # +
-"""
-lons = uw.function.evaluate(th, t_soln.coords)
-lats = uw.function.evaluate(ph, t_soln.coords)
-
-ic_raw = np.loadtxt("./qtemp_6000.xyz")  # Data: lon, lat, ?, ?, ?, T
-ic_data = ic_raw[:,5].reshape(181,361)
-
-## Map heights/ages to the even-mesh grid points
-
-def map_raster_to_mesh(lons, lats, raster):
-
-    latitudes_in_radians  = lats
-    longitudes_in_radians = lons 
-    latitudes_in_degrees  = np.degrees(latitudes_in_radians) 
-    longitudes_in_degrees = np.degrees(longitudes_in_radians)
-
-    dlons = (longitudes_in_degrees + 180)
-    dlats = latitudes_in_degrees 
-
-    ilons = raster.shape[0] * dlons / 360.0
-    ilats = raster.shape[1] * dlats / 180.0
-
-    icoords = np.stack((ilons, ilats))
-
-    from scipy import ndimage
-
-    mvals = ndimage.map_coordinates(raster, icoords , order=3, mode='nearest').astype(float)
-    
-    return mvals
-
-qt_vals = map_raster_to_mesh(lons, lats, ic_data.T)
-
-with meshball.access(t_soln):
-    t_soln.data[...] = (uw.function.evaluate(radius_fn**2, t_soln.coords) * qt_vals).reshape(-1,1)
-"""
-
-pass
-# +
 # Rigid body rotations that are null-spaces for this set of bc's 
 
 # We can remove these after the fact, but also useful to double check
 # that we are not adding anything to excite these modes in the forcing terms. 
-
 
 orientation_wrt_z = sympy.atan2(y+1.0e-10,x+1.0e-10)
 v_rbm_z_x = -r.fn * sympy.sin(orientation_wrt_z) * meshball.N.i
@@ -232,36 +185,30 @@ stokes = uw.systems.Stokes(meshball,
                 verbose=False,
                 solver_name="stokes")
 
-stokes.petsc_options.delValue("ksp_monitor") # We can flip the default behaviour at some point
+# stokes.petsc_options.delValue("ksp_monitor") # We can flip the default behaviour at some point
 stokes.petsc_options["snes_rtol"]=3.0e-3 
 stokes.petsc_options["snes_max_it"]=10
 
-stokes.theta=0.5
 stokes.viscosity = 1.0
-
-# pseudo-steady-state
-# stokes.UF0 =  -stokes.rho * (v_soln.fn - v_soln_1.fn) / stokes.delta_t
 
 # thermal buoyancy force
 buoyancy_force = Rayleigh * gravity_fn * t_forcing_fn * body_fn
 
 # Free slip condition by penalizing radial velocity at the surface (non-linear term)
-free_slip_penalty  = Rayleigh * 1.0e4 *  v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn
+free_slip_penalty  = 1.0e6 *  v_soln.fn.dot(unit_rvec) * unit_rvec * surface_fn
 
-stokes.bodyforce = unit_rvec * buoyancy_force 
+stokes.bodyforce  = unit_rvec * buoyancy_force 
 stokes.bodyforce -= free_slip_penalty 
 
 stokes._Ppre_fn = 1.0 / (stokes.viscosity + 
                          Rayleigh * 1.0 * surface_fn)
 
 # Velocity boundary conditions
+stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Upper", (0,1,2))
+stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Centre", (0,1,2))
 
-stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Lower", (0,1,2))
-# stokes.add_dirichlet_bc( (0.0, 0.0, 0.0), "Centre", (0,1,2))
-
-v_theta = stokes.theta * stokes.u.fn + (1.0 - stokes.theta) * v_soln_1.fn
+v_theta = 0.5 * stokes.u.fn + 0.5 * v_soln_1.fn
 # v_theta = stokes.u.fn 
-# -
 
 # +
 with meshball.access(r):
@@ -269,49 +216,47 @@ with meshball.access(r):
     
 with meshball.access(t_soln):
     t_soln.data[...] = uw.function.evaluate(t_forcing_fn, t_soln.coords).reshape(-1,1)
+# -
 
+
+
+
+
+0/0
 
 # +
 stokes.solve()
   
-# for i in range(5):
+# Note: we should remove the rigid body rotation nullspace
+# This should be done during the solve, but it is also reasonable to
+# remove it from the force terms and solution to prevent it growing if present
 
-#     _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
-#     _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
-#     _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
+# This code is not working in 3D for simplices
+# I = uw.maths.Integral(meshball, v_soln.fn.dot(v_rbm_x)) 
+# x_ns = I.evaluate()
+# I.fn = v_soln.fn.dot(v_rbm_y)
+# y_ns = I.evaluate()
+# I.fn = v_soln.fn.dot(v_rbm_z)
+# z_ns = I.evaluate()
 
-#     if uw.mpi.rank==0:
-#         print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
+# This works too
+for i in range(10):
 
-#     with meshball.access(v_soln):
-#         v_soln.data[...] -= x_ns * uw.function.evaluate(v_rbm_x + 1.0e-10 * r.fn * meshball.N.i , v_soln.coords)
-#         v_soln.data[...] -= y_ns * uw.function.evaluate(v_rbm_y + 1.0e-10 * r.fn * meshball.N.j , v_soln.coords)
-#         v_soln.data[...] -= z_ns * uw.function.evaluate(v_rbm_z + 1.0e-10 * r.fn * meshball.N.k , v_soln.coords)
+    _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
+    _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
+    _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
 
+    if uw.mpi.rank==0:
+        print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
 
+    with meshball.access(v_soln):
+        v_soln.data[...] -= x_ns * uw.function.evaluate(v_rbm_x + 1.0e-10 * r.fn * meshball.N.i , v_soln.coords)
+        v_soln.data[...] -= y_ns * uw.function.evaluate(v_rbm_y + 1.0e-10 * r.fn * meshball.N.j , v_soln.coords)
+        v_soln.data[...] -= z_ns * uw.function.evaluate(v_rbm_z + 1.0e-10 * r.fn * meshball.N.k , v_soln.coords)
 
 with meshball.access(v_soln_1, om):
     v_soln_1.data[...] = v_soln.data[...]
     om.data[...] = uw.function.evaluate(2.0 * sympy.vector.cross(meshball.N.k, v_soln.fn )+1.0e-16*unit_rvec, om.coords )
-
-with swarm.access(v_star, remeshed, X_0):
-    v_star.data[...] = uw.function.evaluate(v_soln.fn, swarm.data) 
-    X_0.data[...] = swarm.data[...] 
-
-# +
-# Mesh restore function for advection of points
-# Which probably should be a feature of the mesh type ...
-
-def points_in_sphere(coords): 
-    r = np.sqrt(coords[:,0]**2 + coords[:,1]**2 + coords[:,2]**2).reshape(-1,1)
-    outside = np.where(r>1.0)
-    coords[outside] *= 0.99 / r[outside]
-    return coords    
-
-# swarm.advection(v_soln.fn, 
-#                 delta_t=stokes.estimate_dt(),
-#                 restore_points_to_domain_func=points_in_sphere,
-#                 corrector=False)
 
 # -
 
@@ -348,6 +293,23 @@ def plot_V_mesh(filename):
 
         arrow_length = np.zeros((stokes.u.coords.shape[0],3))
         arrow_length[...] = usol[...] 
+        
+        clipped = pvmesh.clip(origin=(0.001,0.0,0.0), normal=(0, 0, 1), invert=False)
+        
+        pl = pv.Plotter(window_size=[1000,1000])
+        pl.add_axes()
+
+
+        pl.add_mesh(clipped, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="P",
+                      use_transparency=False, opacity=1.0)
+
+    
+        # pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
+        #               use_transparency=False, opacity=1.0)
+
+        pl.add_arrows(arrow_loc, arrow_length, mag=100)
+
+
 
         pl.screenshot(filename="{}.png".format(filename), window_size=(2560,2560),
                       return_img=False)
@@ -361,14 +323,16 @@ delta_t = stokes.estimate_dt()
 if uw.mpi.rank==0:
     print("timestep_0 = {}".format(delta_t))
 
-savefile = "output/{}_ts_{}.h5".format(expt_name,0) 
-meshball.save(savefile)
-v_soln.save(savefile)
-p_soln.save(savefile)
-om.save(savefile)
-# vorticity.save(savefile)
-meshball.generate_xdmf(savefile)
-        
+# +
+# savefile = "output/{}_ts_{}.h5".format(expt_name,0) 
+# meshball.save(savefile)
+# v_soln.save(savefile)
+# p_soln.save(savefile)
+# om.save(savefile)
+# # vorticity.save(savefile)
+# meshball.generate_xdmf(savefile)
+# -
+
 
 ts = 1
 swarm_loop = 5
@@ -379,138 +343,16 @@ swarm_loop = 5
 # stokes.petsc_options["snes_type"]="newtontr"
 # stokes.petsc_options["snes_atol"]=1.0e-6
 
+# stokes.petsc_options["fieldsplit_velocity_ksp_monitor"] = None
+stokes.petsc_options["fieldsplit_velocity_ksp_max_it"] = 20
+# stokes.petsc_options["fieldsplit_pressure_ksp_monitor"] = None
+
 # stokes.petsc_options["fieldsplit_velocity_ksp_type"] = "fgmres"
 # stokes.petsc_options["fieldsplit_velocity_ksp_rtol"] = 1.0e-6
 # stokes.petsc_options["fieldsplit_velocity_pc_type"]  = "bjacobi"
 # stokes.petsc_options["fieldsplit_pressure_ksp_rtol"] = 3.e-6
 # stokes.petsc_options["fieldsplit_pressure_pc_type"] = "bjacobi" 
 
-
-for step in range(1,100):
-    
-    Omega_0 = 100 * min(ts/50,1.0) * body_fn
-    Omega = meshball.N.k * Omega_0    
-    Coriolis = 2.0 * sympy.vector.cross(Omega, v_soln_1.fn ) 
-
-
-    for i in range(5):
-
-        _,x_ns,_,_,_,_,_ = meshball.stats(v_soln_1.fn.dot(v_rbm_x))
-        _,y_ns,_,_,_,_,_ = meshball.stats(v_soln_1.fn.dot(v_rbm_y))
-        _,z_ns,_,_,_,_,_ = meshball.stats(v_soln_1.fn.dot(v_rbm_z))
-
-        if uw.mpi.rank==0:
-            print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
-
-        with meshball.access(v_soln_1):
-            v_soln_1.data[...] -= x_ns * uw.function.evaluate(v_rbm_x + 1.0e-10 * r.fn * meshball.N.i , v_soln.coords)
-            v_soln_1.data[...] -= y_ns * uw.function.evaluate(v_rbm_y + 1.0e-10 * r.fn * meshball.N.j , v_soln.coords)
-            v_soln_1.data[...] -= z_ns * uw.function.evaluate(v_rbm_z + 1.0e-10 * r.fn * meshball.N.k , v_soln.coords)
-
-    _,x_ns,_,_,_,_,_ = meshball.stats(Coriolis.dot(v_rbm_x))
-    _,y_ns,_,_,_,_,_ = meshball.stats(Coriolis.dot(v_rbm_y))
-    _,z_ns,_,_,_,_,_ = meshball.stats(Coriolis.dot(v_rbm_z))
-
-    if uw.mpi.rank==0:
-        print("Coriolis Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
-
-
-
-    stokes.bodyforce = unit_rvec * buoyancy_force 
-    stokes.bodyforce -= free_slip_penalty
-    stokes.bodyforce -= Coriolis - Coriolis.dot(unit_rvec) * unit_rvec * body_fn
-
-    stokes._Ppre_fn = 1.0 / (stokes.viscosity + 
-                                # 2.0 *  Omega_0 * body_fn +
-                                Rayleigh * 1.0 * surface_fn )
-
-       
-    delta_t = 2.0 * stokes.estimate_dt() 
-    
-    stokes.solve(zero_init_guess=False)
-    
-
-    for i in range(0):
-
-        _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
-        _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
-        _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
-
-        if uw.mpi.rank==0:
-            print("Rigid body: {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
-
-        with meshball.access(v_soln):
-            v_soln.data[...] -= x_ns * uw.function.evaluate(v_rbm_x + 1.0e-10 * r.fn * meshball.N.i , v_soln.coords)
-            v_soln.data[...] -= y_ns * uw.function.evaluate(v_rbm_y + 1.0e-10 * r.fn * meshball.N.j , v_soln.coords)
-            v_soln.data[...] -= z_ns * uw.function.evaluate(v_rbm_z + 1.0e-10 * r.fn * meshball.N.k , v_soln.coords)
-
-
-    _,x_ns,_,_,_,_,_ = meshball.stats(v_star.fn.dot(v_rbm_x))
-    _,y_ns,_,_,_,_,_ = meshball.stats(v_star.fn.dot(v_rbm_y))
-    _,z_ns,_,_,_,_,_ = meshball.stats(v_star.fn.dot(v_rbm_z))
-
-    if uw.mpi.rank==0:
-        print("Rigid body (vstar): {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
-
-
-    _,x_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_x))
-    _,y_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_y))
-    _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
-
-    if uw.mpi.rank==0:
-        print("Rigid body (v): {}, {}, {} (x,y,z axis)".format(x_ns, y_ns, z_ns))
-
-
-    dv_fn = v_soln.fn - v_soln_1.fn
-    _,_,_,_,_,_,deltaV = meshball.stats(dv_fn.dot(dv_fn))
-
-
-    with meshball.access(v_soln_1, om):
-        v_soln_1.data[...] = v_soln.data[...]
-        om.data[...] = uw.function.evaluate(2.0 * sympy.vector.cross(meshball.N.k, v_soln.fn )+1.0e-16*unit_rvec, om.coords )
-
-
-    with swarm.access(v_star):
-        v_star.data[...] = 0.75 * uw.function.evaluate(v_soln.fn, swarm.data) + 0.25 * v_star.data[...]
-
-    # swarm.advection(v_soln.fn, 
-    #             delta_t=stokes.estimate_dt(),
-    #             restore_points_to_domain_func=points_in_sphere,
-    #             corrector=False)
-    
-    # Restore a subset of points to start
-    offset_idx = step%swarm_loop
-    
-    # with swarm.access(swarm.particle_coordinates, remeshed):
-    #     remeshed.data[...] = 0
-    #     remeshed.data[offset_idx::swarm_loop,:] = 1
-    #     swarm.data[offset_idx::swarm_loop,:] = X_0.data[offset_idx::swarm_loop,:]
-        
-    # re-calculate v history for remeshed particles 
-    # Note, they may have moved procs after the access manager closed
-    # so we re-index 
-    
-    # with swarm.access(v_star, remeshed):
-    #     idx = np.where(remeshed.data == 1)[0]
-    #     v_star.data[idx] = uw.function.evaluate(v_soln.fn, swarm.data[idx]) 
-
-    if uw.mpi.rank==0:
-        print("Timestep {}, dt {}, deltaV {}".format(ts, delta_t, deltaV))
-                
-    if ts%1 == 0:
-        # nodal_vorticity_from_v.solve()
-        # plot_V_mesh(filename="output/{}_step_{}".format(expt_name,ts))
-        
-        savefile = "output/{}_ts_{}.h5".format(expt_name,step) 
-        meshball.save(savefile)
-        v_soln.save(savefile)
-        p_soln.save(savefile)
-        om.save(savefile)
-        # vorticity.save(savefile)
-        meshball.generate_xdmf(savefile)
-        
-
-    ts += 1
 
 
 # +
@@ -547,12 +389,11 @@ if mpi4py.MPI.COMM_WORLD.size==1:
 
     pvmesh = meshball.mesh2pyvista(elementType=vtk.VTK_TETRA)
     
-    coriolis_term = -sympy.vector.cross(Omega, v_theta) + 1.0e-8 * meshball.N.k
+    coriolis_term = -body_fn * sympy.vector.cross(meshball.N.k, v_soln.fn) + 1.0e-16 * meshball.rvec
 
     with meshball.access():
-        usol  = uw.function.evaluate(v_soln.fn, stokes.u.coords) # - v_inertial
-        corio = uw.function.evaluate(coriolis_term * (surface_fn),
-                                     stokes.u.coords)        
+        usol  = uw.function.evaluate(v_soln_1.fn, stokes.u.coords) # - v_inertial
+        corio = uw.function.evaluate(coriolis_term, stokes.u.coords)        
   
     pvmesh.point_data["T"]  = uw.function.evaluate(t_forcing_fn, meshball.data)
     pvmesh.point_data["P"]  = uw.function.evaluate(p_soln.fn, meshball.data)
@@ -563,20 +404,20 @@ if mpi4py.MPI.COMM_WORLD.size==1:
     arrow_length = np.zeros((stokes.u.coords.shape[0],3))
     arrow_length[...] = usol[...] 
     
-    clipped = pvmesh.clip(origin=(0.001,0.0,0.0), normal=(0, 0, 1), invert=False)
+    clipped = pvmesh.clip(origin=(0.001,0.0,0.0), normal=(0, 0, 1), invert=True)
 
     pl = pv.Plotter(window_size=[1000,1000])
     pl.add_axes()
     
 
-    pl.add_mesh(clipped, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="P",
+    pl.add_mesh(clipped, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
                   use_transparency=False, opacity=1.0)
 
     
     # pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
     #               use_transparency=False, opacity=1.0)
     
-    pl.add_arrows(arrow_loc, arrow_length, mag=100)
+    pl.add_arrows(arrow_loc, arrow_length, mag=5.0e3)
     
     pl.show(cpos="xy")
 
@@ -586,5 +427,7 @@ meshball.stats(v_soln.fn.dot(v_rbm_z)), meshball.stats(v_star.fn.dot(v_rbm_z))
 meshball.stats(v_soln.fn.dot(v_rbm_x)), meshball.stats(v_star.fn.dot(v_rbm_x))
 
 meshball.stats(sympy.vector.cross(Omega, v_soln.fn).dot(v_rbm_z))
+
+usol
 
 

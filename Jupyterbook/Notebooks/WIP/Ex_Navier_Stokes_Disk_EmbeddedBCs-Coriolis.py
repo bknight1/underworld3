@@ -389,12 +389,10 @@ if uw.mpi.size==1:
     arrow_loc[:,0:2] = navier_stokes.u.coords[...]
     
     arrow_length = np.zeros((navier_stokes.u.coords.shape[0],3))
-    arrow_length[:,0:2] = usol[...] 
+    arrow_length[:,0:2] = corio[...] 
     
     pl = pv.Plotter(window_size=[1000,1000])
     
-    
-
     # pl.add_mesh(pvmesh,'Black', 'wireframe')
     pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="S",
                   use_transparency=False, opacity=0.5)
@@ -427,5 +425,7 @@ print("Rigid body: {}".format(z_ns))
 # -
 
 p_soln.stats()
+
+meshball.N.k.dot(sympy.vector.curl(v_soln.fn))
 
 

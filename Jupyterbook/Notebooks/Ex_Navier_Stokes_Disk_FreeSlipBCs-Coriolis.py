@@ -112,6 +112,10 @@ v_theta = navier_stokes.theta * navier_stokes.u.fn + (1.0 - navier_stokes.theta)
 
 # -
 
+nodal_vorticity_from_v = uw.systems.Projection(meshball, vorticity)
+nodal_vorticity_from_v.uw_function = sympy.vector.curl(v_soln.fn).dot(meshball.N.k)
+nodal_vorticity_from_v.smoothing = 1.0e-3
+
 t_init = sympy.cos(3*th)
 
 # +
@@ -127,7 +131,6 @@ with meshball.access(t_soln):
 navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
 navier_stokes.bodyforce -= free_slip_penalty # + solid_body_penalty 
 
-
 v_proj = navier_stokes._u_star_projector.u
 free_slip_penalty_p  =  100 * v_proj.fn.dot(unit_rvec) * unit_rvec * surface_fn 
 navier_stokes._u_star_projector.F0 =  free_slip_penalty_p # + solid_body_penalty_p)
@@ -135,6 +138,7 @@ navier_stokes._u_star_projector.F0 =  free_slip_penalty_p # + solid_body_penalty
 
 # +
 navier_stokes.solve(timestep=10.0)
+nodal_vorticity_from_v.solve()
 
 with meshball.access():
     v_inertial = v_soln.data.copy()
@@ -171,6 +175,8 @@ def plot_V_mesh(filename):
         with meshball.access():
             pvmesh.point_data["T"] = uw.function.evaluate(t_soln.fn, meshball.data)
             pvmesh.point_data["P"] = uw.function.evaluate(p_soln.fn, meshball.data)
+            pvmesh.point_data["Om"] = uw.function.evaluate(vorticity.fn, meshball.data)
+
 
 
         with meshball.access():
@@ -187,7 +193,7 @@ def plot_V_mesh(filename):
         pl.camera.SetPosition(0.0001,0.0001,4.0)
 
         # pl.add_mesh(pvmesh,'Black', 'wireframe')
-        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="P",
+        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="Om",
                       use_transparency=False, opacity=0.5)
         pl.add_arrows(arrow_loc, arrow_length, mag=0.03)
         
@@ -205,18 +211,21 @@ def plot_V_mesh(filename):
 ts = 0
 swarm_loop = 5
 
+vorticity.fn
+
 for step in range(0,10):
     
-    Omega_0 = 50.0 * min(ts/10, 1.0) 
-    Omega = meshball.N.k * Omega_0
+    Omega_0  = 50.0 * min(ts/10, 1.0) 
+    Coriolis = 2.0 * Omega_0 * navier_stokes.rho * sympy.vector.cross(meshball.N.k, v_theta)
+    
     navier_stokes.bodyforce = Rayleigh * unit_rvec * t_init # minus * minus
     navier_stokes.bodyforce -= free_slip_penalty 
-    navier_stokes.bodyforce -= 2.0 * navier_stokes.rho * sympy.vector.cross(Omega, v_theta) * (1.0-surface_fn)
-       
-
+    navier_stokes.bodyforce -= Coriolis * (1.0-surface_fn)
+    
     delta_t = 1.0 * navier_stokes.estimate_dt()
     
     navier_stokes.solve(timestep=delta_t, zero_init_guess=False)
+    nodal_vorticity_from_v.solve()
     
     _,z_ns,_,_,_,_,_ = meshball.stats(v_soln.fn.dot(v_rbm_z))
     print("Rigid body: {}".format(z_ns))
@@ -271,6 +280,13 @@ for step in range(0,10):
     ts += 1
 
 
+
+
+navier_stokes._p_f0
+
+
+
+
 # +
 # check the mesh if in a notebook / serial
 
@@ -290,15 +306,15 @@ if uw.mpi.size==1:
     pvmesh = meshball.mesh2pyvista()
     
     with meshball.access():
-        pvmesh.point_data["T"] = uw.function.evaluate(t_soln.fn, meshball.data)
-        pvmesh.point_data["P"] = uw.function.evaluate(p_soln.fn, meshball.data)
-
-    coriolis_term = -sympy.vector.cross(Omega, v_theta)
+        
+        pvmesh.point_data["T"]  = uw.function.evaluate(t_soln.fn, meshball.data)
+        pvmesh.point_data["P"]  = uw.function.evaluate(p_soln.fn, meshball.data)
+        pvmesh.point_data["Om"] = uw.function.evaluate(vorticity.fn, meshball.data)
+    
 
     with meshball.access():
         usol  = navier_stokes.u.data # - v_inertial.data
-        corio = uw.function.evaluate(coriolis_term,
-                                     navier_stokes.u.coords)
+
 
     arrow_loc = np.zeros((navier_stokes.u.coords.shape[0],3))
     arrow_loc[:,0:2] = navier_stokes.u.coords[...]
@@ -311,7 +327,7 @@ if uw.mpi.size==1:
     
 
     # pl.add_mesh(pvmesh,'Black', 'wireframe')
-    pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="P",
+    pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="Om",
                   use_transparency=False, opacity=0.5)
     pl.add_arrows(arrow_loc, arrow_length, mag=0.05)
     
