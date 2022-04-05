@@ -101,6 +101,12 @@ meshball = uw.meshes.SphericalShell(dim=3, degree=1,
                                     verbose=False)
 # -
 
+
+
+
+
+
+
 meshball.dm.view()
 
 # +
@@ -218,11 +224,6 @@ with meshball.access(t_soln):
     t_soln.data[...] = uw.function.evaluate(t_forcing_fn, t_soln.coords).reshape(-1,1)
 # -
 
-
-
-
-
-0/0
 
 # +
 stokes.solve()

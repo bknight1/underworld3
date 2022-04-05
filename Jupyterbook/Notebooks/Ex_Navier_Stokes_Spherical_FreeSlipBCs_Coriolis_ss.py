@@ -377,17 +377,7 @@ def plot_V_mesh(filename):
         arrow_length[...] = usol[...] 
 
 
-        pl = pv.Plotter(window_size=[1000,1000])
-
-        # pl.add_mesh(pvmesh,'Black', 'wireframe')
-
-        pl.add_mesh(pvmesh, cmap="coolwarm", edge_color="Black", show_edges=True, scalars="T",
-                      use_transparency=False, opacity=1.0)
-
-        pl.add_arrows(arrow_loc, arrow_length, mag=30.0)
-
-        pl.screenshot(filename="{}.png".format(filename), window_size=(2560,2560),
-                      return_img=False)
+        pl = pv.Plotter(window_s>=False)
         
         pl.close()
         
