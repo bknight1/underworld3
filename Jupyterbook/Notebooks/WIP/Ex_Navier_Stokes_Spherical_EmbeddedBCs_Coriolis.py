@@ -150,8 +150,8 @@ meshball = uw.meshes.MeshFromGmshFile(dim=3, degree=1, filename="ignore_celestia
 meshball.dm.view()
 
 # +
-v_soln   = uw.mesh.MeshVariable('U', meshball, meshball.dim, degree=2 )
-v_soln_1 = uw.mesh.MeshVariable('U_1', meshball, meshball.dim, degree=2 )
+v_soln   = uw.mesh.MeshVariable('U',  meshball, meshball.dim, degree=2 )
+v_soln_1 = uw.mesh.MeshVariable('U_1',meshball, meshball.dim, degree=2 )
 p_soln   = uw.mesh.MeshVariable('P', meshball, 1, degree=1 )
 t_soln   = uw.mesh.MeshVariable("T", meshball, 1, degree=3 )
 r        = uw.mesh.MeshVariable('R', meshball, 1, degree=1 )
@@ -257,6 +257,17 @@ orientation_wrt_y = sympy.atan2(z+1.0e-10,x+1.0e-10)
 v_rbm_y_x = -r.fn * sympy.sin(orientation_wrt_y) * meshball.N.i
 v_rbm_y_z =  r.fn * sympy.cos(orientation_wrt_y) * meshball.N.k
 v_rbm_y   =  v_rbm_y_z + v_rbm_y_x 
+# -
+
+volume = sympy.vector.divergence(sympy.vector.cross(meshball.N.k, v_soln.fn))
+
+vorticity = meshball.N.k.dot(sympy.vector.curl(v_soln.fn))
+
+
+
+
+
+0/0
 
 # +
 # Create NS object
