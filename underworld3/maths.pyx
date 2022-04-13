@@ -73,7 +73,7 @@ class Integral:
 
         # Pull out vec for variables, and go ahead with the integral
         self.mesh.update_lvec()
-        cdef Vec cgvec = self.mesh.dm.createGlobalVec()
+        cdef Vec cgvec = self.mesh.dm.getGlobalVec()
         self.mesh.dm.localToGlobal(self.mesh.lvec, cgvec)
 
         cdef DM dmc = self.mesh.dm.clone()
@@ -83,14 +83,11 @@ class Integral:
         dmc.createDS()
 
         cdef DS ds = dmc.getDS()
-
-        # Now set callback... note that we set the highest degree var_id (as determined
-        # above) for the second parameter. 
         CHKERRQ( PetscDSSetObjective(ds.ds, 0, ext.fns_residual[0]) )
         
         cdef PetscScalar val
         CHKERRQ( DMPlexComputeIntegralFEM(dmc.dm, cgvec.vec, <PetscScalar*>&val, NULL) )
-        cgvec.destroy()
+        self.mesh.dm.restoreGlobalVec(cgvec)
 
         # We're making an assumption here that PetscScalar is same as double.
         # Need to check where this may not be the case.
@@ -159,10 +156,8 @@ class CellWiseIntegral:
 
         # Pull out vec for variables, and go ahead with the integral
         self.mesh.update_lvec()
-        a_global = self.mesh.dm.getGlobalVec()
-        self.mesh.dm.localToGlobal(self.mesh.lvec, a_global)
-        cdef Vec cgvec
-        cgvec = a_global
+        cdef Vec cgvec = self.mesh.dm.getGlobalVec()
+        self.mesh.dm.localToGlobal(self.mesh.lvec, cgvec)
        
         cdef DM dmc = self.mesh.dm.clone()
         cdef PetscInt cdegree = self.degree
@@ -173,11 +168,10 @@ class CellWiseIntegral:
         cdef DS ds = dmc.getDS()
         CHKERRQ( PetscDSSetObjective(ds.ds, 0, ext.fns_residual[0]) )
         
-        cdef Vec rvec = dmc.createGlobalVec()
+        cdef Vec rvec = dmc.getGlobalVec()
         CHKERRQ( DMPlexComputeCellwiseIntegralFEM(dmc.dm, cgvec.vec, rvec.vec, NULL) )
-        self.mesh.dm.restoreGlobalVec(a_global)
+        self.mesh.dm.restoreGlobalVec(cgvec)
 
         results = rvec.array.copy()
-        rvec.destroy()
-
+        
         return results
