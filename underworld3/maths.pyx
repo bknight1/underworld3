@@ -43,10 +43,12 @@ class Integral:
     @timing.routine_timer_decorator
     def __init__( self,
                   mesh:  underworld3.mesh.Mesh,
-                  fn:    Union[float, int, sympy.Basic] ):
+                  fn:    Union[float, int, sympy.Basic], 
+                  degree: int=1):
 
         self.mesh = mesh
         self.fn = sympy.sympify(fn)
+        self.degree = degree
         super().__init__()
 
     @timing.routine_timer_decorator
@@ -71,36 +73,24 @@ class Integral:
 
         # Pull out vec for variables, and go ahead with the integral
         self.mesh.update_lvec()
-        a_global = self.mesh.dm.getGlobalVec()
-        self.mesh.dm.localToGlobal(self.mesh.lvec, a_global)
-        cdef Vec cgvec
-        cgvec = a_global
+        cdef Vec cgvec = self.mesh.dm.createGlobalVec()
+        self.mesh.dm.localToGlobal(self.mesh.lvec, cgvec)
 
-        # # Now, find var with the highest degree. We will then configure the integration 
-        # # to use this variable's quadrature object for all variables. 
-        # # This needs to be double checked.  
-        # deg = 0
-        # for key, var in self.mesh.vars.items():
-        #     if var.degree >= deg:
-        #         deg = var.degree
-        #         var_base = var
+        cdef DM dmc = self.mesh.dm.clone()
+        cdef PetscInt cdegree = self.degree
+        cdef FE fec = FE().createDefault(self.mesh.dim, cdegree, False, -1)
+        dmc.setField(0, fec)
+        dmc.createDS()
 
-        # quad_base = var_base.petsc_fe.getQuadrature()
-        # for fe in [var.petsc_fe for var in self.mesh.vars.values()]:
-        #     fe.setQuadrature(quad_base)
-        
-        self.mesh.dm.clearDS()
-        self.mesh.dm.createDS()
+        cdef DS ds = dmc.getDS()
 
-        cdef DM dm = self.mesh.dm
-        cdef DS ds = self.mesh.dm.getDS()
         # Now set callback... note that we set the highest degree var_id (as determined
         # above) for the second parameter. 
-        ierr = PetscDSSetObjective(ds.ds, 0, ext.fns_residual[0]); CHKERRQ(ierr)
+        CHKERRQ( PetscDSSetObjective(ds.ds, 0, ext.fns_residual[0]) )
         
         cdef PetscScalar val
-        ierr = DMPlexComputeIntegralFEM(dm.dm, cgvec.vec, <PetscScalar*>&val, NULL); CHKERRQ(ierr)
-        self.mesh.dm.restoreGlobalVec(a_global)
+        CHKERRQ( DMPlexComputeIntegralFEM(dmc.dm, cgvec.vec, <PetscScalar*>&val, NULL) )
+        cgvec.destroy()
 
         # We're making an assumption here that PetscScalar is same as double.
         # Need to check where this may not be the case.
@@ -139,10 +129,12 @@ class CellWiseIntegral:
     @timing.routine_timer_decorator
     def __init__( self,
                   mesh:  underworld3.mesh.Mesh,
-                  fn:    Union[float, int, sympy.Basic] ):
+                  fn:    Union[float, int, sympy.Basic],
+                  degree: int=1 ):
 
         self.mesh = mesh
         self.fn = sympy.sympify(fn)
+        self.degree = degree
         super().__init__()
 
     @timing.routine_timer_decorator
@@ -173,7 +165,8 @@ class CellWiseIntegral:
         cgvec = a_global
        
         cdef DM dmc = self.mesh.dm.clone()
-        cdef FE fec = FE().createDefault(self.mesh.dim, 1, False, -1)
+        cdef PetscInt cdegree = self.degree
+        cdef FE fec = FE().createDefault(self.mesh.dim, cdegree, False, -1)
         dmc.setField(0, fec)
         dmc.createDS()
 
