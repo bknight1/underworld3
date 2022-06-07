@@ -488,6 +488,7 @@ class Swarm(_api_tools.Stateful):
 
         Example
         -------
+
         >>> import underworld3 as uw
         >>> someMesh = uw.mesh.FeMesh_Cartesian()
         >>> with someMesh.deform_mesh():

@@ -10,7 +10,7 @@ from petsc4py import PETSc
 
 import underworld3 
 import underworld3 as uw
-from .._jitextension import getext, diff_fn1_wrt_fn2
+from .._jitextension import getext  #, diff_fn1_wrt_fn2
 import underworld3.timing as timing
 
 include "../petsc_extras.pxi"
@@ -1204,7 +1204,7 @@ class SNES_SaddlePoint:
         # Copy solution back into user facing variables
         with self.mesh.access(self.p, self.u):
             for name,var in self.fields.items():
-                print("Copy field {} to user variables".format(name), flush=True)
+                ## print("Copy field {} to user variables".format(name), flush=True)
                 sgvec = gvec.getSubVector(self._subdict[name][0])  # Get global subvec off solution gvec.
                 sdm   = self._subdict[name][1]                     # Get subdm corresponding to field.
                 lvec = sdm.getLocalVec()                           # Get a local vector to push data into.
