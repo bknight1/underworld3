@@ -44,7 +44,7 @@ p_soln = uw.mesh.MeshVariable('P',    meshbox,  1, degree=1 )
 
 
 swarm     = uw.swarm.Swarm(mesh=meshbox)
-material = uw.swarm.IndexSwarmVariable("M", swarm, indices=4)
+material  = uw.swarm.IndexSwarmVariable("M", swarm, indices=4)
 swarm.populate(fill_param=4)
 
 
@@ -330,6 +330,9 @@ for step in range(0,150):
         plot_mesh(filename="{}_step_{}".format(expt_name,t_step))
         
     t_step += 1
+
+# -
+
 
 
 

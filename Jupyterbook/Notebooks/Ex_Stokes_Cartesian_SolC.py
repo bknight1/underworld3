@@ -72,7 +72,6 @@ ML = stokes._L.tomatrix()
 # %%
 
 # %%
-VP.vec().jacobian(stokes._L.tomatrix().vec())
 
 # %%
 L[1]

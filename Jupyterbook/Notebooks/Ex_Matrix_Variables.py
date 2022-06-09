@@ -38,14 +38,13 @@ mesh.X
 
 mesh.matrix_to_vector(mesh.X)
 
-mesh.vector_to_matrix(v._ijk)
 
 
 v = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
 p = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
 
 
-
+mesh.vector_to_matrix(v._ijk)
 
 vec = sympy.vector.matrix_to_vector(v.f, mesh.N)
 # check it 
