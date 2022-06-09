@@ -1,6 +1,6 @@
-# # Rayleigh Taylor in a Disc
+# # Overview of the sympy.Matrix interface
 #
-# Demonstrating the use of the `sympy.tensor` interface to solvers and mesh variables.
+# Demonstrating the use of the `sympy.matrix` interface to solvers and mesh variables.
 #
 
 # +
@@ -31,14 +31,27 @@ import sympy
 x = mesh.N.x
 y = mesh.N.y
 # +
-# but we have this on the mesh
+# but we have this on the mesh in matrix form
 
 mesh.X
 # -
 
-v_soln = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
-p_soln = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
+mesh.matrix_to_vector(mesh.X)
 
+mesh.vector_to_matrix(v._ijk)
+
+
+v = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
+p = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
+
+
+
+
+vec = sympy.vector.matrix_to_vector(v.f, mesh.N)
+# check it 
+print(isinstance(vec, sympy.vector.Vector))
+
+p.f
 
 # +
 # This is the way to get back to a matrix after diff by array for two row vectors (yuck)
@@ -46,8 +59,21 @@ p_soln = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
 # Diff by array blows up a 1x3 by 1x3 into a 1,3,1,3 tensor rather than a 3x3 matrix 
 # and the 1 indices cannot be automatically removed 
 
-VX = sympy.derive_by_array(v_soln.f, mesh.X).reshape(v_soln.f.shape[1], mesh.X.shape[1]).tomatrix().T
+VX = sympy.derive_by_array(v.f, mesh.X).reshape(v.f.shape[1], mesh.X.shape[1]).tomatrix().T
 # -
+
+v.f.jacobian(mesh.X)
+
+mesh._
+
+sympy.vector.divergence(v.fn)
+
+sympy.vector.divergence(sympy.vector.matrix_to_vector(v.f, mesh.N))
+
+R = sympy.Matrix((mesh.N.i, mesh.N.j) )
+R
+
+sympy.vector.curl(sympy.vector.matrix_to_vector(v.f, mesh.N))
 
 
 

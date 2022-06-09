@@ -5,7 +5,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.8
+#       jupytext_version: 1.11.5
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -58,13 +58,20 @@ poisson.solve()
 
 # +
 # Check the flux term
-
-display(poisson._X)
 display(poisson._L)
 
 # This is the internal build of the flux term
 display(poisson._f1)
+
+# +
+poisson._L
+
+
 # -
+
+poisson.u.f.jacobian(poisson._L)
+
+poisson._f1.jacobian(poisson._L)
 
 # ## Validation
 
@@ -113,3 +120,10 @@ if MPI.COMM_WORLD.size==1:
     pl.show(cpos="xy")
     
     
+# -
+
+
+
+t_soln.ijk
+
+

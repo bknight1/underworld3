@@ -190,7 +190,7 @@ class Mesh(_api_tools.Stateful):
     @timing.routine_timer_decorator
     def _align_quadratures(self, mesh_var=None, force=False):
         """
-        Choose a quadrature that will be used by any solvers on 
+        Choose a quadrature that will be used by any of our solvers on 
         this mesh. Quadratures are aligned with either:
           - the variable that has the highest degree on the mesh at this point
           - the variable that is provided
@@ -201,7 +201,6 @@ class Mesh(_api_tools.Stateful):
 
         """
 
-        # Ensure consistent quadrature across all mesh variables
 
         # # Find var with the highest degree. We will then configure the integration 
         # # to use this variable's quadrature object for all variables. 
@@ -623,6 +622,29 @@ class Mesh(_api_tools.Stateful):
         return self._min_radius
 
 
+    def matrix_to_vector(self, matrix):
+
+        if matrix.shape == (1,self.dim):
+            vector = sympy.vector.matrix_to_vector(matrix, self.N)
+        elif matrix.shape == (1,1,):
+            vector = matrix[0,0]
+        else:
+            print(f"Unable to convert matrix of size {matrix.shape} to sympy.vector")
+            vector = None
+
+        return vector
+
+    def vector_to_matrix(self, vector):
+
+        matrix = sympy.Matrix.zeros(1,self.dim)
+        base_vectors = self.N.base_vectors()
+
+        for i in range(self.dim):
+            matrix[0,i] = vector.dot(base_vectors[i])
+
+        return matrix
+ 
+
     def stats(self, uw_function):
         """
         Returns various norms on the mesh for the provided function. 
@@ -657,6 +679,9 @@ class Mesh(_api_tools.Stateful):
         vrms   = vnorm2 / np.sqrt(vsize)
 
         return vsize, vmean, vmin, vmax, vsum, vnorm2, vrms
+
+
+## Do we really need all of these now that we have gmsh by default ?
 
 
     def mesh_dm_coords(self):
@@ -798,12 +823,16 @@ class MeshVariable(_api_tools.Stateful):
 
         if mesh._accessed:
             raise RuntimeError("It is not possible to add new variables to a mesh after existing variables have been accessed.")
+        
+        ## This should be a warning and return rather than an exception
+        
         if name in mesh.vars.keys():
             raise ValueError("Variable with name {} already exists on mesh.".format(name))
+
         self.name = name
 
         if vtype==None:
-            if   num_components==1:
+            if num_components==1:
                 vtype=uw.VarType.SCALAR
             elif num_components==mesh.dim:
                 vtype=uw.VarType.VECTOR
@@ -828,10 +857,10 @@ class MeshVariable(_api_tools.Stateful):
         # create associated sympy function
         from underworld3.function import UnderworldFunction
         if  vtype == uw.VarType.SCALAR:
-            
-            self._fn = UnderworldFunction(name,self,vtype)(*self.mesh.r)
+
             self._f = sympy.Matrix.zeros(1,1)
             self._f[0]  = UnderworldFunction(name,self,vtype)(*self.mesh.r)
+            self._ijk = self._f[0]
             
         elif vtype==uw.VarType.VECTOR:
             self._f = sympy.Matrix.zeros(1,num_components)
@@ -842,15 +871,13 @@ class MeshVariable(_api_tools.Stateful):
 
             # Spatial vector form (2 vectors and 3 vectors according to mesh dim)
             if num_components==mesh.dim:
-                from sympy.vector import VectorZero
-                self._fn = VectorZero()
-                for comp in range(num_components):
-                    self._fn += self._f[0,comp] * self.mesh.N.base_vectors()[comp]
+                self._ijk = sympy.vector.matrix_to_vector(self._f, self.mesh.N)
+
     
         super().__init__()
 
         self.mesh.vars[name] = self
-    
+   
 
     @timing.routine_timer_decorator
     def save(self, filename : str,
@@ -892,7 +919,7 @@ class MeshVariable(_api_tools.Stateful):
         """
         The handle to the function view of this variable.
         """
-        return self._fn
+        return self._ijk
 
     @property
     def f(self) -> sympy.Basic:

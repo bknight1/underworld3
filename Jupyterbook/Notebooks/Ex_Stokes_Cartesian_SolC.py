@@ -11,10 +11,15 @@ options = PETSc.Options()
 
 
 # %%
-n_els = 32
-mesh = uw.meshes.Box(elementRes=(n_els,n_els))
-v_degree = 1
-stokes = uw.systems.Stokes(mesh, u_degree=v_degree )
+n_els = 16
+mesh = uw.util_mesh.StructuredQuadBox(elementRes=(n_els,n_els))
+
+
+# %%
+v = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
+p = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
+
+stokes = uw.systems.Stokes(mesh, velocityField=v, pressureField=p )
 
 # %%
 # Set some things
@@ -31,9 +36,8 @@ stokes._Ppre_fn = 1.0 / (stokes.viscosity + stokes.penalty)
 
 # free slip.  
 # note with petsc we always need to provide a vector of correct cardinality. 
-bnds = mesh.boundary
-stokes.add_dirichlet_bc( (0.,0.), [bnds.TOP,  bnds.BOTTOM], 1 )  # top/bottom: components, function, markers 
-stokes.add_dirichlet_bc( (0.,0.), [bnds.LEFT, bnds.RIGHT],  0 )  # left/right: components, function, markers
+stokes.add_dirichlet_bc( (0.,0.), ["Top", "Bottom"], 1 )  # top/bottom: components, function, markers 
+stokes.add_dirichlet_bc( (0.,0.), ["Left", "Right"],  0 )  # left/right: components, function, markers
 
 
 # %%
@@ -45,7 +49,6 @@ stokes.petsc_options["snes_converged_reason"] = None
 stokes.petsc_options["snes_monitor_short"] = None
 # stokes.petsc_options["snes_view"]=None
 # stokes.petsc_options["snes_test_jacobian"] = None
-
 stokes.petsc_options["fieldsplit_pressure_ksp_monitor"] = None
 # stokes.petsc_options["fieldsplit_velocity_ksp_monitor"] = None
 stokes.petsc_options["snes_max_it"] = 10
@@ -53,6 +56,29 @@ stokes.petsc_options["snes_max_it"] = 10
 # %%
 # Solve time
 stokes.solve()
+
+# %%
+stokes._uu_G3
+
+# %%
+stokes._u_f1
+
+# %%
+stokes._u_f1.reshape(4,1).jacobian(stokes._L.reshape(4,1))
+
+# %%
+ML = stokes._L.tomatrix()
+
+# %%
+
+# %%
+VP.vec().jacobian(stokes._L.tomatrix().vec())
+
+# %%
+L[1]
+
+# %%
+0/0
 
 # %%
 try:

@@ -63,12 +63,10 @@ class SNES_Scalar:
 
         self.mesh = mesh
         self._F0 = 0.0
-        self._F1 = sympy.MutableDenseNDimArray.zeros(mesh.dim)
+        self._F1 = sympy.Matrix.zeros(1,mesh.dim)
 
         ## sympy.Array 
-        self._U = sympy.Array(self._u.fn)
-        self._X = sympy.Array(self.mesh.r)
-        self._L = sympy.derive_by_array(self._U, self._X).reshape(self.mesh.dim)
+        self._L = sympy.derive_by_array(self._u.f, self.mesh.X).reshape(1,self.mesh.dim).tomatrix()
 
         self.bcs = []
 
@@ -93,7 +91,7 @@ class SNES_Scalar:
     @F0.setter
     def F0(self, value):
         self.is_setup = False
-        # should add test here to make sure k is conformal
+        # should add test here to make sure this is conformal
         self._F0 = sympify(value)
 
     @property
@@ -102,7 +100,7 @@ class SNES_Scalar:
     @F1.setter
     def F1(self, value):
         self.is_setup = False
-        # should add test here to make sure k is conformal
+        # should add test here to make sure this is conformal
         self._F1 = sympify(value)
  
 
@@ -204,15 +202,18 @@ class SNES_Scalar:
         ## The jacobians are determined from the above (assuming we 
         ## do not concern ourselves with the zeros)
 
-        F0 = sympy.Array(self._f0).as_immutable()
-        F1 = sympy.Array(self._f1).as_immutable()
+        F0 = sympy.Array(self._f0).reshape(1).as_immutable()
+        F1 = sympy.Array(self._f1).reshape(dim).as_immutable()
+
+        U = sympy.Array(self._u.f).reshape(1).as_immutable() # scalar works better in derive_by_array
+        L = sympy.Array(self._L).reshape(dim).as_immutable() # unpack one index here too
 
         fns_residual = [F0, F1] 
 
-        G0 = sympy.derive_by_array(F0, self._U)
-        G1 = sympy.derive_by_array(F0, self._L)
-        G2 = sympy.derive_by_array(F1, self._U)
-        G3 = sympy.derive_by_array(F1, self._L)
+        G0 = sympy.derive_by_array(F0, U)
+        G1 = sympy.derive_by_array(F0, L)
+        G2 = sympy.derive_by_array(F1, U)
+        G3 = sympy.derive_by_array(F1, L)
 
         # Re-organise if needed / make hashable
         
