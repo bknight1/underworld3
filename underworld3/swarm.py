@@ -228,13 +228,13 @@ class IndexSwarmVariable(SwarmVariable):
         # The indices variable defines how many level set maps we create as components in the proxy variable
 
         import sympy
-        self._MaskArray = sympy.tensor.MutableDenseNDimArray.zeros(self.indices)
+        self._MaskArray = sympy.Matrix.zeros(1,self.indices)
         self._meshLevelSetVars = [ None ] * self.indices
 
         for i in range(indices):
             self._meshLevelSetVars[i] =  uw.mesh.MeshVariable(name+"["+str(i)+"]", self.swarm.mesh, 
                                          num_components=1, degree=proxy_degree)
-            self._MaskArray[0,i] = self._meshLevelSetVars[i].fn
+            self._MaskArray[0,i] = self._meshLevelSetVars[i].f[0,0]
 
         return
 
