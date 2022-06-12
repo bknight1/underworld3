@@ -144,6 +144,12 @@ class Mesh(_api_tools.Stateful):
 
         self._work_MeshVar = MeshVariable('work_array_1', self,  1, degree=2 ) 
 
+        # This looks a bit strange, but we'd like to 
+        # put these mesh-dependent vector calculus functions
+        # in a bundle and avoid the mesh being required as an argument
+
+        self.vector = uw.maths.mesh_vector_calculus(mesh=self)
+
         super().__init__()
 
     def nuke_coords_and_rebuild(self):
@@ -203,7 +209,6 @@ class Mesh(_api_tools.Stateful):
         been added
 
         """
-
 
         # # Find var with the highest degree. We will then configure the integration 
         # # to use this variable's quadrature object for all variables. 
@@ -623,29 +628,6 @@ class Mesh(_api_tools.Stateful):
         return self._min_radius
 
 
-    def matrix_to_vector(self, matrix):
-
-        if matrix.shape == (1,self.dim):
-            vector = sympy.vector.matrix_to_vector(matrix, self.N)
-        elif matrix.shape == (1,1,):
-            vector = matrix[0,0]
-        else:
-            print(f"Unable to convert matrix of size {matrix.shape} to sympy.vector")
-            vector = None
-
-        return vector
-
-    def vector_to_matrix(self, vector):
-
-        matrix = sympy.Matrix.zeros(1,self.dim)
-        base_vectors = self.N.base_vectors()
-
-        for i in range(self.dim):
-            matrix[0,i] = vector.dot(base_vectors[i])
-
-        return matrix
- 
-
     def stats(self, uw_function):
         """
         Returns various norms on the mesh for the provided function. 
@@ -684,7 +666,7 @@ class Mesh(_api_tools.Stateful):
 
 ## Do we really need all of these now that we have gmsh by default ?
 
-
+"""
     def mesh_dm_coords(self):
         cdim = self.dm.getCoordinateDim()
         coords = self.dm.getCoordinates().array.reshape(-1,cdim)
@@ -784,7 +766,7 @@ class Mesh(_api_tools.Stateful):
             cell_vertices[c,:] = facepoints.flatten()[np.sort(indices)]
                       
         return cell_vertices
-
+"""
 
 class MeshVariable(_api_tools.Stateful):
     @timing.routine_timer_decorator
@@ -921,6 +903,14 @@ class MeshVariable(_api_tools.Stateful):
         The handle to the function view of this variable.
         """
         return self._ijk
+
+    @property
+    def ijk(self) -> sympy.Basic:
+        """
+        The handle to the scalar / vector view of this variable.
+        """
+        return self._ijk
+
 
     @property
     def f(self) -> sympy.Basic:

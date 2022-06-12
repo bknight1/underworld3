@@ -336,9 +336,10 @@ for step in range(0,150):
 
 
 
-# +
-# savefile = "output/bubbles.h5".format(step) 
-# meshbox.save(savefile)
-# v_soln.save(savefile)
-# meshbox.generate_xdmf(savefile)
+savefile = "output/bubbles.h5".format(step) 
+meshbox.save(savefile)
+v_soln.save(savefile)
+meshbox.generate_xdmf(savefile)
+
+
 

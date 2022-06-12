@@ -21,7 +21,6 @@ import meshio
 
 mesh = uw.util_mesh.Annulus(radiusOuter=1.0, radiusInner=0.0, cellSize=0.05)
 
-mesh.dm.view()   
 
 # +
 import sympy
@@ -36,21 +35,23 @@ y = mesh.N.y
 mesh.X
 # -
 
-mesh.matrix_to_vector(mesh.X)
+mesh.r
 
-
+mesh.vector.to_vector(mesh.X)
 
 v = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
 p = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
 
 
-mesh.vector_to_matrix(v._ijk)
+mesh.vector.to_matrix(v._ijk)
+
+mesh.vector.to_matrix(v.f)
 
 vec = sympy.vector.matrix_to_vector(v.f, mesh.N)
 # check it 
 print(isinstance(vec, sympy.vector.Vector))
 
-p.f
+mesh.vector.to_vector(v.f)
 
 # +
 # This is the way to get back to a matrix after diff by array for two row vectors (yuck)
@@ -59,21 +60,23 @@ p.f
 # and the 1 indices cannot be automatically removed 
 
 VX = sympy.derive_by_array(v.f, mesh.X).reshape(v.f.shape[1], mesh.X.shape[1]).tomatrix().T
-# -
 
 v.f.jacobian(mesh.X)
 
-mesh._
+# -
+
+p.f.jacobian(mesh.X)
 
 sympy.vector.divergence(v.fn)
 
-sympy.vector.divergence(sympy.vector.matrix_to_vector(v.f, mesh.N))
+sympy.vector.divergence(mesh.vector.to_vector(v.f))
 
-R = sympy.Matrix((mesh.N.i, mesh.N.j) )
-R
+sympy.vector.curl(mesh.vector.to_vector(v.f))
 
-sympy.vector.curl(sympy.vector.matrix_to_vector(v.f, mesh.N))
+mesh.vector.curl(v.f)
 
+mesh.vector.div(v.f)
 
+mesh.vector.gradient(p.f)
 
 

@@ -111,7 +111,11 @@ class SNES_Scalar:
 
         self.dm = mesh.dm.clone()
 
-        # Set quadrature to consistent value given by mesh quadrature (force rebuild)
+        # Set quadrature to consistent value given by mesh quadrature
+        # We force the rebuild which allows the solvers to ratchet up
+        # the quadrature order when they are defined (but not reduce it)
+        # This can occur if variables are defined by the solver itself
+
         self.mesh._align_quadratures(force=True)
         u_quad = self.mesh.petsc_fe.getQuadrature()
 
@@ -413,14 +417,13 @@ class SNES_Vector:
             self._u = u_Field
 
         self.mesh = mesh
-        self._F0 = sympy.vector.Vector(self.mesh.dim)
+        self._F0 = sympy.Matrix.zeros(1, self.mesh.dim)
         self._F1 = sympy.Matrix.zeros(self.mesh.dim, self.mesh.dim)
 
-        ## sympy.Array 
+        ## sympy.Matrix
 
-        self._U = sympy.Array((self._u.fn.to_matrix(self.mesh.N))[0:self.mesh.dim])
-        self._X = sympy.Array(self.mesh.r)
-        self._L = sympy.derive_by_array(self._U, self._X).transpose()
+        self._U = self._u.f
+        self._L = self._u.f.jacobian(self.mesh.X) # This works for vector / vector inputs
 
         self.bcs = []
 
@@ -523,7 +526,7 @@ class SNES_Vector:
         # For example, to simplify the user interface by pre-definining
         # the form of the input. See the projector class for an example 
 
-        # f0 residual term (weighted integration) - scalar RHS function
+        # f0 residual term (weighted integration) - vector RHS function
         self._f0 = self.F0 # some_expression_F0(self._U, self._L)
 
         # f1 residual term (integration by parts / gradients)
@@ -532,7 +535,7 @@ class SNES_Vector:
         return 
 
     # The properties that are used in the problem description
-    # F0 is a scalar function (can include u, grad_u)
+    # F0 is a vector function (can include u, grad_u)
     # F1_i is a vector valued function (can include u, grad_u)
 
     # We don't add any validation here ... we should check that these
@@ -555,10 +558,10 @@ class SNES_Vector:
         ## do not concern ourselves with the zeros)
         ## The basis functions are 3-vectors by default, even for 2D meshes, soooo ...
 
-        F0 = sympy.Array((self._f0.to_matrix(self.mesh.N))[0:dim])
-        F1 = sympy.Array(self._f1).as_immutable()
+        F0 = self.mesh.vector.to_matrix(self._f0)
+        F1 = sympy.Matrix(self._f1)
 
-        # JIT compilation needs this form of the F0, F1 terms
+        # JIT compilation needs immutable versions of the F0, F1 terms
         u_F0 = sympy.ImmutableDenseMatrix(F0)
         u_F1 = sympy.ImmutableDenseMatrix(F1)
         fns_residual = [u_F0, u_F1] 
@@ -568,11 +571,14 @@ class SNES_Vector:
         G2 = sympy.derive_by_array(F1, self._U)
         G3 = sympy.derive_by_array(F1, self._L)
 
+        self._GG1 = G1
+        self._GG2 = G2
+        self._GG3 = G3
 
         # reorganise indices from sympy to petsc ordering / reshape to Matrix form
         # Make hashable (immutable)
 
-        self._G0 = sympy.ImmutableMatrix(G0)
+        self._G0 = sympy.ImmutableMatrix(G0.reshape(dim,dim))
         self._G1 = sympy.ImmutableMatrix(sympy.permutedims(G1, (2,1,0)  ).reshape(dim,dim*dim))
         self._G2 = sympy.ImmutableMatrix(sympy.permutedims(G2, (2,1,0)  ).reshape(dim*dim,dim))
         self._G3 = sympy.ImmutableMatrix(sympy.permutedims(G3, (3,1,2,0)).reshape(dim*dim,dim*dim))

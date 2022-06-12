@@ -62,12 +62,9 @@ display(poisson._L)
 
 # This is the internal build of the flux term
 display(poisson._f1)
-
-# +
-poisson._L
-
-
 # -
+
+poisson._L
 
 poisson.u.f.jacobian(poisson._L)
 
@@ -118,8 +115,8 @@ if MPI.COMM_WORLD.size==1:
     pl.camera_position="xy"
      
     pl.show(cpos="xy")
-    
-    
+
+
 # -
 
 

@@ -74,6 +74,8 @@ darcy = uw.systems.SteadyStateDarcy(mesh, u_Field=p_soln, v_Field=v_soln)
 darcy.petsc_options.delValue("ksp_monitor")
 
 # %%
+
+# %%
 # Set some things
 
 darcy.k = sympy.exp(-2.0*2.302585*(h_fn-y)) # powers of 10
@@ -90,7 +92,6 @@ darcy._v_projector.smoothing=1.0e-6
 darcy.solve()
 
 # %%
-# time to plot it ... 
 
 # %%
 

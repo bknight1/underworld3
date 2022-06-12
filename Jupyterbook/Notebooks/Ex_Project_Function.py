@@ -59,12 +59,12 @@ swarm.populate(fill_param=3)
 # -
 
 scalar_projection = uw.systems.Projection(meshbox, s_soln)
-scalar_projection.uw_function = s_values.fn
+scalar_projection.uw_function = s_values.f
 scalar_projection.smoothing = 1.0e-6
 
 # +
 vector_projection = uw.systems.Vector_Projection(meshbox, v_soln)
-vector_projection.uw_function = v_values.fn
+vector_projection.uw_function = v_values.f
 vector_projection.smoothing = 1.0e-3  # see how well it works !
 
 # Velocity boundary conditions (compare left / right walls in the soln !)
@@ -78,7 +78,7 @@ vector_projection.add_dirichlet_bc( (0.0,), "Bottom" , (1,) )
 # try to enforce incompressibility
 
 incompressible_vector_projection = uw.systems.Solenoidal_Vector_Projection(meshbox, iv_soln)
-incompressible_vector_projection.uw_function =  v_soln.fn # + sv_fn
+incompressible_vector_projection.uw_function =  v_soln.f # + sv_fn
 incompressible_vector_projection.smoothing = 1.0e-2  # see how well it works !
 
 # Velocity boundary conditions (compare left / right walls in the soln !)
@@ -97,7 +97,17 @@ with swarm.access(s_values, v_values, iv_values):
 
 scalar_projection.solve()
 
+scalar_projection._uw_function
+
+scalar_projection.u.fn
+
 vector_projection.solve()
+
+vector_projection._uw_function
+
+vector_projection.u.f
+
+vector_projection._uw_weighting_function
 
 incompressible_vector_projection.solve()
 

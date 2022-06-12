@@ -136,7 +136,7 @@ class SNES_Darcy(SNES_Scalar):
 
         # If we add smoothing, it should be small relative to actual diffusion (self.viscosity)
         self._v_projector.smoothing = 0.0
-        self._v_projector.uw_function = -self.k * (sympy.vector.gradient(self.u.fn) - self.s)
+        self._v_projector.uw_function = self.mesh.vector.to_matrix(-self.k * (sympy.vector.gradient(self.u.fn) - self.s))
 
     ## This function is the one we will typically over-ride to build specific solvers. 
     ## This example is a poisson-like problem with isotropic coefficients
@@ -147,17 +147,17 @@ class SNES_Darcy(SNES_Scalar):
         dim = self.mesh.dim
         N   = self.mesh.N
 
-        darcy_flux = -self.k * (sympy.vector.gradient(self.u.fn) - self.s)
+        darcy_flux_ijk = -self.k * (sympy.vector.gradient(self.u.fn) - self.s)
 
         # f1 residual term (weighted integration) 
         self._f0 = self.F0 - self.f
 
         # f1 residual term (integration by parts / gradients)
         # isotropic
-        self._f1 = self.F1 + sympy.Array(darcy_flux.to_matrix(N)[0:dim])
+        self._f1 = self.F1 + self.mesh.vector.to_matrix(darcy_flux_ijk)
 
         # This needs to be refreshed too
-        self._v_projector.uw_function = darcy_flux
+        self._v_projector.uw_function =self.mesh.vector.to_matrix(darcy_flux_ijk)  # ?? or the matrix version 
 
         return 
 
@@ -623,7 +623,7 @@ class SNES_Vector_Projection(SNES_Vector):
     def projection_problem_description(self):
 
         dim = self.mesh.dim
-        N = self.mesh.N
+        N   = self.mesh.N
 
         # residual terms - defines the problem:
         # solve for a best fit to the continuous mesh
@@ -631,7 +631,7 @@ class SNES_Vector_Projection(SNES_Vector):
         # F0 is left in place for the user to inject 
         # non-linear constraints if required
         
-        self._f0 = self.F0 + (self.u.fn - self.uw_function) * self.uw_weighting_function
+        self._f0 = self.F0 + (self.u.f - self.uw_function) * self.uw_weighting_function
 
         # F1 is left in the users control ... e.g to add other gradient constraints to the stiffness matrix
 
