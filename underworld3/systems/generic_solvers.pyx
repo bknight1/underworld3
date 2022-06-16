@@ -62,7 +62,7 @@ class SNES_Scalar:
             self._u = u_Field
 
         self.mesh = mesh
-        self._F0 = 0.0
+        self._F0 = sympy.Matrix.zeros(1,1)
         self._F1 = sympy.Matrix.zeros(1,mesh.dim)
 
         ## sympy.Array 
@@ -92,7 +92,7 @@ class SNES_Scalar:
     def F0(self, value):
         self.is_setup = False
         # should add test here to make sure this is conformal
-        self._F0 = sympify(value)
+        self._F0 = sympy.Matrix((value,))  # Make sure it is a scalar / 1x1 Matrix
 
     @property
     def F1(self):
@@ -101,7 +101,7 @@ class SNES_Scalar:
     def F1(self, value):
         self.is_setup = False
         # should add test here to make sure this is conformal
-        self._F1 = sympify(value)
+        self._F1 = self.mesh.vector.to_matrix(value)  # Make sure this is a vector
  
 
     def _build_dm_and_mesh_discretisation(self):
@@ -474,6 +474,7 @@ class SNES_Vector:
         # create private variables
         options = PETSc.Options()
         options.setValue("{}_private_petscspace_degree".format(self.petsc_options_prefix), degree) # for private variables
+
         self.petsc_fe_u = PETSc.FE().createDefault(mesh.dim, mesh.dim, mesh.isSimplex, degree,"{}_private_".format(self.petsc_options_prefix), PETSc.COMM_WORLD)
         self.petsc_fe_u.setQuadrature(u_quad)
         self.petsc_fe_u_id = self.dm.getNumFields()
@@ -556,26 +557,40 @@ class SNES_Vector:
 
         ## The jacobians are determined from the above (assuming we 
         ## do not concern ourselves with the zeros)
-        ## The basis functions are 3-vectors by default, even for 2D meshes, soooo ...
+        ## Convert to arrays for the moment to allow 1D arrays (size dim, not 1xdim)
+        ## otherwise we have many size-1 indices that we have to collapse
 
-        F0 = self.mesh.vector.to_matrix(self._f0)
-        F1 = sympy.Matrix(self._f1)
+        F0 = sympy.Array(self.mesh.vector.to_matrix(self._f0)).reshape(dim)
+        F1 = sympy.Array(self._f1).reshape(dim,dim)
 
-        # JIT compilation needs immutable versions of the F0, F1 terms
+        # JIT compilation needs immutable, matrix input (not arrays)
         u_F0 = sympy.ImmutableDenseMatrix(F0)
         u_F1 = sympy.ImmutableDenseMatrix(F1)
         fns_residual = [u_F0, u_F1] 
 
-        G0 = sympy.derive_by_array(F0, self._U)
+        # This is needed to eliminate extra dims in the tensor
+        U = sympy.Array(self._U).reshape(dim)
+
+        G0 = sympy.derive_by_array(F0, U)
         G1 = sympy.derive_by_array(F0, self._L)
-        G2 = sympy.derive_by_array(F1, self._U)
+        G2 = sympy.derive_by_array(F1, U)
         G3 = sympy.derive_by_array(F1, self._L)
 
+        '''
+        self._0F0 = F0
+        self._0F1 = F1
+
+        self._u_F0 = u_F0
+        self._u_F1 = u_F1
+
+        self._GG0 = G0
         self._GG1 = G1
         self._GG2 = G2
         self._GG3 = G3
+        '''
 
-        # reorganise indices from sympy to petsc ordering / reshape to Matrix form
+        # reorganise indices from sympy to petsc ordering 
+        # reshape to Matrix form
         # Make hashable (immutable)
 
         self._G0 = sympy.ImmutableMatrix(G0.reshape(dim,dim))
@@ -863,7 +878,7 @@ class SNES_SaddlePoint:
         self._build_dm_and_mesh_discretisation()
         self._rebuild_after_mesh_update = self._build_dm_and_mesh_discretisation
 
-        self.UF0 = 0.0 * self.mesh.N.i 
+        self.UF0 = sympy.Matrix.zeros(1, self.mesh.dim) 
         self.UF1 = sympy.Matrix.zeros(self.mesh.dim, self.mesh.dim)
         self.PF0 = 0.0
 
@@ -934,7 +949,7 @@ class SNES_SaddlePoint:
     def UF0(self, value):
         self.is_setup = False
         # should add test here to make sure k is conformal
-        self._UF0 = sympify(value)
+        self._UF0 = value
 
     @property
     def UF1(self):
@@ -943,7 +958,7 @@ class SNES_SaddlePoint:
     def UF1(self, value):
         self.is_setup = False
         # should add test here to make sure k is conformal
-        self._UF1 = sympify(value)
+        self._UF1 = value
 
     @property
     def PF0(self):
@@ -952,7 +967,7 @@ class SNES_SaddlePoint:
     def PF0(self, value):
         self.is_setup = False
         # should add test here to make sure k is conformal
-        self._PF0 = sympify(value)
+        self._PF0 = value
 
     @property
     def u(self):
@@ -1009,16 +1024,17 @@ class SNES_SaddlePoint:
     def _setup_terms(self):
         dim = self.mesh.dim
         N = self.mesh.N
-
+        
         # residual terms
         self._setup_problem_description()
 
         # Array form to work well with what is below
         # The basis functions are 3-vectors by default, even for 2D meshes, soooo ...
-        F0  = sympy.Array((self._u_f0.to_matrix(self.mesh.N))[0:dim])
-        F1  = sympy.Array(self._u_f1)
+        F0  = sympy.Array(self.mesh.vector.to_matrix(self._u_f0)).reshape(dim)
+        F1  = sympy.Array(self._u_f1).reshape(dim,dim)
         FP0 = sympy.Array(self._p_f0).reshape(1)
 
+        # JIT compilation needs immutable, matrix input (not arrays)
         u_F0 = sympy.ImmutableDenseMatrix(F0)
         u_F1 = sympy.ImmutableDenseMatrix(F1)
         p_F0 = sympy.ImmutableDenseMatrix(FP0)
@@ -1033,9 +1049,12 @@ class SNES_SaddlePoint:
         ## but has some issues with the change in ordering in petsc v. sympy.
         ## so we will leave both here to compare across a range of problems.
 
-        G0 = sympy.derive_by_array(F0, self._U)
+        # This is needed to eliminate extra dims in the tensor
+        U = sympy.Array(self._U).reshape(dim)
+
+        G0 = sympy.derive_by_array(F0, U)
         G1 = sympy.derive_by_array(F0, self._L)
-        G2 = sympy.derive_by_array(F1, self._U)
+        G2 = sympy.derive_by_array(F1, U)
         G3 = sympy.derive_by_array(F1, self._L)
 
         # reorganise indices from sympy to petsc ordering / reshape to Matrix form

@@ -56,6 +56,9 @@ poisson.add_dirichlet_bc( 0., "Top" )
 # Solve time
 poisson.solve()
 
+poisson.F0 
+sympy.Matrix((0,))
+
 # +
 # Check the flux term
 display(poisson._L)

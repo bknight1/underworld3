@@ -79,10 +79,10 @@ vector_projection.add_dirichlet_bc( (0.0,), "Bottom" , (1,) )
 
 incompressible_vector_projection = uw.systems.Solenoidal_Vector_Projection(meshbox, iv_soln)
 incompressible_vector_projection.uw_function =  v_soln.f # + sv_fn
-incompressible_vector_projection.smoothing = 1.0e-2  # see how well it works !
+incompressible_vector_projection.smoothing = 1.0  # see how well it works !
 
 # Velocity boundary conditions (compare left / right walls in the soln !)
-# incompressible_vector_projection.add_dirichlet_bc( (0.0,), "Left" ,   (0,) )
+incompressible_vector_projection.add_dirichlet_bc( (0.0,), "Left" ,   (0,) )
 incompressible_vector_projection.add_dirichlet_bc( (0.0,), "Right" ,  (0,) )
 incompressible_vector_projection.add_dirichlet_bc( (0.0,), "Top" ,    (1,) )
 incompressible_vector_projection.add_dirichlet_bc( (0.0,), "Bottom" , (1,) )
@@ -97,19 +97,25 @@ with swarm.access(s_values, v_values, iv_values):
 
 scalar_projection.solve()
 
-scalar_projection._uw_function
+vector_projection._setup_terms()
 
-scalar_projection.u.fn
+
+
+
 
 vector_projection.solve()
 
-vector_projection._uw_function
+# + jupyter={"source_hidden": true} tags=[]
+incompressible_vector_projection._setup_terms()
+# -
 
-vector_projection.u.f
+incompressible_vector_projection._smoothing
 
-vector_projection._uw_weighting_function
+0/0
 
 incompressible_vector_projection.solve()
+
+
 
 scalar_projection.uw_function = sympy.vector.divergence(iv_soln.fn)
 scalar_projection.solve()

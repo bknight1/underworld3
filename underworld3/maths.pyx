@@ -213,7 +213,7 @@ class mesh_vector_calculus:
         else:   
             return vector_curl.dot(self.mesh.N.k)
         
-    def div(self,matrix):
+    def divergence(self,matrix):
         """
         $\nabla \cdot \mathbf{v}$
         """

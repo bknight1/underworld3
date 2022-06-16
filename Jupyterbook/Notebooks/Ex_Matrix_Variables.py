@@ -75,7 +75,7 @@ sympy.vector.curl(mesh.vector.to_vector(v.f))
 
 mesh.vector.curl(v.f)
 
-mesh.vector.div(v.f)
+mesh.vector.divergence(v.f)
 
 mesh.vector.gradient(p.f)
 

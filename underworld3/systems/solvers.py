@@ -54,7 +54,7 @@ class SNES_Poisson(SNES_Scalar):
         self._setup_problem_description = self.poisson_problem_description
 
         # default values for properties
-        self.f = 0.0
+        self.f = sympy.Matrix.zeros(1, 1)
         self.k = 1.0
 
 
@@ -82,7 +82,7 @@ class SNES_Poisson(SNES_Scalar):
     @f.setter
     def f(self, value):
         self.is_setup = False
-        self._f = sympify(value)
+        self._f = sympy.Matrix((value,))
     
     @property
     def k(self):
@@ -90,7 +90,7 @@ class SNES_Poisson(SNES_Scalar):
     @k.setter
     def k(self, value):
         self.is_setup = False
-        self._k = sympify(value)
+        self._k = value
    
 
 ######### 
@@ -392,7 +392,7 @@ class SNES_Stokes(SNES_SaddlePoint):
         # additional terms. These are pre-defined to be zero
 
         # terms that become part of the weighted integral
-        self._u_f0 = self.UF0 -self.bodyforce
+        self._u_f0 = self.UF0 - self.bodyforce
 
         # Integration by parts into the stiffness matrix
         self._u_f1 = self.UF1 + self.stress + self.penalty * self.div_u * sympy.eye(dim)
@@ -442,7 +442,7 @@ class SNES_Stokes(SNES_SaddlePoint):
         symval = sympify(value)
         # if not isinstance(symval, sympy.vector.Vector):
         #     raise RuntimeError("Body force term must be a vector quantity.")
-        self._bodyforce = symval
+        self._bodyforce = self.mesh.vector.to_matrix(symval)
 
     @property
     def penalty(self):
@@ -538,7 +538,7 @@ class SNES_Projection(SNES_Scalar):
         # F0 is left in place for the user to inject 
         # non-linear constraints if required
         
-        self._f0 = self.F0 + (self.u.fn - self.uw_function) * self.uw_weighting_function
+        self._f0 = self.F0 + (self.u.f - self.uw_function) * self.uw_weighting_function
 
         # F1 is left in the users control ... e.g to add other gradient constraints to the stiffness matrix
 
@@ -745,13 +745,13 @@ class SNES_Solenoidal_Vector_Projection(SNES_SaddlePoint):
         # F0 is left in place for the user to inject 
         # non-linear constraints if required
 
-        self._u_f0 = self.UF0 + (self.u.fn - self.uw_function) * self.uw_weighting_function
+        self._u_f0 = self.UF0 + (self.u.f - self.uw_function) * self.uw_weighting_function
 
         # Integration by parts into the stiffness matrix
         self._u_f1 = self.UF1  + self.smoothing * (sympy.Matrix(self._L) + sympy.Matrix(self._L).T) - self._constraint_field.fn * sympy.Matrix.eye(dim)
 
         # rhs in the constraint (pressure) equations
-        self._p_f0 = self.PF0  + divergence(self.u.fn)
+        self._p_f0 = self.PF0  + self.mesh.vector.divergence(self.u.f)
 
         return 
 

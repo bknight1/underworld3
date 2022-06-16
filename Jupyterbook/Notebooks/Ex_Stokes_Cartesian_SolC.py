@@ -54,30 +54,12 @@ stokes.petsc_options["fieldsplit_pressure_ksp_monitor"] = None
 stokes.petsc_options["snes_max_it"] = 10
 
 # %%
+BF = (mesh.vector.to_matrix(stokes.bodyforce))
+type(BF)
+
+# %%
 # Solve time
 stokes.solve()
-
-# %%
-stokes._uu_G3
-
-# %%
-stokes._u_f1
-
-# %%
-stokes._u_f1.reshape(4,1).jacobian(stokes._L.reshape(4,1))
-
-# %%
-ML = stokes._L.tomatrix()
-
-# %%
-
-# %%
-
-# %%
-L[1]
-
-# %%
-0/0
 
 # %%
 try:

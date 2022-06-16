@@ -183,6 +183,7 @@ def _createext(name:               str,
     # Note that the Heaviside implementation will be printed into all JIT 
     # files now. This is fine for now, but if more complex functions are 
     # required a cleaner solution might be desirable. 
+
     custom_functions = {
       "Heaviside": [ (lambda *args : len(args)==1, "Heaviside_1"),    # for single arg Heaviside  (defaults to 0.5 at jump).
                      (lambda *args : len(args)==2, "Heaviside_2")]    # for two arg Heavisides    (second arg is jump value).
@@ -211,7 +212,7 @@ def _createext(name:               str,
 
     eqns = []
     for index, fn in enumerate(fns):
-        print("Processing JIT {} / {}".format(index, fn))
+        ## print("Processing JIT {} / {}".format(index, fn))
         if isinstance(fn, sympy.vector.Vector):
             fn = fn.to_matrix(mesh.N)[0:mesh.dim,0]
         elif isinstance(fn, sympy.vector.Dyadic):
@@ -231,6 +232,9 @@ def _createext(name:               str,
                                f"This is usually because code generation for a Sympy function (or its derivative) is not supported.\n"
                                f"Please contact the developers.")
         eqns.append(eqn)
+
+
+
     MODNAME = "fn_ptr_ext_" + str(name)
 
     codeguys = []

@@ -88,10 +88,22 @@ darcy.add_dirichlet_bc( 0., "Top" )
 darcy._v_projector.smoothing=1.0e-6
 
 # %%
+
+# %%
 # Solve time
 darcy.solve()
 
 # %%
+darcy._v_projector._U
+
+F0 = darcy.mesh.vector.to_matrix(darcy._v_projector._f0)
+F0
+
+# %%
+sympy.derive_by_array(F0, darcy._v_projector._U).reshape(2,2)
+
+# %%
+darcy._v_projector._GG1.reshape(2,4)
 
 # %%
 
