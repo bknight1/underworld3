@@ -74,7 +74,6 @@ def test_vector_dot_product():
     result = uw.function.evaluate(var_vector1.fn.dot(var_vector2.fn),coords)
     assert np.allclose(11., result, rtol=1e-05, atol=1e-08)
 
-
 def test_many_many_scalar_mult_var():
     mesh = uw.util_mesh.StructuredQuadBox()
     # Note that this test fails for n>~15. Something something subdm segfault. 
@@ -149,7 +148,6 @@ def test_polynomial_mesh_var_sympy():
     assert np.allclose(tensor_product(degree, coords[:,0], coords[:,1]), uw.function.evaluate( tensor_product(degree, xvar.fn, yvar.fn) , coords ), rtol=1e-05, atol=1e-08)
     assert np.allclose(tensor_product(degree, coords[:,0], coords[:,1]), uw.function.evaluate( tensor_product(degree, xyvar.fn.dot(mesh.N.i), 
                                                                                                                          xyvar.fn.dot(mesh.N.j)) , coords ), rtol=1e-05, atol=1e-08)
-
 
 # NOTE THAT WE NEEDED TO DISABLE MESH HASHING FOR 3D MESH FOR SOME REASON.
 # CHECK `DMInterpolationSetUp_UW()` FOR DETAILS.

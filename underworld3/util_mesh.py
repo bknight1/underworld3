@@ -505,9 +505,6 @@ def Annulus(
 
     plex.removeLabel("Vertex Sets")     
 
-
-
-
     return Mesh(plex, degree=degree)
 
 
@@ -518,8 +515,8 @@ def CubicSphere(
         degree: int = 1):
 
     boundaries = {
-     "Lower": 1,
-     "Upper": 2}
+        "Lower": 1,
+        "Upper": 2}
 
     r1 = radiusInner / np.sqrt(3)
     r2 = radiusOuter / np.sqrt(3)

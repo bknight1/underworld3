@@ -36,7 +36,7 @@ def test_scalar_projection():
 
     # Prepare projection of swarm values onto the mesh nodes.
     scalar_projection = uw.systems.Projection(mesh, s_soln)
-    scalar_projection.uw_function = s_values.fn
+    scalar_projection.uw_function = s_values.f
     scalar_projection.smoothing = 1.0e-6
     scalar_projection.solve()
 
@@ -73,7 +73,7 @@ def test_vector_projection():
         v_values.data[:,1]  = uw.function.evaluate(s_fn_y, swarm.data)
 
     vector_projection = uw.systems.Vector_Projection(mesh, v_soln)
-    vector_projection.uw_function = v_values.fn
+    vector_projection.uw_function = v_values.f
     vector_projection.smoothing = 1.0e-3
     
     vector_projection.add_dirichlet_bc( (0.0,), "Right",  (0,) )

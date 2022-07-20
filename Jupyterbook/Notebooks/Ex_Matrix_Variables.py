@@ -39,8 +39,9 @@ mesh.r
 
 mesh.vector.to_vector(mesh.X)
 
-v = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
-p = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
+v  = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
+v2 = uw.mesh.MeshVariable('U2',   mesh,  mesh.dim, degree=2 )
+p  = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
 
 
 mesh.vector.to_matrix(v._ijk)
@@ -65,6 +66,8 @@ v.f.jacobian(mesh.X)
 
 # -
 
+VX
+
 p.f.jacobian(mesh.X)
 
 sympy.vector.divergence(v.fn)
@@ -75,8 +78,24 @@ sympy.vector.curl(mesh.vector.to_vector(v.f))
 
 mesh.vector.curl(v.f)
 
-mesh.vector.divergence(v.f)
+v.f.diff(y)[1]
+
+mesh.vector.divergence(v.f) == sympy.vector.divergence(v.fn)
 
 mesh.vector.gradient(p.f)
+
+v.f.dot(v.f)
+
+v.f.dot(v2.f)
+
+v.fn.dot(v2.fn)
+
+sympy.Matrix((p.f, p.f)).T + v.f
+
+mesh.X
+
+sympy.vector.gradient(p.fn)
+
+mesh.vector.to_matrix(sympy.vector.curl(v.fn))
 
 

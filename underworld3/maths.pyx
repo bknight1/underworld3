@@ -211,6 +211,7 @@ class mesh_vector_calculus:
         if self.mesh.dim == 3:
             return self.to_matrix(vector_curl)
         else:   
+            # if 2d, the out-of-plane vector is not defined in the basis so a scalar is returned (cf. vorticity)
             return vector_curl.dot(self.mesh.N.k)
         
     def divergence(self,matrix):
