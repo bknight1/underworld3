@@ -40,13 +40,13 @@ mesh3 = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0,0.0),
 ## two vectors and a scalar for testing
 v31 = uw.mesh.MeshVariable('U31', mesh3,  mesh3.dim, degree=2 ) 
 v32 = uw.mesh.MeshVariable('U32', mesh3,  mesh3.dim, degree=2 )
-p31 = uw.mesh.MeshVariable('P31', mesh3, 1, degree=1 )
+p31 = uw.mesh.MeshVariable('P31', mesh3, 1, degree=1 ) 
 
 # Validate the meshes / mesh variables
 
 # # Testing
 
-# +
+# + {"jupyter": {"source_hidden": true}}
 ## Tests required to run this notebook 
 
 m1_args = (mesh1,v11,v12,p11)
