@@ -222,7 +222,7 @@ class mesh_vector_calculus:
         scalar_div = sympy.vector.divergence(vector)
         return scalar_div
 
-    def gradient(self,scalar):
+    def gradient(self, scalar):
         """
         $\nabla \phi$
         """
@@ -260,3 +260,9 @@ class mesh_vector_calculus:
             matrix[0,i] = vector.dot(base_vectors[i])
 
         return matrix
+
+    def jacobian(self, vector):
+
+        jac = vector.diff(self.mesh.X).reshape(self.mesh.X.shape[1], vector.shape[1]).tomatrix().T
+
+        return jac

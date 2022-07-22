@@ -60,11 +60,18 @@ mesh.vector.to_vector(v.f)
 # Diff by array blows up a 1x3 by 1x3 into a 1,3,1,3 tensor rather than a 3x3 matrix 
 # and the 1 indices cannot be automatically removed 
 
-VX = sympy.derive_by_array(v.f, mesh.X).reshape(v.f.shape[1], mesh.X.shape[1]).tomatrix().T
-
+VX = sympy.derive_by_array(v.f, mesh.X).reshape(mesh.X.shape[1], v.f.shape[1]).tomatrix().T
 v.f.jacobian(mesh.X)
 
+
+# +
+VX1 = v.f.diff(mesh.X).reshape(mesh.X.shape[1], v.f.shape[1]).tomatrix().T
+
+
 # -
+
+PX = sympy.derive_by_array(p.f, mesh.X).reshape(mesh.X.shape[1], p.f.shape[1]).tomatrix().T
+PX
 
 VX
 
@@ -97,5 +104,11 @@ mesh.X
 sympy.vector.gradient(p.fn)
 
 mesh.vector.to_matrix(sympy.vector.curl(v.fn))
+
+v.gradient()
+
+p.gradient()
+
+p.divergence()
 
 

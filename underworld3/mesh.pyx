@@ -955,3 +955,28 @@ class MeshVariable(_api_tools.Stateful):
         The array of variable vertex coordinates. 
         """
         return self.mesh._get_coords_for_var(self)
+
+    # vector calculus routines - the advantage of using these inbuilt routines is
+    # that they are tied to the appropriate mesh definition. 
+
+    def divergence(self):
+        try:
+            return self.mesh.vector.divergence(self.f)    
+        except:
+            return None
+        
+    def gradient(self):
+        try:
+            return self.mesh.vector.gradient(self.f)
+        except:
+            return None
+
+    def curl(self):
+        try:
+            return self.mesh.vector.curl(self.f)
+        except:
+            return None
+
+    def jacobian(self):
+        ## validate if this is a vector ?
+        return self.mesh.vector.jacobian(self.f)
