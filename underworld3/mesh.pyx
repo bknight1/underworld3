@@ -729,6 +729,8 @@ class MeshVariable(_api_tools.Stateful):
             # Spatial vector form (2 vectors and 3 vectors according to mesh dim)
             if num_components==mesh.dim:
                 self._ijk = sympy.vector.matrix_to_vector(self._f, self.mesh.N)
+                # self.mesh.vector.to_vector(self._f)
+                
 
     
         super().__init__()

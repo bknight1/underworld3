@@ -15,6 +15,8 @@ import sympy
 from underworld3.util_mesh import UnstructuredSimplexBox
 
 # +
+## Set up the mesh(es) etc for tests and examples
+
 mesh = UnstructuredSimplexBox(minCoords=(0.0,0.0), 
                               maxCoords=(1.0,1.0), 
                               cellSize=1.0/32.0)
@@ -36,8 +38,7 @@ iv_values = uw.swarm.SwarmVariable("Vi", swarm, mesh.dim, proxy_degree=3)
 swarm.populate(fill_param=3)
 
 
-# -
-
+# +
 def test_scalar_projection():
 
     # The following test projects scalar values defined on a 
@@ -57,8 +58,6 @@ def test_scalar_projection():
     scalar_projection.solve()
 
     return
-
-
 
 def test_vector_projection():
 
@@ -84,9 +83,6 @@ def test_vector_projection():
 
     return
 
-
-
-# +
 def test_gradient_recovery():
 
     fn = sympy.cos(4.*sympy.pi * x)
@@ -97,8 +93,12 @@ def test_gradient_recovery():
     scalar_projection = uw.systems.Projection(mesh, gradient)
     scalar_projection.uw_function = s_soln.f.diff(x)
     scalar_projection.solve()
-    
-    
 # -
+
+
+
+
+
+
 
 

@@ -46,9 +46,10 @@ p31 = uw.mesh.MeshVariable('P31', mesh3, 1, degree=1 )
 
 # # Testing
 
-# + {"jupyter": {"source_hidden": true}}
+# +
 ## Tests required to run this notebook 
 
+# these are the parameters to pass pytest args
 m1_args = (mesh1,v11,v12,p11)
 m2_args = (mesh2,v21,v22,p21)
 m3_args = (mesh3,v31,v32,p31)
@@ -198,9 +199,27 @@ try:
 except AttributeError:
     print("")
     print("AttributeError: 'MeshVariable' object has no attribute 'ijk'")
+# +
+display(mesh1.vector.to_matrix(v11.ijk)) 
+display(mesh3.vector.to_matrix(v31.ijk)) 
+
+
 # -
 
 
+# There are some helper functions that convert between `sympy.matrix` form and `sympy.vector` form. The only thing to watch out for is that all 2D vectors in sympy.vector are 3D vectors with a zero out-of-plane component so not every valid operation in sympy.vector gives a correct round-trip conversion.
+
+mesh1.vector.to_vector(mesh1.vector.to_matrix(v11.ijk)) == v11.ijk
+
+V = mesh1.N.i + mesh1.N.j + mesh1.N.k  # V is a valid 2D vector from `sympy.vector`'s point of view
+M = mesh1.vector.to_matrix(V)
+mesh1.vector.to_vector(M)
+
+mesh1.vector.curl(v11.f)
+
+mesh3.vector.curl(v31.f)
+
+sympy.vector.curl(v31.ijk)
 
 # ## div, grad and curl
 #

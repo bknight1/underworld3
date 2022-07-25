@@ -62,13 +62,10 @@ mesh.vector.to_vector(v.f)
 
 VX = sympy.derive_by_array(v.f, mesh.X).reshape(mesh.X.shape[1], v.f.shape[1]).tomatrix().T
 v.f.jacobian(mesh.X)
-
-
-# +
-VX1 = v.f.diff(mesh.X).reshape(mesh.X.shape[1], v.f.shape[1]).tomatrix().T
-
-
 # -
+
+
+VX1 = v.f.diff(mesh.X).reshape(mesh.X.shape[1], v.f.shape[1]).tomatrix().T
 
 PX = sympy.derive_by_array(p.f, mesh.X).reshape(mesh.X.shape[1], p.f.shape[1]).tomatrix().T
 PX

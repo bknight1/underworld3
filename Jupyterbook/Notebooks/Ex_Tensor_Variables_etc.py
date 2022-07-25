@@ -66,6 +66,8 @@ material.f
 
 sympy.derive_by_array(material.f, meshbox.X)
 
+material.f.jacobian(meshbox.X).T
+
 sympy.derive_by_array(v_soln.f, meshbox.X)
 
 sympy.derive_by_array(sigma.f, meshbox.X)
