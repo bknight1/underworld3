@@ -167,7 +167,7 @@ class SNES_Darcy(SNES_Scalar):
     @f.setter
     def f(self, value):
         self.is_setup = False
-        self._f = sympify(value)
+        self._f = sympy.Matrix((value,))
     
     @property
     def k(self):
@@ -175,7 +175,8 @@ class SNES_Darcy(SNES_Scalar):
     @k.setter
     def k(self, value):
         self.is_setup = False
-        self._k = sympify(value)
+        #self._k = sympify(value)
+        self._k = value
    
     @property
     def s(self):

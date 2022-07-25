@@ -74,8 +74,6 @@ darcy = uw.systems.SteadyStateDarcy(mesh, u_Field=p_soln, v_Field=v_soln)
 darcy.petsc_options.delValue("ksp_monitor")
 
 # %%
-
-# %%
 # Set some things
 
 darcy.k = sympy.exp(-2.0*2.302585*(h_fn-y)) # powers of 10
@@ -86,8 +84,6 @@ darcy.add_dirichlet_bc( 0., "Top" )
 # Zero pressure gradient at sides / base (implied bc)
 
 darcy._v_projector.smoothing=1.0e-6
-
-# %%
 
 # %%
 # Solve time
@@ -103,6 +99,7 @@ F0
 sympy.derive_by_array(F0, darcy._v_projector._U).reshape(2,2)
 
 # %%
+# this is broken?
 darcy._v_projector._GG1.reshape(2,4)
 
 # %%
