@@ -46,13 +46,13 @@ p  = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
 
 mesh.vector.to_matrix(v._ijk)
 
-mesh.vector.to_matrix(v.f)
+mesh.vector.to_matrix(v.sym)
 
-vec = sympy.vector.matrix_to_vector(v.f, mesh.N)
+vec = sympy.vector.matrix_to_vector(v.sym, mesh.N)
 # check it 
 print(isinstance(vec, sympy.vector.Vector))
 
-mesh.vector.to_vector(v.f)
+mesh.vector.to_vector(v.sym)
 
 # +
 # This is the way to get back to a matrix after diff by array for two row vectors (yuck)
@@ -60,41 +60,41 @@ mesh.vector.to_vector(v.f)
 # Diff by array blows up a 1x3 by 1x3 into a 1,3,1,3 tensor rather than a 3x3 matrix 
 # and the 1 indices cannot be automatically removed 
 
-VX = sympy.derive_by_array(v.f, mesh.X).reshape(mesh.X.shape[1], v.f.shape[1]).tomatrix().T
-v.f.jacobian(mesh.X)
+VX = sympy.derive_by_array(v.sym, mesh.X).reshape(mesh.X.shape[1], v.sym.shape[1]).tomatrix().T
+v.sym.jacobian(mesh.X)
 # -
 
 
-VX1 = v.f.diff(mesh.X).reshape(mesh.X.shape[1], v.f.shape[1]).tomatrix().T
+VX1 = v.sym.diff(mesh.X).reshape(mesh.X.shape[1], v.sym.shape[1]).tomatrix().T
 
-PX = sympy.derive_by_array(p.f, mesh.X).reshape(mesh.X.shape[1], p.f.shape[1]).tomatrix().T
+PX = sympy.derive_by_array(p.sym, mesh.X).reshape(mesh.X.shape[1], p.sym.shape[1]).tomatrix().T
 PX
 
 VX
 
-p.f.jacobian(mesh.X)
+p.sym.jacobian(mesh.X)
 
 sympy.vector.divergence(v.fn)
 
-sympy.vector.divergence(mesh.vector.to_vector(v.f))
+sympy.vector.divergence(mesh.vector.to_vector(v.sym))
 
-sympy.vector.curl(mesh.vector.to_vector(v.f))
+sympy.vector.curl(mesh.vector.to_vector(v.sym))
 
-mesh.vector.curl(v.f)
+mesh.vector.curl(v.sym)
 
-v.f.diff(y)[1]
+v.sym.diff(y)[1]
 
-mesh.vector.divergence(v.f) == sympy.vector.divergence(v.fn)
+mesh.vector.divergence(v.sym) == sympy.vector.divergence(v.fn)
 
-mesh.vector.gradient(p.f)
+mesh.vector.gradient(p.sym)
 
-v.f.dot(v.f)
+v.sym.dot(v.sym)
 
-v.f.dot(v2.f)
+v.sym.dot(v2.sym)
 
 v.fn.dot(v2.fn)
 
-sympy.Matrix((p.f, p.f)).T + v.f
+sympy.Matrix((p.sym, p.sym)).T + v.sym
 
 mesh.X
 

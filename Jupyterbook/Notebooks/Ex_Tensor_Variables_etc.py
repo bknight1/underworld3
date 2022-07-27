@@ -68,9 +68,7 @@ sympy.derive_by_array(material.f, meshbox.X)
 
 material.f.jacobian(meshbox.X).T
 
-sympy.derive_by_array(v_soln.f, meshbox.X)
-
-sympy.derive_by_array(sigma.f, meshbox.X)
+sympy.derive_by_array(v_soln.sym, meshbox.X)
 
 mat_density = np.array([1,10,100,1000])
 density = mat_density[0] * material.f[0] + mat_density[1] * material.f[1] + \

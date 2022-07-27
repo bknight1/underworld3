@@ -28,13 +28,13 @@ gradT  = uw.mesh.MeshVariable("gradT",mesh, mesh.dim, degree=2 )
 
 
 gradient = uw.systems.Projection(mesh, dTdX)
-gradient.uw_function = sympy.diff(t_soln.f, mesh.N.x)
+gradient.uw_function = sympy.diff(t_soln.sym, mesh.N.x)
 gradient.smoothing = 1.0e-3
 
 # These are both SNES Scalar objects
 
 gradT_projector = uw.systems.Vector_Projection(mesh, gradT)
-gradT_projector.uw_function = mesh.vector.gradient(t_soln.f)
+gradT_projector.uw_function = mesh.vector.gradient(t_soln.sym)
 
 poisson = uw.systems.Poisson(mesh, u_Field=t_soln)
 
@@ -63,7 +63,7 @@ gradT_projector.solve()
 gradient.petsc_fe_u.view()
 
 # %%
-gradient.uw_function = sympy.diff(t_soln.f, mesh.N.x)
+gradient.uw_function = sympy.diff(t_soln.sym, mesh.N.x)
 gradient.solve()
 
 # %%
@@ -83,7 +83,7 @@ gradT_projector.solve()
 # above config.  Exclude boundaries from mesh data. 
 import numpy as np
 with mesh.access():
-    mesh_numerical_soln = uw.function.evaluate(gradient.u.f[0], mesh.data)
+    mesh_numerical_soln = uw.function.evaluate(gradient.u.sym[0], mesh.data)
     # if not np.allclose(mesh_numerical_soln, -1.0, rtol=0.01):
     #     raise RuntimeError("Unexpected values encountered.")
 
@@ -132,7 +132,7 @@ with mesh.access(t_soln):
 gradient.solve()
 
 # %%
-uw.function.evaluate(gradient.u.f[0], mesh.data)
+uw.function.evaluate(gradient.u.sym[0], mesh.data)
 
 # %%
 uw.function.evaluate(sympy.sin(mesh.N.x * np.pi), poisson.u.coords)

@@ -69,7 +69,7 @@ display(poisson._f1)
 
 poisson._L
 
-poisson.u.f.jacobian(poisson._L)
+poisson.u.sym.jacobian(poisson._L)
 
 poisson._f1.jacobian(poisson._L)
 
