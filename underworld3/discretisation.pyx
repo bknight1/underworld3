@@ -303,7 +303,7 @@ class Mesh(_api_tools.Stateful):
         Example
         -------
         >>> import underworld3 as uw
-        >>> someMesh = uw.mesh.FeMesh_Cartesian()
+        >>> someMesh = uw.discretisation.FeMesh_Cartesian()
         >>> with someMesh.deform_mesh():
         ...     someMesh.data[0] = [0.1,0.1]
         >>> someMesh.data[0]

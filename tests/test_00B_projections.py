@@ -23,9 +23,9 @@ mesh = UnstructuredSimplexBox(minCoords=(0.0,0.0),
 
 x,y = mesh.X
 
-s_soln  = uw.mesh.MeshVariable("T",    mesh,  1,            degree=2 )
-v_soln  = uw.mesh.MeshVariable('U',    mesh,  mesh.dim,  degree=2 )
-gradient = uw.mesh.MeshVariable("dTdx", mesh, 1, degree=1)
+s_soln  = uw.discretisation.MeshVariable("T",    mesh,  1,            degree=2 )
+v_soln  = uw.discretisation.MeshVariable('U',    mesh,  mesh.dim,  degree=2 )
+gradient = uw.discretisation.MeshVariable("dTdx", mesh, 1, degree=1)
 
 
 

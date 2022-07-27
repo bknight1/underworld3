@@ -42,9 +42,9 @@ y = meshbox.N.y
 z = meshbox.N.z
 # -
 
-s_soln  = uw.mesh.MeshVariable("T",    meshbox,  1,            degree=2 )
-v_soln  = uw.mesh.MeshVariable('U',    meshbox,  meshbox.dim,  degree=2 )
-iv_soln = uw.mesh.MeshVariable('IU',   meshbox,  meshbox.dim,  degree=2 )
+s_soln  = uw.discretisation.MeshVariable("T",    meshbox,  1,            degree=2 )
+v_soln  = uw.discretisation.MeshVariable('U',    meshbox,  meshbox.dim,  degree=2 )
+iv_soln = uw.discretisation.MeshVariable('IU',   meshbox,  meshbox.dim,  degree=2 )
 
 s_fn = sympy.cos(5.0*sympy.pi * x) * sympy.cos(5.0*sympy.pi * y)
 sv_fn = sympy.vector.curl(v_soln.fn)

@@ -24,8 +24,8 @@ mesh = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0),
                                            maxCoords=(4.0,1.0), 
                                            cellSize=0.05) 
 
-p_soln  = uw.mesh.MeshVariable('P',   mesh, 1, degree=3 )
-v_soln  = uw.mesh.MeshVariable('U',  mesh, mesh.dim,  degree=2 )
+p_soln  = uw.discretisation.MeshVariable('P',   mesh, 1, degree=3 )
+v_soln  = uw.discretisation.MeshVariable('U',  mesh, mesh.dim,  degree=2 )
 
 
 # %%

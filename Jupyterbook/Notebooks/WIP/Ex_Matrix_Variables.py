@@ -39,9 +39,9 @@ mesh.r
 
 mesh.vector.to_vector(mesh.X)
 
-v  = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
-v2 = uw.mesh.MeshVariable('U2',   mesh,  mesh.dim, degree=2 )
-p  = uw.mesh.MeshVariable('P',    mesh, 1, degree=1 )
+v  = uw.discretisation.MeshVariable('U',    mesh,  mesh.dim, degree=2 )
+v2 = uw.discretisation.MeshVariable('U2',   mesh,  mesh.dim, degree=2 )
+p  = uw.discretisation.MeshVariable('P',    mesh, 1, degree=1 )
 
 
 mesh.vector.to_matrix(v._ijk)

@@ -1,4 +1,4 @@
-# # Cookbook: examples for uw.mesh.vector 
+# # Cookbook: examples for uw.discretisation.vector 
 #
 # ## Vector calculus module
 #
@@ -21,26 +21,26 @@ mesh1 = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0),
 
 
 ## two vectors and a scalar for testing
-v11 = uw.mesh.MeshVariable('U11', mesh1,  mesh1.dim, degree=2 ) 
-v12 = uw.mesh.MeshVariable('U12', mesh1,  mesh1.dim, degree=2 )
-v13 = uw.mesh.MeshVariable('U13', mesh1,  num_components=3, degree=2, vtype=uw.VarType.VECTOR)  # e.g. stress components
-p11 = uw.mesh.MeshVariable('P11', mesh1, 1, degree=1 )
+v11 = uw.discretisation.MeshVariable('U11', mesh1,  mesh1.dim, degree=2 ) 
+v12 = uw.discretisation.MeshVariable('U12', mesh1,  mesh1.dim, degree=2 )
+v13 = uw.discretisation.MeshVariable('U13', mesh1,  num_components=3, degree=2, vtype=uw.VarType.VECTOR)  # e.g. stress components
+p11 = uw.discretisation.MeshVariable('P11', mesh1, 1, degree=1 )
 
 
 mesh2 = uw.util_mesh.Annulus(radiusOuter=1.0, radiusInner=0.0, cellSize=0.2)
 
-v21 = uw.mesh.MeshVariable('U21', mesh2,  mesh2.dim, degree=2 )
-v22 = uw.mesh.MeshVariable('U22', mesh2,  mesh2.dim, degree=2 )
-p21 = uw.mesh.MeshVariable('P21', mesh2,  1, degree=1 )
+v21 = uw.discretisation.MeshVariable('U21', mesh2,  mesh2.dim, degree=2 )
+v22 = uw.discretisation.MeshVariable('U22', mesh2,  mesh2.dim, degree=2 )
+p21 = uw.discretisation.MeshVariable('P21', mesh2,  1, degree=1 )
 
 mesh3 = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0,0.0), 
                                             maxCoords=(1.0,1.0,1.0), 
                                             cellSize=1.0/8.0)
 
 ## two vectors and a scalar for testing
-v31 = uw.mesh.MeshVariable('U31', mesh3,  mesh3.dim, degree=2 ) 
-v32 = uw.mesh.MeshVariable('U32', mesh3,  mesh3.dim, degree=2 )
-p31 = uw.mesh.MeshVariable('P31', mesh3, 1, degree=1 ) 
+v31 = uw.discretisation.MeshVariable('U31', mesh3,  mesh3.dim, degree=2 ) 
+v32 = uw.discretisation.MeshVariable('U32', mesh3,  mesh3.dim, degree=2 )
+p31 = uw.discretisation.MeshVariable('P31', mesh3, 1, degree=1 ) 
 
 # Validate the meshes / mesh variables
 

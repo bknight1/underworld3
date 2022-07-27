@@ -56,11 +56,11 @@ def getext(mesh, fns_residual, fns_jacobian, fns_bcs, primary_field_list):
 
 @timing.routine_timer_decorator
 def _createext(name:               str, 
-               mesh:               underworld3.mesh.Mesh,
+               mesh:               underworld3.discretisation.Mesh,
                fns_residual:       List[sympy.Basic], 
                fns_jacobian:       List[sympy.Basic],
                fns_bcs:            List[sympy.Basic],
-               primary_field_list: List[underworld3.mesh.MeshVariable]):
+               primary_field_list: List[underworld3.discretisation.MeshVariable]):
     """
     This creates the required extension which houses the JIT
     fn pointer for PETSc. 

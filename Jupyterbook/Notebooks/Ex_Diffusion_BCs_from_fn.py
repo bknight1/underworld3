@@ -61,7 +61,7 @@ mesh = uw.util_mesh.Annulus(radiusOuter=1.0,
 
 mesh.dm.view()
 
-t_soln = uw.mesh.MeshVariable("T", mesh, 1, degree=3)
+t_soln = uw.discretisation.MeshVariable("T", mesh, 1, degree=3)
 
 # +
 # check the mesh if in a notebook / serial
@@ -101,7 +101,7 @@ poisson = uw.systems.Poisson(mesh, u_Field=t_soln,
 poisson.k = k
 poisson.f = 0.0
 
-bcs_var = uw.mesh.MeshVariable("bcs", mesh, 1)
+bcs_var = uw.discretisation.MeshVariable("bcs", mesh, 1)
 
 # +
 import sympy

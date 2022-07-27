@@ -137,9 +137,9 @@ unit_rvec = mesh.rvec / (1.0e-10+radius_fn)
 r  = sympy.sqrt(x**2+y**2) 
 th = sympy.atan2(y+1.0e-10,x+1.0e-10)
 
-v_soln   = uw.mesh.MeshVariable('U', mesh, mesh.dim, degree=2 )
-p_soln   = uw.mesh.MeshVariable('P', mesh, 1, degree=1 )
-t_soln   = uw.mesh.MeshVariable("T", mesh, 1, degree=3 )
+v_soln   = uw.discretisation.MeshVariable('U', mesh, mesh.dim, degree=2 )
+p_soln   = uw.discretisation.MeshVariable('P', mesh, 1, degree=1 )
+t_soln   = uw.discretisation.MeshVariable("T", mesh, 1, degree=3 )
 
 swarm = uw.swarm.Swarm(mesh=mesh)
 v_star     = uw.swarm.SwarmVariable("Vs", swarm, mesh.dim, proxy_degree=2)
@@ -180,7 +180,7 @@ x = mesh.N.x
 y = mesh.N.y
 z = mesh.N.z
 
-meshvar   = uw.mesh.MeshVariable("phi", mesh, 1, degree=3 )
+meshvar   = uw.discretisation.MeshVariable("phi", mesh, 1, degree=3 )
 
 I = uw.maths.Integral(mesh, 1)
 print(I.evaluate())  # 4/3 * pi

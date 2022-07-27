@@ -22,8 +22,8 @@ class SNES_Poisson(SNES_Scalar):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh     : uw.mesh.Mesh, 
-                 u_Field  : uw.mesh.MeshVariable = None, 
+                 mesh     : uw.discretisation.Mesh, 
+                 u_Field  : uw.discretisation.MeshVariable = None, 
                  degree     = 2,
                  solver_name: str = "",
                  verbose    = False):
@@ -102,9 +102,9 @@ class SNES_Darcy(SNES_Scalar):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh     : uw.mesh.Mesh, 
-                 u_Field  : uw.mesh.MeshVariable, 
-                 v_Field  : uw.mesh.MeshVariable,
+                 mesh     : uw.discretisation.Mesh, 
+                 u_Field  : uw.discretisation.MeshVariable, 
+                 v_Field  : uw.discretisation.MeshVariable,
                  solver_name: str = "",
                  verbose    = False):
 
@@ -249,9 +249,9 @@ class SNES_Stokes(SNES_SaddlePoint):
     instances = 0
 
     def __init__(self, 
-                 mesh          : uw.mesh.Mesh, 
-                 velocityField : Optional[uw.mesh.MeshVariable] =None,
-                 pressureField : Optional[uw.mesh.MeshVariable] =None,
+                 mesh          : uw.discretisation.Mesh, 
+                 velocityField : Optional[uw.discretisation.MeshVariable] =None,
+                 pressureField : Optional[uw.discretisation.MeshVariable] =None,
                  u_degree      : Optional[int]                           =2, 
                  p_degree      : Optional[int]                           =None,
                  p_continous   : Optional[bool]                          =True,
@@ -502,8 +502,8 @@ class SNES_Projection(SNES_Scalar):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh     : uw.mesh.Mesh, 
-                 u_Field  : uw.mesh.MeshVariable = None, 
+                 mesh     : uw.discretisation.Mesh, 
+                 u_Field  : uw.discretisation.MeshVariable = None, 
                  solver_name: str = "",
                  verbose    = False):
 
@@ -595,8 +595,8 @@ class SNES_Vector_Projection(SNES_Vector):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh     : uw.mesh.Mesh, 
-                 u_Field  : uw.mesh.MeshVariable = None, 
+                 mesh     : uw.discretisation.Mesh, 
+                 u_Field  : uw.discretisation.MeshVariable = None, 
                  solver_name: str = "",
                  verbose    = False):
 
@@ -703,8 +703,8 @@ class SNES_Solenoidal_Vector_Projection(SNES_SaddlePoint):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh     : uw.mesh.Mesh, 
-                 u_Field  : uw.mesh.MeshVariable = None, 
+                 mesh     : uw.discretisation.Mesh, 
+                 u_Field  : uw.discretisation.MeshVariable = None, 
                  solver_name: str = "",
                  verbose    = False):
 
@@ -714,7 +714,7 @@ class SNES_Solenoidal_Vector_Projection(SNES_SaddlePoint):
         if solver_name == "":
             solver_name = "iVProj{}_".format(self.instances)
 
-        self._constraint_field = uw.mesh.MeshVariable( mesh=mesh, num_components=1, name="VSP_p{}".format(self.instances), vtype=uw.VarType.SCALAR, degree=u_Field.degree-1 )
+        self._constraint_field = uw.discretisation.MeshVariable( mesh=mesh, num_components=1, name="VSP_p{}".format(self.instances), vtype=uw.VarType.SCALAR, degree=u_Field.degree-1 )
 
         super().__init__(mesh, 
                          u_Field,
@@ -802,9 +802,9 @@ class SNES_AdvectionDiffusion_SLCN(SNES_Poisson):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh       : uw.mesh.Mesh, 
-                 u_Field    : uw.mesh.MeshVariable = None, 
-                 V_Field    : uw.mesh.MeshVariable = None, 
+                 mesh       : uw.discretisation.Mesh, 
+                 u_Field    : uw.discretisation.MeshVariable = None, 
+                 V_Field    : uw.discretisation.MeshVariable = None, 
                  degree     : int  = 2,
                  theta      : float = 0.5,
                  solver_name: str = "",
@@ -1008,8 +1008,8 @@ class SNES_AdvectionDiffusion_Swarm(SNES_Poisson):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh       : uw.mesh.Mesh, 
-                 u_Field    : uw.mesh.MeshVariable = None, 
+                 mesh       : uw.discretisation.Mesh, 
+                 u_Field    : uw.discretisation.MeshVariable = None, 
                  u_Star_fn  = None, # uw.function.UnderworldFunction = None,
                  degree     : int  = 2,
                  theta      : float = 0.5,
@@ -1040,7 +1040,7 @@ class SNES_AdvectionDiffusion_Swarm(SNES_Poisson):
         if projection:
             # set up a projection solver 
 
-            self._u_star_projected = uw.mesh.MeshVariable("uStar{}".format(self.instances), self.mesh, 1, degree=degree)
+            self._u_star_projected = uw.discretisation.MeshVariable("uStar{}".format(self.instances), self.mesh, 1, degree=degree)
             self._u_star_projector = uw.systems.solvers.SNES_Projection(self.mesh, self._u_star_projected )
 
             # If we add smoothing, it should be small relative to actual diffusion (self.k)
@@ -1168,9 +1168,9 @@ class SNES_NavierStokes_Swarm(SNES_Stokes):
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh            : uw.mesh.Mesh, 
-                 velocityField   : uw.mesh.MeshVariable = None,
-                 pressureField   : uw.mesh.MeshVariable = None,
+                 mesh            : uw.discretisation.Mesh, 
+                 velocityField   : uw.discretisation.MeshVariable = None,
+                 pressureField   : uw.discretisation.MeshVariable = None,
                  velocityStar_fn = None, # uw.function.UnderworldFunction = None,
                  u_degree        : Optional[int]                           = 2, 
                  p_degree        : Optional[int]                           = None,
@@ -1212,7 +1212,7 @@ class SNES_NavierStokes_Swarm(SNES_Stokes):
 
         if projection:
             # set up a projection solver 
-            self._u_star_projected = uw.mesh.MeshVariable("uStar{}".format(self.instances), self.mesh, self.mesh.dim, degree=u_degree)
+            self._u_star_projected = uw.discretisation.MeshVariable("uStar{}".format(self.instances), self.mesh, self.mesh.dim, degree=u_degree)
             self._u_star_projector = uw.systems.solvers.SNES_Vector_Projection(self.mesh, self._u_star_projected )
 
             # If we add smoothing, it should be small relative to actual diffusion (self.viscosity)

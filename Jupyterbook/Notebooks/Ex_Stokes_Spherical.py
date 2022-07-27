@@ -63,7 +63,7 @@ density
 
 # %%
 # Write density into a variable for saving
-densvar = uw.mesh.MeshVariable("density",mesh,1)
+densvar = uw.discretisation.MeshVariable("density",mesh,1)
 with mesh.access(densvar):
     densvar.data[:,0] = uw.function.evaluate(density,densvar.coords)
 
@@ -111,7 +111,7 @@ density
 
 # %%
 # Write density into a variable for saving
-densvar = uw.mesh.MeshVariable("density",mesh,1)
+densvar = uw.discretisation.MeshVariable("density",mesh,1)
 with mesh.access(densvar):
     densvar.data[:,0] = uw.function.evaluate(density,densvar.coords)
 

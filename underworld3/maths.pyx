@@ -34,7 +34,7 @@ class Integral:
 
     >>> import underworld3 as uw
     >>> import numpy as np
-    >>> mesh = uw.mesh.Box()
+    >>> mesh = uw.discretisation.Box()
     >>> volumeIntegral = uw.maths.Integral(mesh=mesh, fn=1.)
     >>> np.allclose( 1., volumeIntegral.evaluate(), rtol=1e-8)
     True
@@ -42,7 +42,7 @@ class Integral:
     
     @timing.routine_timer_decorator
     def __init__( self,
-                  mesh:  underworld3.mesh.Mesh,
+                  mesh:  underworld3.discretisation.Mesh,
                   fn:    Union[float, int, sympy.Basic] ):
 
         self.mesh = mesh
@@ -130,7 +130,7 @@ class CellWiseIntegral:
 
     >>> import underworld3 as uw
     >>> import numpy as np
-    >>> mesh = uw.mesh.Box()
+    >>> mesh = uw.discretisation.Box()
     >>> volumeIntegral = uw.maths.Integral(mesh=mesh, fn=1.)
     >>> np.allclose( 1., volumeIntegral.evaluate(), rtol=1e-8)
     True
@@ -138,7 +138,7 @@ class CellWiseIntegral:
     
     @timing.routine_timer_decorator
     def __init__( self,
-                  mesh:  underworld3.mesh.Mesh,
+                  mesh:  underworld3.discretisation.Mesh,
                   fn:    Union[float, int, sympy.Basic] ):
 
         self.mesh = mesh

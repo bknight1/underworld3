@@ -40,7 +40,7 @@ def test_non_uw_variable_sine():
 
 def test_single_scalar_variable():
     mesh = uw.util_mesh.StructuredQuadBox()
-    var  = uw.mesh.MeshVariable(name="var", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
+    var  = uw.discretisation.MeshVariable(name="var", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
     with mesh.access(var):
         var.data[:]=1.1
     result = fn.evaluate(var.fn,coords)
@@ -48,7 +48,7 @@ def test_single_scalar_variable():
 
 def test_single_vector_variable():
     mesh = uw.util_mesh.StructuredQuadBox()
-    var  = uw.mesh.MeshVariable(name="var", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
+    var  = uw.discretisation.MeshVariable(name="var", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
     with mesh.access(var):
         var.data[:]=(1.1,1.2)
     result = uw.function.evaluate(var.fn,coords)
@@ -56,8 +56,8 @@ def test_single_vector_variable():
    
 def test_scalar_vector_mult():
     mesh = uw.util_mesh.StructuredQuadBox()
-    var_scalar  = uw.mesh.MeshVariable(name="var_scalar", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
-    var_vector  = uw.mesh.MeshVariable(name="var_vector", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
+    var_scalar  = uw.discretisation.MeshVariable(name="var_scalar", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
+    var_vector  = uw.discretisation.MeshVariable(name="var_vector", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
     with mesh.access(var_scalar, var_vector):
         var_scalar.data[:]=3.
         var_vector.data[:]=(4.,5.)
@@ -66,8 +66,8 @@ def test_scalar_vector_mult():
 
 def test_vector_dot_product():
     mesh = uw.util_mesh.StructuredQuadBox()
-    var_vector1  = uw.mesh.MeshVariable(name="var_vector1", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
-    var_vector2  = uw.mesh.MeshVariable(name="var_vector2", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
+    var_vector1  = uw.discretisation.MeshVariable(name="var_vector1", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
+    var_vector2  = uw.discretisation.MeshVariable(name="var_vector2", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
     with mesh.access(var_vector1, var_vector2):
         var_vector1.data[:]=(1.,2.)
         var_vector2.data[:]=(3.,4.)
@@ -81,7 +81,7 @@ def test_many_many_scalar_mult_var():
     nn=15
     vars = []
     for i in range(nn):
-        vars.append( uw.mesh.MeshVariable(name=f"var_{i}", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR) )
+        vars.append( uw.discretisation.MeshVariable(name=f"var_{i}", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR) )
     factorial = 1.
     with mesh.access(*vars):
         for i, var in enumerate(vars):
@@ -103,7 +103,7 @@ def test_polynomial_mesh_var_degree():
 
     # Create required vars of different degree.
     for degree in range(maxdegree+1):
-        vars.append( uw.mesh.MeshVariable(name="var"+str(degree), mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR, degree=degree ) )
+        vars.append( uw.discretisation.MeshVariable(name="var"+str(degree), mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR, degree=degree ) )
 
     # Set variable data to represent polynomial function.
     with mesh.access(*vars):
@@ -135,9 +135,9 @@ def test_polynomial_sympy():
 # another time using (xyvar[0], xyvar[1]).
 def test_polynomial_mesh_var_sympy():
     mesh = uw.util_mesh.StructuredQuadBox()
-    xvar = uw.mesh.MeshVariable(name="xvar", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
-    yvar = uw.mesh.MeshVariable(name="yvar", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
-    xyvar = uw.mesh.MeshVariable(name="xyvar", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
+    xvar = uw.discretisation.MeshVariable(name="xvar", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
+    yvar = uw.discretisation.MeshVariable(name="yvar", mesh=mesh, num_components=1, vtype=uw.VarType.SCALAR )
+    xyvar = uw.discretisation.MeshVariable(name="xyvar", mesh=mesh, num_components=2, vtype=uw.VarType.VECTOR )
     with mesh.access(xvar,yvar,xyvar):
         # Note that all the `coords` arrays should actually reduce to an identical array,
         # as all vars have identical degree and layout.
@@ -164,8 +164,8 @@ def test_3d_cross_product():
     # Now mesh and vars etc. 
     mesh = uw.util_mesh.StructuredQuadBox(elementRes=(4,)*3)
     name = "vector cross product test"
-    var_vector1  = uw.mesh.MeshVariable(name="var_vector1", mesh=mesh, num_components=3, vtype=uw.VarType.VECTOR )
-    var_vector2  = uw.mesh.MeshVariable(name="var_vector2", mesh=mesh, num_components=3, vtype=uw.VarType.VECTOR )
+    var_vector1  = uw.discretisation.MeshVariable(name="var_vector1", mesh=mesh, num_components=3, vtype=uw.VarType.VECTOR )
+    var_vector2  = uw.discretisation.MeshVariable(name="var_vector2", mesh=mesh, num_components=3, vtype=uw.VarType.VECTOR )
     with mesh.access(var_vector1, var_vector2):
         var_vector1.data[:]=(1.,2.,3.)
         var_vector2.data[:]=(4.,5.,6.)

@@ -22,8 +22,8 @@ class SNES_Scalar:
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh     : uw.mesh.Mesh, 
-                 u_Field  : uw.mesh.MeshVariable = None, 
+                 mesh     : uw.discretisation.Mesh, 
+                 u_Field  : uw.discretisation.MeshVariable = None, 
                  degree     = 2,
                  solver_name: str = "",
                  verbose    = False):
@@ -56,7 +56,7 @@ class SNES_Scalar:
 
         ## Todo: some validity checking on the size / type of u_Field supplied
         if not u_Field:
-            self._u = uw.mesh.MeshVariable( mesh=mesh, num_components=1, name="Us{}".format(SNES_Scalar.instances),
+            self._u = uw.discretisation.MeshVariable( mesh=mesh, num_components=1, name="Us{}".format(SNES_Scalar.instances),
                                             vtype=uw.VarType.SCALAR, degree=degree )
         else:
             self._u = u_Field
@@ -379,8 +379,8 @@ class SNES_Vector:
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh     : uw.mesh.Mesh, 
-                 u_Field  : uw.mesh.MeshVariable = None, 
+                 mesh     : uw.discretisation.Mesh, 
+                 u_Field  : uw.discretisation.MeshVariable = None, 
                  degree     = 2,
                  solver_name: str = "",
                  verbose    = False):
@@ -411,7 +411,7 @@ class SNES_Vector:
 
         ## Todo: some validity checking on the size / type of u_Field supplied
         if not u_Field:
-            self._u = uw.mesh.MeshVariable( mesh=mesh, num_components=mesh.dim, name="Uv{}".format(SNES_Scalar.instances),
+            self._u = uw.discretisation.MeshVariable( mesh=mesh, num_components=mesh.dim, name="Uv{}".format(SNES_Scalar.instances),
                                             vtype=uw.VarType.SCALAR, degree=degree )
         else:
             self._u = u_Field
@@ -733,9 +733,9 @@ class SNES_SaddlePoint:
 
     @timing.routine_timer_decorator
     def __init__(self, 
-                 mesh          : underworld3.mesh.Mesh, 
-                 velocityField : Optional[underworld3.mesh.MeshVariable] =None,
-                 pressureField : Optional[underworld3.mesh.MeshVariable] =None,
+                 mesh          : underworld3.discretisation.Mesh, 
+                 velocityField : Optional[underworld3.discretisation.MeshVariable] =None,
+                 pressureField : Optional[underworld3.discretisation.MeshVariable] =None,
                  u_degree      : Optional[int]                           =2, 
                  p_degree      : Optional[int]                           =None,
                  p_continuous  : Optional[bool]                          =True,
@@ -858,8 +858,8 @@ class SNES_SaddlePoint:
                 p_degree = u_degree - 1
 
             # create public velocity/pressure variables
-            self._u = uw.mesh.MeshVariable( mesh=mesh, num_components=mesh.dim, name="usp_{}".format(self.instances), vtype=uw.VarType.VECTOR, degree=u_degree )
-            self._p = uw.mesh.MeshVariable( mesh=mesh, num_components=1,        name="psp_{}".format(self.instances), vtype=uw.VarType.SCALAR, degree=p_degree )
+            self._u = uw.discretisation.MeshVariable( mesh=mesh, num_components=mesh.dim, name="usp_{}".format(self.instances), vtype=uw.VarType.VECTOR, degree=u_degree )
+            self._p = uw.discretisation.MeshVariable( mesh=mesh, num_components=1,        name="psp_{}".format(self.instances), vtype=uw.VarType.SCALAR, degree=p_degree )
         else:
             self._u = velocityField
             self._p = pressureField

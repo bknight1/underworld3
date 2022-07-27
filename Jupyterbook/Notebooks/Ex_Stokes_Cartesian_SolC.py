@@ -27,8 +27,8 @@ mesh.dm.view()
 
 
 # %%
-v = uw.mesh.MeshVariable('U',    mesh,  mesh.dim, degree=1 )
-p = uw.mesh.MeshVariable('P',    mesh, 1, degree=0 )
+v = uw.discretisation.MeshVariable('U',    mesh,  mesh.dim, degree=1 )
+p = uw.discretisation.MeshVariable('P',    mesh, 1, degree=0 )
 
 stokes = uw.systems.Stokes(mesh, velocityField=v, pressureField=p )
 

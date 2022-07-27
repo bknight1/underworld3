@@ -18,9 +18,9 @@ mesh = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0),
 # %%
 # mesh variables
 
-t_soln = uw.mesh.MeshVariable("T", mesh, 1, degree=3 )
-dTdX   = uw.mesh.MeshVariable("dTdX", mesh, 1, degree=2 )
-gradT  = uw.mesh.MeshVariable("gradT",mesh, mesh.dim, degree=2 )
+t_soln = uw.discretisation.MeshVariable("T", mesh, 1, degree=3 )
+dTdX   = uw.discretisation.MeshVariable("dTdX", mesh, 1, degree=2 )
+gradT  = uw.discretisation.MeshVariable("gradT",mesh, mesh.dim, degree=2 )
 
 
 # %%

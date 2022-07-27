@@ -34,8 +34,8 @@ mesh = uw.util_mesh.UnstructuredSimplexBox(minCoords=(minX,minY),
 #                                       maxCoords=(maxX,maxY),)
 
 
-p_soln  = uw.mesh.MeshVariable('P',   mesh, 1, degree=5 )
-v_soln  = uw.mesh.MeshVariable('U',   mesh, mesh.dim,  degree=1 )
+p_soln  = uw.discretisation.MeshVariable('P',   mesh, 1, degree=5 )
+v_soln  = uw.discretisation.MeshVariable('U',   mesh, mesh.dim,  degree=1 )
 
 # x and y coordinates
 x = mesh.N.x

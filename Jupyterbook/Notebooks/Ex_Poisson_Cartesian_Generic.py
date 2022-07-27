@@ -30,8 +30,8 @@ mesh = UnstructuredSimplexBox(minCoords=(0.0,0.0),
                               regular=True,
                               cellSize=1.0/32) 
 
-t_soln   = uw.mesh.MeshVariable("T", mesh, 1, degree=1 )
-t_soln0  = uw.mesh.MeshVariable("T0", mesh, 1, degree=1 )
+t_soln   = uw.discretisation.MeshVariable("T", mesh, 1, degree=1 )
+t_soln0  = uw.discretisation.MeshVariable("T0", mesh, 1, degree=1 )
 
 poisson0 = uw.systems.SNES_Scalar(mesh, u_Field=t_soln0)
 poisson0.F0 = 0.0
