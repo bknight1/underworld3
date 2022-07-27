@@ -86,7 +86,7 @@ import sympy
 # -
 
 
-meshball = uw.util_mesh.SphericalShell( radiusInner=r_i, 
+meshball = uw.meshing.SphericalShell( radiusInner=r_i, 
                                         radiusOuter=r_o, 
                                         cellSize=res)
 

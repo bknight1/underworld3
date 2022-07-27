@@ -56,7 +56,7 @@ with pygmsh.occ.Geometry() as geom:
 # -
 
 import meshio
-mesh = uw.util_mesh.Annulus(radiusOuter=1.0, 
+mesh = uw.meshing.Annulus(radiusOuter=1.0, 
                             radiusInner=0.0, cellSize=0.1)                       
 
 mesh.dm.view()

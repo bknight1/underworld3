@@ -26,7 +26,7 @@ import underworld3 as uw
 import numpy as np
 import sympy
 
-from underworld3.util_mesh import UnstructuredSimplexBox
+from underworld3.meshing import UnstructuredSimplexBox
 
 meshbox = UnstructuredSimplexBox(minCoords=(0.0,0.0), 
                                  maxCoords=(1.0,1.0), 

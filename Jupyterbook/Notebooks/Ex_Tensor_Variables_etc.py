@@ -23,7 +23,7 @@ import sympy
 
 # -
 
-meshbox = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0), 
+meshbox = uw.meshing.UnstructuredSimplexBox(minCoords=(0.0,0.0), 
                                               maxCoords=(1.0,1.0), 
                                               cellSize=1.0/100.0)
 meshbox.dm.view()   

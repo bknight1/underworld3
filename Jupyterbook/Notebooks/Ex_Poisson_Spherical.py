@@ -17,7 +17,7 @@ r_i = 0.5
 r_o = 1.0
 
 # %%
-from underworld3.util_mesh import Annulus
+from underworld3.meshing import Annulus
 
 # %%
 # first do 2D
@@ -112,7 +112,7 @@ poisson.u.save(savefile)
 mesh.generate_xdmf(savefile)
 
 # %%
-from underworld3.util_mesh import SphericalShell
+from underworld3.meshing import SphericalShell
 
 # %%
 # now do 3D

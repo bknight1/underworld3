@@ -23,7 +23,7 @@ options["fieldsplit_pressure_ksp_rtol"] = 1.0e-3
 options["fieldsplit_pressure_pc_type"] = "lu"
 
 # %%
-from underworld3.util_mesh import SphericalShell
+from underworld3.meshing import SphericalShell
 
 # %%
 # some things

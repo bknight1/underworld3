@@ -26,8 +26,8 @@ def test_underworld3_global_import():
 def test_underworld_mesh_import():
     import underworld3.discretisation
     
-def test_underworld_util_mesh_import():
-    import underworld3.util_mesh
+def test_underworld_meshing_import():
+    import underworld3.meshing
     
 def test_underworld_maths_import():
     import underworld3.maths

@@ -12,7 +12,7 @@ import underworld3 as uw
 import numpy as np
 import sympy
 
-from underworld3.util_mesh import UnstructuredSimplexBox
+from underworld3.meshing import UnstructuredSimplexBox
 
 # +
 ## Set up the mesh(es) etc for tests and examples

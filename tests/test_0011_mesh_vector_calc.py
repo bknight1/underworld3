@@ -15,7 +15,7 @@ from IPython.display import display  # since pytest runs pure python
 #
 # For illustration, we define two and three dimensional meshes and some vector, scalar fields on each one. The validation tests below are designed to run on each of these meshes.
 
-mesh1 = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0), 
+mesh1 = uw.meshing.UnstructuredSimplexBox(minCoords=(0.0,0.0), 
                                             maxCoords=(1.0,1.0), 
                                             cellSize=1.0/8.0)
 
@@ -27,13 +27,13 @@ v13 = uw.discretisation.MeshVariable('U13', mesh1,  num_components=3, degree=2, 
 p11 = uw.discretisation.MeshVariable('P11', mesh1, 1, degree=1 )
 
 
-mesh2 = uw.util_mesh.Annulus(radiusOuter=1.0, radiusInner=0.0, cellSize=0.2)
+mesh2 = uw.meshing.Annulus(radiusOuter=1.0, radiusInner=0.0, cellSize=0.2)
 
 v21 = uw.discretisation.MeshVariable('U21', mesh2,  mesh2.dim, degree=2 )
 v22 = uw.discretisation.MeshVariable('U22', mesh2,  mesh2.dim, degree=2 )
 p21 = uw.discretisation.MeshVariable('P21', mesh2,  1, degree=1 )
 
-mesh3 = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0,0.0), 
+mesh3 = uw.meshing.UnstructuredSimplexBox(minCoords=(0.0,0.0,0.0), 
                                             maxCoords=(1.0,1.0,1.0), 
                                             cellSize=1.0/8.0)
 

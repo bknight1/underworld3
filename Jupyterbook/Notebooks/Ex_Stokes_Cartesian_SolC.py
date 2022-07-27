@@ -22,7 +22,7 @@ import numpy as np
 
 # %%
 n_els = 16
-mesh = uw.util_mesh.StructuredQuadBox(elementRes=(n_els,n_els))
+mesh = uw.meshing.StructuredQuadBox(elementRes=(n_els,n_els))
 mesh.dm.view()  
 
 

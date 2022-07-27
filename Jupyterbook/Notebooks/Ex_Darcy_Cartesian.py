@@ -20,7 +20,7 @@ import sympy
 options = PETSc.Options()
 
 # %%
-mesh = uw.util_mesh.UnstructuredSimplexBox(minCoords=(0.0,0.0), 
+mesh = uw.meshing.UnstructuredSimplexBox(minCoords=(0.0,0.0), 
                                            maxCoords=(4.0,1.0), 
                                            cellSize=0.05) 
 
@@ -100,7 +100,7 @@ sympy.derive_by_array(F0, darcy._v_projector._U).reshape(2,2)
 
 # %%
 # this is broken?
-darcy._v_projector._GG1.reshape(2,4)
+# darcy._v_projector._GG1.reshape(2,4)
 
 # %%
 
