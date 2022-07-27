@@ -74,7 +74,7 @@ def test_check_mesh_X(mesh,v1, v2, p):
 
 @pytest.mark.parametrize("mesh, v1, v2, p", [m1_args, m2_args, m3_args])
 def test_ijk(mesh,v1, v2, p):
-    assert mesh.vector.to_vector(v1.f) == v1.ijk
+    assert mesh.vector.to_vector(v1.sym) == v1.ijk
 
 @pytest.mark.xfail(raises=AttributeError)
 def test_no_ijk():
@@ -87,11 +87,11 @@ def test_no_ijk():
 @pytest.mark.parametrize("mesh, v1, v2, p", [m1_args, m2_args, m3_args])
 def test_mesh_vector_dot(mesh,v1, v2, p):
 
-    v1_dot_v2 = v1.f.dot(v2.f)
+    v1_dot_v2 = v1.sym.dot(v2.sym)
 
     v1_dot_v2_explicit = 0.0
     for i in range(mesh.dim):
-        v1_dot_v2_explicit += v1.f[i] * v2.f[i]
+        v1_dot_v2_explicit += v1.sym[i] * v2.sym[i]
 
     assert v1_dot_v2 == v1_dot_v2_explicit
 
@@ -101,30 +101,30 @@ def test_mesh_vector_dot(mesh,v1, v2, p):
 @pytest.mark.parametrize("mesh, v1, v2, p", [m1_args, m2_args, m3_args])
 def test_mesh_vector_div(mesh,v1, v2, p):
 
-    div_v = mesh.vector.divergence(v2.f)
+    div_v = mesh.vector.divergence(v2.sym)
 
     div_v_explicit = 0.0
 
     for i,coord in enumerate(mesh.X):
-        div_v_explicit += v2.f.diff(coord)[i]
+        div_v_explicit += v2.sym.diff(coord)[i]
 
     assert div_v == div_v_explicit
 
     ## This should also be equivalent, if the .fn interface is not broken !
 
-    assert mesh.vector.divergence(v1.f) == sympy.vector.divergence(v1.fn)
+    assert mesh.vector.divergence(v1.sym) == sympy.vector.divergence(v1.fn)
     
 @pytest.mark.parametrize("mesh, v1, v2, p", [m1_args, m2_args, m3_args])
 def test_mesh_vector_grad(mesh,v1, v2, p):
 
-    grad_p = mesh.vector.gradient(p.f)
+    grad_p = mesh.vector.gradient(p.sym)
 
     for i,coord in enumerate(mesh.X):
-        assert grad_p[i] == p.f[0].diff(coord)
+        assert grad_p[i] == p.sym[0].diff(coord)
 
     ## This should also be equivalent, if the .fn interface is not broken !
 
-    assert mesh.vector.gradient(p.f) == mesh.vector.to_matrix(sympy.vector.gradient(p.fn))
+    assert mesh.vector.gradient(p.sym) == mesh.vector.to_matrix(sympy.vector.gradient(p.fn))
     
 # Note: The curl is slightly odd - sympy returns the vector in the third dimension, 
 # `underworld` returns a scalar because all vectors are assumed to be 2d
@@ -132,7 +132,7 @@ def test_mesh_vector_grad(mesh,v1, v2, p):
 @pytest.mark.parametrize("mesh, v1, v2, p", [m1_args, m2_args, m3_args])
 def test_mesh_vector_curl(mesh,v1, v2, p):
 
-    curl_v = mesh.vector.curl(v1.f)
+    curl_v = mesh.vector.curl(v1.sym)
     curl_v_sym = sympy.vector.curl(v1.fn)
 
     if mesh.dim == 2: 
@@ -145,8 +145,8 @@ def test_mesh_vector_curl(mesh,v1, v2, p):
 @pytest.mark.parametrize("mesh, v1, v2, p", [m1_args, m2_args, m3_args])
 def test_mesh_vector_jacobian(mesh,v1, v2, p):
 
-    jac_v = mesh.vector.jacobian(v1.f)
-    jac_v_sym = v1.f.jacobian(mesh.X)
+    jac_v = mesh.vector.jacobian(v1.sym)
+    jac_v_sym = v1.sym.jacobian(mesh.X)
 
     assert jac_v == jac_v_sym
     
@@ -158,10 +158,10 @@ def test_mesh_vector_jacobian(mesh,v1, v2, p):
 @pytest.mark.parametrize("mesh, v1, v2, p", [m1_args, m2_args, m3_args])
 def test_mesh_vector_add(mesh,v1, v2, p):
 
-    v1_plus_v2 = v1.f + v2.f
-    v1_plus_v2_explicit = 0.0 * v1.f
+    v1_plus_v2 = v1.sym + v2.sym
+    v1_plus_v2_explicit = 0.0 * v1.sym
     for i in range(mesh.dim):
-        v1_plus_v2_explicit[i] = v1.f[i] + v2.f[i]
+        v1_plus_v2_explicit[i] = v1.sym[i] + v2.sym[i]
 
     assert v1_plus_v2 == v1_plus_v2_explicit
 
@@ -177,14 +177,14 @@ display(mesh3.X)
 
 # ## Mesh variables as `sympy.matrix` objects
 #
-# Mesh variables have a `.f` attribute that is a row vectors stored as `sympy.matrix` object. Note: mesh variable scalars `.f` attributes are 1x1 row vectors, not bare `underworld` objects. 
+# Mesh variables have a `.sym` attribute that is a row vectors stored as `sympy.matrix` object. Note: mesh variable scalars `.sym` attributes are 1x1 row vectors, not bare `underworld` objects. 
 #
 #
 
-display(v11.f)
-display(v31.f)
-display(p11.f)
-display(v13.f)
+display(v11.sym)
+display(v31.sym)
+display(p11.sym)
+display(v13.sym)
 
 # The mesh variable objects are matrices, but they are structured as vectors. If the fields in the object are of the correct dimension, then they can be interpreted as vector fields and the differential operators such as **div**, **grad**, **curl** are implemented. These broadly correspond to the ones in `sympy.vector` but there are some minor differences in implementation to account for the differences in the underlying objects.
 #
@@ -215,9 +215,9 @@ V = mesh1.N.i + mesh1.N.j + mesh1.N.k  # V is a valid 2D vector from `sympy.vect
 M = mesh1.vector.to_matrix(V)
 mesh1.vector.to_vector(M)
 
-mesh1.vector.curl(v11.f)
+mesh1.vector.curl(v11.sym)
 
-mesh3.vector.curl(v31.f)
+mesh3.vector.curl(v31.sym)
 
 sympy.vector.curl(v31.ijk)
 
@@ -226,9 +226,9 @@ sympy.vector.curl(v31.ijk)
 # `sympy` offers symbolic derivatives of functions, and uw variables can be differentiated as follows:
 #
 # ```
-#    v11.f.diff(mesh1.X[0])
-#    v13.f.diff(mesh1.X[1])
-#    p11.f.diff(mesh1.X[1])
+#    v11.sym.diff(mesh1.X[0])
+#    v13.sym.diff(mesh1.X[1])
+#    p11.sym.diff(mesh1.X[1])
 #    
 # ```
 #
@@ -245,25 +245,25 @@ sympy.vector.curl(v31.ijk)
 #   
 # for convenience.
 
-display( v11.f.diff(mesh1.X[0]))
-display( v13.f.diff(mesh1.X[1]))
-display( p11.f.diff(mesh1.X[1]))
+display( v11.sym.diff(mesh1.X[0]))
+display( v13.sym.diff(mesh1.X[1]))
+display( p11.sym.diff(mesh1.X[1]))
 
 # +
 # divergence of a vector
-display(mesh1.vector.divergence(v11.f))
+display(mesh1.vector.divergence(v11.sym))
 display(v11.divergence())
-display(mesh3.vector.divergence(v31.f))
+display(mesh3.vector.divergence(v31.sym))
 
 # gradient of a scalar field
-display(mesh1.vector.gradient(p11.f))
+display(mesh1.vector.gradient(p11.sym))
 
 # curl of a vector
-display(mesh1.vector.curl(v11.f))
-display(mesh3.vector.curl(v31.f))
+display(mesh1.vector.curl(v11.sym))
+display(mesh3.vector.curl(v31.sym))
 
 try:
-    mesh3.vector.curl(mesh3.vector.gradient(p31.f))
+    mesh3.vector.curl(mesh3.vector.gradient(p31.sym))
 except RuntimeError:
     print("")
     print("RuntimeError: Second derivatives of Underworld functions are not supported at this time.")
@@ -274,11 +274,11 @@ except RuntimeError:
 # By default, the `sympy.diff` operation
 #
 
-v31.f.jacobian(v31.mesh.X)
+v31.sym.jacobian(v31.mesh.X)
 
 v31.jacobian()
 
-v31.f.diff(v31.mesh.X)
+v31.sym.diff(v31.mesh.X)
 
 # ## Symbolic forms
 #
@@ -291,7 +291,7 @@ F = sympy.sin(x**2) + sympy.cos(y**2) + z**2
 
 gradF = mesh3.vector.gradient(F)
 curlgradF = mesh3.vector.curl(gradF)
-curlgradFplus = mesh3.vector.curl(gradF+v31.f)
+curlgradFplus = mesh3.vector.curl(gradF+v31.sym)
 
 
 display(gradF)

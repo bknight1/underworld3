@@ -715,21 +715,21 @@ class MeshVariable(_api_tools.Stateful):
         from underworld3.function import UnderworldFunction
         if  vtype == uw.VarType.SCALAR:
 
-            self._f = sympy.Matrix.zeros(1,1)
-            self._f[0]  = UnderworldFunction(name,self,vtype)(*self.mesh.r)
-            self._ijk = self._f[0]
+            self._sym = sympy.Matrix.zeros(1,1)
+            self._sym[0]  = UnderworldFunction(name,self,vtype)(*self.mesh.r)
+            self._ijk = self._sym[0]
             
         elif vtype==uw.VarType.VECTOR:
-            self._f = sympy.Matrix.zeros(1,num_components)
+            self._sym = sympy.Matrix.zeros(1,num_components)
             
             # Matrix form (any number of components)  
             for comp in range(num_components):
-                self._f[0,comp] = UnderworldFunction(name,self,vtype,comp)(*self.mesh.r)
+                self._sym[0,comp] = UnderworldFunction(name,self,vtype,comp)(*self.mesh.r)
 
             # Spatial vector form (2 vectors and 3 vectors according to mesh dim)
             if num_components==mesh.dim:
-                self._ijk = sympy.vector.matrix_to_vector(self._f, self.mesh.N)
-                # self.mesh.vector.to_vector(self._f)
+                self._ijk = sympy.vector.matrix_to_vector(self._sym, self.mesh.N)
+                # self.mesh.vector.to_vector(self._sym)
                 
 
     
@@ -787,13 +787,21 @@ class MeshVariable(_api_tools.Stateful):
         """
         return self._ijk
 
-
     @property
-    def f(self) -> sympy.Basic:
+    def sym(self) -> sympy.Basic:
         """
         The handle to the tensor view of this variable.
         """
-        return self._f
+        return self._sym
+
+
+
+    # @property
+    # def f(self) -> sympy.Basic:
+    #     """
+    #     The handle to the tensor view of this variable.
+    #     """
+    #    return self._f
 
     def _set_vec(self, available):
         cdef DM subdm = PETSc.DM()
@@ -963,22 +971,22 @@ class MeshVariable(_api_tools.Stateful):
 
     def divergence(self):
         try:
-            return self.mesh.vector.divergence(self.f)    
+            return self.mesh.vector.divergence(self.sym)    
         except:
             return None
         
     def gradient(self):
         try:
-            return self.mesh.vector.gradient(self.f)
+            return self.mesh.vector.gradient(self.sym)
         except:
             return None
 
     def curl(self):
         try:
-            return self.mesh.vector.curl(self.f)
+            return self.mesh.vector.curl(self.sym)
         except:
             return None
 
     def jacobian(self):
         ## validate if this is a vector ?
-        return self.mesh.vector.jacobian(self.f)
+        return self.mesh.vector.jacobian(self.sym)

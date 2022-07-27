@@ -66,7 +66,7 @@ class SNES_Scalar:
         self._F1 = sympy.Matrix.zeros(1,mesh.dim)
 
         ## sympy.Array 
-        self._L = sympy.derive_by_array(self._u.f, self.mesh.X).reshape(1,self.mesh.dim).tomatrix()
+        self._L = sympy.derive_by_array(self._u.sym, self.mesh.X).reshape(1,self.mesh.dim).tomatrix()
 
         self.bcs = []
 
@@ -209,7 +209,7 @@ class SNES_Scalar:
         F0 = sympy.Array(self._f0).reshape(1).as_immutable()
         F1 = sympy.Array(self._f1).reshape(dim).as_immutable()
 
-        U = sympy.Array(self._u.f).reshape(1).as_immutable() # scalar works better in derive_by_array
+        U = sympy.Array(self._u.sym).reshape(1).as_immutable() # scalar works better in derive_by_array
         L = sympy.Array(self._L).reshape(dim).as_immutable() # unpack one index here too
 
         fns_residual = [F0, F1] 
@@ -422,8 +422,8 @@ class SNES_Vector:
 
         ## sympy.Matrix
 
-        self._U = self._u.f
-        self._L = self._u.f.jacobian(self.mesh.X) # This works for vector / vector inputs
+        self._U = self._u.sym
+        self._L = self._u.sym.jacobian(self.mesh.X) # This works for vector / vector inputs
 
         self.bcs = []
 

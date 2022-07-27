@@ -148,7 +148,7 @@ def _createext(name:               str,
                     u_x_i+=1
             elif var.vtype==VarType.VECTOR:
                 # Pull out individual sub components
-                for comp in var.f:
+                for comp in var.sym:
                     # monkey patch
                     type(comp)._ccodestr = f"{prefix_str}[{u_i}]"
                     type(comp)._ccode    = lambdafunc

@@ -170,7 +170,7 @@ class SwarmVariable(_api_tools.Stateful):
 
     @property
     def f(self):
-        return self._meshVar.f
+        return self._meshVar.sym
 
     @timing.routine_timer_decorator
     def save(self, filename : str,
@@ -237,7 +237,7 @@ class IndexSwarmVariable(SwarmVariable):
         for i in range(indices):
             self._meshLevelSetVars[i] =  uw.mesh.MeshVariable(name+"["+str(i)+"]", self.swarm.mesh, 
                                          num_components=1, degree=proxy_degree)
-            self._MaskArray[0,i] = self._meshLevelSetVars[i].f[0,0]
+            self._MaskArray[0,i] = self._meshLevelSetVars[i].sym[0,0]
 
         return
 

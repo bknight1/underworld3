@@ -25,7 +25,6 @@ x,y = mesh.X
 
 s_soln  = uw.mesh.MeshVariable("T",    mesh,  1,            degree=2 )
 v_soln  = uw.mesh.MeshVariable('U',    mesh,  mesh.dim,  degree=2 )
-iv_soln = uw.mesh.MeshVariable('IU',   mesh,  mesh.dim,  degree=2 )
 gradient = uw.mesh.MeshVariable("dTdx", mesh, 1, degree=1)
 
 
@@ -33,7 +32,6 @@ gradient = uw.mesh.MeshVariable("dTdx", mesh, 1, degree=1)
 swarm  = uw.swarm.Swarm(mesh=mesh)
 s_values  = uw.swarm.SwarmVariable("Ss", swarm, 1,           proxy_degree=3)
 v_values  = uw.swarm.SwarmVariable("Vs", swarm, mesh.dim, proxy_degree=3)
-iv_values = uw.swarm.SwarmVariable("Vi", swarm, mesh.dim, proxy_degree=3)
 
 swarm.populate(fill_param=3)
 
@@ -91,7 +89,7 @@ def test_gradient_recovery():
         s_soln.data[:, 0] = uw.function.evaluate(fn, s_soln.coords[:])
     
     scalar_projection = uw.systems.Projection(mesh, gradient)
-    scalar_projection.uw_function = s_soln.f.diff(x)
+    scalar_projection.uw_function = s_soln.sym.diff(x)
     scalar_projection.solve()
 # -
 

@@ -539,7 +539,7 @@ class SNES_Projection(SNES_Scalar):
         # F0 is left in place for the user to inject 
         # non-linear constraints if required
         
-        self._f0 = self.F0 + (self.u.f - self.uw_function) * self.uw_weighting_function
+        self._f0 = self.F0 + (self.u.sym - self.uw_function) * self.uw_weighting_function
 
         # F1 is left in the users control ... e.g to add other gradient constraints to the stiffness matrix
 
@@ -632,7 +632,7 @@ class SNES_Vector_Projection(SNES_Vector):
         # F0 is left in place for the user to inject 
         # non-linear constraints if required
         
-        self._f0 = self.F0 + (self.u.f - self.uw_function) * self.uw_weighting_function
+        self._f0 = self.F0 + (self.u.sym - self.uw_function) * self.uw_weighting_function
 
         # F1 is left in the users control ... e.g to add other gradient constraints to the stiffness matrix
 
@@ -746,13 +746,13 @@ class SNES_Solenoidal_Vector_Projection(SNES_SaddlePoint):
         # F0 is left in place for the user to inject 
         # non-linear constraints if required
 
-        self._u_f0 = self.UF0 + (self.u.f - self.uw_function) * self.uw_weighting_function
+        self._u_f0 = self.UF0 + (self.u.sym - self.uw_function) * self.uw_weighting_function
 
         # Integration by parts into the stiffness matrix
         self._u_f1 = self.UF1  + self.smoothing * (sympy.Matrix(self._L) + sympy.Matrix(self._L).T) - self._constraint_field.fn * sympy.Matrix.eye(dim)
 
         # rhs in the constraint (pressure) equations
-        self._p_f0 = self.PF0  + self.mesh.vector.divergence(self.u.f)
+        self._p_f0 = self.PF0  + self.mesh.vector.divergence(self.u.sym)
 
         return 
 
