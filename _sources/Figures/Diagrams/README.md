@@ -1,1 +1,0 @@
-<!-- Diagrams files - such as inkscape drawing originals / illustrator files and all that -->
