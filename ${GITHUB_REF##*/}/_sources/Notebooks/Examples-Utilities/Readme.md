@@ -1,1 +1,0 @@
-# Miscellaneous Tips and Tricks
