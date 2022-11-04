@@ -222,7 +222,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -242,7 +242,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -504,7 +504,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-Utilities/Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -585,6 +585,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-Sandbox-VEP/Ex_Shear_Band_Plasticity_SS.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -722,9 +751,17 @@ title="Print to PDF"
 
         <span class="n">geom</span><span class="o">.</span><span class="n">characteristic_length_max</span> <span class="o">=</span> <span class="n">csize</span>
 
-        <span class="n">inclusion</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">make_surface</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize_circle</span><span class="p">)</span>
+        <span class="n">inclusion</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_circle</span><span class="p">(</span>
+            <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">make_surface</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize_circle</span>
+        <span class="p">)</span>
         <span class="n">domain</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_rectangle</span><span class="p">(</span>
-            <span class="n">xmin</span><span class="o">=-</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=-</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="p">[</span><span class="n">inclusion</span><span class="p">],</span> <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize</span>
+            <span class="n">xmin</span><span class="o">=-</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">ymin</span><span class="o">=-</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">xmax</span><span class="o">=</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">ymax</span><span class="o">=</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">holes</span><span class="o">=</span><span class="p">[</span><span class="n">inclusion</span><span class="p">],</span>
+            <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">geom</span><span class="o">.</span><span class="n">add_physical</span><span class="p">(</span><span class="n">domain</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">curve_loop</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
@@ -763,8 +800,8 @@ title="Print to PDF"
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">X</span>
 
 <span class="c1"># relative to the centre of the inclusion</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">th</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">th</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 
 <span class="c1"># need a unit_r_vec equivalent</span>
 
@@ -780,7 +817,7 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">mesh1</span><span class="p">,</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">p_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">mesh1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">p_cont</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Pc&quot;</span><span class="p">,</span> <span class="n">mesh1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">p_null</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;P2&quot;</span><span class="p">,</span>  <span class="n">mesh1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">p_null</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;P2&quot;</span><span class="p">,</span> <span class="n">mesh1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">vorticity</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span> <span class="n">mesh1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">strain_rate_inv2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;eps&quot;</span><span class="p">,</span> <span class="n">mesh1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -817,7 +854,9 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodal_strain_rate_inv2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">mesh1</span><span class="p">,</span> <span class="n">strain_rate_inv2</span><span class="p">,</span> <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;edot_II&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodal_strain_rate_inv2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span>
+    <span class="n">mesh1</span><span class="p">,</span> <span class="n">strain_rate_inv2</span><span class="p">,</span> <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;edot_II&quot;</span>
+<span class="p">)</span>
 <span class="n">nodal_strain_rate_inv2</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">nodal_strain_rate_inv2</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">nodal_strain_rate_inv2</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">_Einv2</span>
@@ -826,7 +865,9 @@ title="Print to PDF"
 
 <span class="n">nodal_tau_inv2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">mesh1</span><span class="p">,</span> <span class="n">dev_stress_inv2</span><span class="p">,</span> <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;stress_II&quot;</span><span class="p">)</span>
 <span class="n">S</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">stress_deviator</span>
-<span class="n">nodal_tau_inv2</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">trace</span><span class="p">())</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">p_soln</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">nodal_tau_inv2</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">trace</span><span class="p">())</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="n">p_soln</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">nodal_tau_inv2</span><span class="o">.</span><span class="n">smoothing</span> <span class="o">=</span> <span class="mf">1.0e-3</span>
 <span class="n">nodal_tau_inv2</span><span class="o">.</span><span class="n">petsc_options</span><span class="o">.</span><span class="n">delValue</span><span class="p">(</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">)</span>
 
@@ -898,7 +939,9 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodal_tau_inv2</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">*</span> <span class="n">stokes</span><span class="o">.</span><span class="n">_Einv2</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodal_tau_inv2</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">*</span> <span class="n">stokes</span><span class="o">.</span><span class="n">_Einv2</span>
+<span class="p">)</span>
 <span class="n">nodal_tau_inv2</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 <span class="n">nodal_visc_calc</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
 <span class="n">nodal_visc_calc</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
@@ -933,9 +976,13 @@ title="Print to PDF"
         <span class="n">usol</span> <span class="o">=</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">with</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Vmag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)),</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Vmag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)),</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">p_cont</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Edot&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">strain_rate_inv2</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Edot&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="n">strain_rate_inv2</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Str&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">dev_stress_inv2</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Visc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">node_viscosity</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
@@ -957,7 +1004,9 @@ title="Print to PDF"
     <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">mesh1</span><span class="o">.</span><span class="n">_centroids</span><span class="p">[::</span><span class="n">subsample</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
     <span class="n">point_cloud</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
 
-    <span class="n">pvstream</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">streamlines_from_source</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">,</span> <span class="n">vectors</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">integration_direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">pvstream</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">streamlines_from_source</span><span class="p">(</span>
+        <span class="n">point_cloud</span><span class="p">,</span> <span class="n">vectors</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">integration_direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">100</span>
+    <span class="p">)</span>
 
     <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
 
@@ -969,7 +1018,7 @@ title="Print to PDF"
         <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
         <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Grey&quot;</span><span class="p">,</span>
         <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">],</span>
+        <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
         <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;Edot&quot;</span><span class="p">,</span>
         <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>

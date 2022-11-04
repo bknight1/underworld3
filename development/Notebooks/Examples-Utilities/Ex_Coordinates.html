@@ -222,7 +222,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -242,7 +242,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -504,7 +504,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -585,6 +585,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-Utilities/Ex_Coordinates.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -707,10 +736,10 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshdisc_xyz</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Annulus</span><span class="p">(</span><span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> <span class="n">cellSize</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
 
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">meshdisc_xyz</span>
-<span class="n">PXs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathcal</span><span class="si">{P}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
-<span class="n">VXs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="n">PXs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathcal</span><span class="si">{P}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
+<span class="n">VXs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
-    <span class="n">VXs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&quot;\mathcal</span><span class="se">{{</span><span class="s2">V</span><span class="se">}}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
+    <span class="n">VXs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">rf</span><span class="s2">&quot;\mathcal</span><span class="se">{{</span><span class="s2">V</span><span class="se">}}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
 <span class="n">display</span><span class="p">(</span><span class="n">PXs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">VXs</span><span class="p">)</span>
 </pre></div>
@@ -727,7 +756,7 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gradPXs</span> <span class="o">=</span> <span class="n">meshdisc_xyz</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">PXs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">gradPXs</span><span class="p">)</span>
 
-<span class="n">divgradPXs</span> <span class="o">=</span>  <span class="n">meshdisc_xyz</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">gradPXs</span><span class="p">)</span>
+<span class="n">divgradPXs</span> <span class="o">=</span> <span class="n">meshdisc_xyz</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">gradPXs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">divgradPXs</span><span class="p">)</span>
 
 <span class="n">curlgradPXs</span> <span class="o">=</span> <span class="n">meshdisc_xyz</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">curl</span><span class="p">(</span><span class="n">gradPXs</span><span class="p">)</span>
@@ -747,19 +776,23 @@ title="Print to PDF"
 <span class="n">dmplex</span> <span class="o">=</span> <span class="n">meshball_xyz_tmp</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 <span class="n">rtheta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
 <span class="n">rtheta</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">rtheta</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">,</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">)</span> 
+<span class="n">rtheta</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">,</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">)</span>
 <span class="n">rtheta_vec</span> <span class="o">=</span> <span class="n">xy_vec</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">rtheta_vec</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">rtheta</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">]</span>
 <span class="n">dmplex</span><span class="o">.</span><span class="n">setCoordinates</span><span class="p">(</span><span class="n">rtheta_vec</span><span class="p">)</span>
 <span class="n">meshball_xyz_tmp</span><span class="o">.</span><span class="n">vtk</span><span class="p">(</span><span class="s2">&quot;tmp_disk.vtk&quot;</span><span class="p">)</span>
-<span class="k">del</span><span class="p">(</span><span class="n">meshball_xyz_tmp</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">meshball_xyz_tmp</span>
 
-<span class="n">meshdisc</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span><span class="n">dmplex</span><span class="p">,</span> <span class="n">coordinate_system_type</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">CoordinateSystemType</span><span class="o">.</span><span class="n">CYLINDRICAL2D_NATIVE</span><span class="p">)</span>
-<span class="n">uw</span><span class="o">.</span><span class="n">cython</span><span class="o">.</span><span class="n">petsc_discretisation</span><span class="o">.</span><span class="n">petsc_dm_set_periodicity</span><span class="p">(</span><span class="n">meshdisc</span><span class="o">.</span><span class="n">dm</span><span class="p">,</span> 
-                                                        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">])</span>
+<span class="n">meshdisc</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span>
+    <span class="n">dmplex</span><span class="p">,</span>
+    <span class="n">coordinate_system_type</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">CoordinateSystemType</span><span class="o">.</span><span class="n">CYLINDRICAL2D_NATIVE</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">uw</span><span class="o">.</span><span class="n">cython</span><span class="o">.</span><span class="n">petsc_discretisation</span><span class="o">.</span><span class="n">petsc_dm_set_periodicity</span><span class="p">(</span>
+    <span class="n">meshdisc</span><span class="o">.</span><span class="n">dm</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">]</span>
+<span class="p">)</span>
 
 
-<span class="c1">## Add some mesh variables (Vector and scalar) </span>
+<span class="c1">## Add some mesh variables (Vector and scalar)</span>
 
 <span class="n">VC</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;U^c&quot;</span><span class="p">,</span> <span class="n">meshdisc</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">PC</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;P^c&quot;</span><span class="p">,</span> <span class="n">meshdisc</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -767,10 +800,10 @@ title="Print to PDF"
 <span class="c1">## Create some symbolic equivalents</span>
 
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">meshdisc</span>
-<span class="n">PCs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathcal</span><span class="si">{P}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
-<span class="n">VCs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="n">PCs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathcal</span><span class="si">{P}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
+<span class="n">VCs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
-    <span class="n">VCs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&quot;\mathcal</span><span class="se">{{</span><span class="s2">V</span><span class="se">}}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
+    <span class="n">VCs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">rf</span><span class="s2">&quot;\mathcal</span><span class="se">{{</span><span class="s2">V</span><span class="se">}}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">()[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">])</span>
 <span class="n">display</span><span class="p">(</span><span class="n">PCs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">VCs</span><span class="p">)</span>
 </pre></div>
@@ -782,7 +815,7 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gradPCs</span> <span class="o">=</span> <span class="n">meshdisc</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">PCs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">gradPCs</span><span class="p">)</span>
 
-<span class="n">divgradPCs</span> <span class="o">=</span>  <span class="n">meshdisc</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">gradPCs</span><span class="p">)</span>
+<span class="n">divgradPCs</span> <span class="o">=</span> <span class="n">meshdisc</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">gradPCs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">divgradPCs</span><span class="p">)</span>
 
 <span class="n">curlgradPCs</span> <span class="o">=</span> <span class="n">meshdisc</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">curl</span><span class="p">(</span><span class="n">gradPCs</span><span class="p">)</span>
@@ -797,7 +830,9 @@ title="Print to PDF"
 
 <span class="c1">## NOTE: this only works if numElements is an odd number</span>
 
-<span class="n">meshball_xyz_tmp</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">CubedSphere</span><span class="p">(</span><span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> <span class="n">numElements</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">meshball_xyz_tmp</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">CubedSphere</span><span class="p">(</span>
+    <span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> <span class="n">numElements</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 
 <span class="n">xyz_vec</span> <span class="o">=</span> <span class="n">meshball_xyz_tmp</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">getCoordinates</span><span class="p">()</span>
 <span class="n">xyz</span> <span class="o">=</span> <span class="n">xyz_vec</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -805,22 +840,27 @@ title="Print to PDF"
 
 <span class="n">rl1l2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span>
 <span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> 
-<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">xyz</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="p">)</span>
 
 <span class="n">rl1l2_vec</span> <span class="o">=</span> <span class="n">xyz_vec</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">rl1l2_vec</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">rl1l2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">]</span>
 <span class="n">dmplex</span><span class="o">.</span><span class="n">setCoordinates</span><span class="p">(</span><span class="n">rl1l2_vec</span><span class="p">)</span>
 
 <span class="n">meshball_xyz_tmp</span><span class="o">.</span><span class="n">vtk</span><span class="p">(</span><span class="s2">&quot;tmp_sphere.vtk&quot;</span><span class="p">)</span>
-<span class="k">del</span><span class="p">(</span><span class="n">meshball_xyz_tmp</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">meshball_xyz_tmp</span>
 
-<span class="n">meshball</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span><span class="n">dmplex</span><span class="p">,</span> <span class="n">coordinate_system_type</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">CoordinateSystemType</span><span class="o">.</span><span class="n">SPHERICAL_NATIVE</span><span class="p">)</span>
-<span class="n">uw</span><span class="o">.</span><span class="n">cython</span><span class="o">.</span><span class="n">petsc_discretisation</span><span class="o">.</span><span class="n">petsc_dm_set_periodicity</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="p">,</span> 
-                                                        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">6.28</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="n">meshball</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span>
+    <span class="n">dmplex</span><span class="p">,</span> <span class="n">coordinate_system_type</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">CoordinateSystemType</span><span class="o">.</span><span class="n">SPHERICAL_NATIVE</span>
+<span class="p">)</span>
+<span class="n">uw</span><span class="o">.</span><span class="n">cython</span><span class="o">.</span><span class="n">petsc_discretisation</span><span class="o">.</span><span class="n">petsc_dm_set_periodicity</span><span class="p">(</span>
+    <span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">6.28</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="p">)</span>
 
 
-<span class="c1">## Add some mesh variables (Vector and scalar) </span>
+<span class="c1">## Add some mesh variables (Vector and scalar)</span>
 
 <span class="n">VS</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;U^s&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">PS</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;P^s&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -829,9 +869,9 @@ title="Print to PDF"
 
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">meshball</span>
 <span class="n">PSs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathcal</span><span class="si">{P}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">())</span>
-<span class="n">VSs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="n">VSs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
-    <span class="n">VSs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">fr</span><span class="s2">&quot;\mathcal</span><span class="se">{{</span><span class="s2">V</span><span class="se">}}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">())</span>
+    <span class="n">VSs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="sa">rf</span><span class="s2">&quot;\mathcal</span><span class="se">{{</span><span class="s2">V</span><span class="se">}}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">base_scalars</span><span class="p">())</span>
 <span class="n">display</span><span class="p">(</span><span class="n">PSs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">VSs</span><span class="p">)</span>
 </pre></div>
@@ -846,13 +886,13 @@ title="Print to PDF"
 <span class="n">divVSs</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">VSs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">divVSs</span><span class="p">)</span>
 
-<span class="n">divgradPSs</span> <span class="o">=</span>  <span class="n">meshball</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">gradPSs</span><span class="p">)</span>
+<span class="n">divgradPSs</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">divergence</span><span class="p">(</span><span class="n">gradPSs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">divgradPSs</span><span class="p">)</span>
 
 <span class="n">curlgradPSs</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">curl</span><span class="p">(</span><span class="n">gradPSs</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">curlgradPSs</span><span class="p">)</span>
 
-<span class="c1">#Note</span>
+<span class="c1"># Note</span>
 <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">curlgradPSs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -873,7 +913,7 @@ title="Print to PDF"
 <span class="c1">#     pv.global_theme.smooth_shading = True</span>
 
 <span class="c1">#     pvmesh = pv.read(&quot;tmp_sphere.vtk&quot;)</span>
-    
+
 <span class="c1">#     pl = pv.Plotter(window_size=(750, 750))</span>
 
 <span class="c1">#     pl.add_mesh(pvmesh,&#39;Black&#39;, &#39;wireframe&#39;)</span>

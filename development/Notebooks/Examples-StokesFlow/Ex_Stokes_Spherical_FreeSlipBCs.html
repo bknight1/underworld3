@@ -224,7 +224,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,7 +244,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -506,7 +506,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-Utilities/Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -587,6 +587,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-StokesFlow/Ex_Stokes_Spherical_FreeSlipBCs.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -816,7 +845,12 @@ T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">SphericalShell</span><span class="p">(</span><span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> <span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> <span class="n">cellSize</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">qdegree</span><span class="o">=</span><span class="mi">2</span><span class="p">,)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">SphericalShell</span><span class="p">(</span>
+    <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span>
+    <span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span>
+    <span class="n">cellSize</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
+    <span class="n">qdegree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <span class="c1"># -- OR --</span>
@@ -846,7 +880,9 @@ T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r)
 <span class="c1"># gravity will vary linearly from zero at the centre</span>
 <span class="c1"># of the sphere to (say) 1 at the surface</span>
 
-<span class="n">radius_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="p">))</span>  <span class="c1"># normalise by outer radius if not 1.0</span>
+<span class="n">radius_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="p">)</span>
+<span class="p">)</span>  <span class="c1"># normalise by outer radius if not 1.0</span>
 <span class="n">unit_rvec</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">X</span> <span class="o">/</span> <span class="p">(</span><span class="n">radius_fn</span><span class="p">)</span>
 <span class="n">gravity_fn</span> <span class="o">=</span> <span class="n">radius_fn</span>
 
@@ -913,15 +949,23 @@ T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r)
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create NS object</span>
 
-<span class="n">stokes</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">meshball</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">v_soln</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p_soln</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;stokes&quot;</span><span class="p">)</span>
+<span class="n">stokes</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span>
+    <span class="n">meshball</span><span class="p">,</span>
+    <span class="n">velocityField</span><span class="o">=</span><span class="n">v_soln</span><span class="p">,</span>
+    <span class="n">pressureField</span><span class="o">=</span><span class="n">p_soln</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;stokes&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="c1"># stokes.petsc_options[&quot;fieldsplit_velocity_ksp_monitor&quot;] = None</span>
 <span class="c1"># stokes.petsc_options[&quot;fieldsplit_pressure_ksp_monitor&quot;] = None</span>
 
-<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
-<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span>
+    <span class="n">meshball</span><span class="o">.</span><span class="n">dim</span>
+<span class="p">)</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mi">1</span>
 
 <span class="c1"># thermal buoyancy force</span>
 <span class="n">buoyancy_force</span> <span class="o">=</span> <span class="n">Rayleigh</span> <span class="o">*</span> <span class="n">gravity_fn</span> <span class="o">*</span> <span class="n">t_forcing_fn</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">surface_fn</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">base_fn</span><span class="p">)</span>
@@ -1001,7 +1045,9 @@ T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r)
     <span class="n">null_space_err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_ns</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y_ns</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z_ns</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">vnorm</span>
 
     <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: Rigid body: </span><span class="si">{:.4}</span><span class="s2">, </span><span class="si">{:.4}</span><span class="s2">, </span><span class="si">{:.4}</span><span class="s2"> / </span><span class="si">{:.4}</span><span class="s2">  (x,y,z axis / total)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x_ns</span><span class="p">,</span> <span class="n">y_ns</span><span class="p">,</span> <span class="n">z_ns</span><span class="p">,</span> <span class="n">null_space_err</span><span class="p">)</span>
+        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: Rigid body: </span><span class="si">{:.4}</span><span class="s2">, </span><span class="si">{:.4}</span><span class="s2">, </span><span class="si">{:.4}</span><span class="s2"> / </span><span class="si">{:.4}</span><span class="s2">  (x,y,z axis / total)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">x_ns</span><span class="p">,</span> <span class="n">y_ns</span><span class="p">,</span> <span class="n">z_ns</span><span class="p">,</span> <span class="n">null_space_err</span>
+        <span class="p">)</span>
     <span class="p">)</span>
 
     <span class="k">with</span> <span class="n">meshball</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">v_soln</span><span class="p">):</span>
@@ -1069,7 +1115,9 @@ T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r)
 
     <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">t_forcing_fn</span><span class="p">,</span> <span class="n">meshball</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">p_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">meshball</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;S&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">sym</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">unit_rvec</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">base_fn</span> <span class="o">+</span> <span class="n">surface_fn</span><span class="p">),</span> <span class="n">meshball</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;S&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">v_soln</span><span class="o">.</span><span class="n">sym</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">unit_rvec</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">base_fn</span> <span class="o">+</span> <span class="n">surface_fn</span><span class="p">),</span> <span class="n">meshball</span><span class="o">.</span><span class="n">data</span>
+    <span class="p">)</span>
 
     <span class="n">arrow_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
     <span class="n">arrow_loc</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
@@ -1083,7 +1131,13 @@ T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r)
     <span class="n">pl</span><span class="o">.</span><span class="n">add_axes</span><span class="p">()</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">clipped</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span>
+        <span class="n">clipped</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">,</span>
+        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># pl.add_mesh(pvmesh, cmap=&quot;coolwarm&quot;, edge_color=&quot;Black&quot;, show_edges=True, scalars=&quot;T&quot;,</span>
@@ -1099,7 +1153,7 @@ T(r,\theta,\phi) =  T_\textrm{TM}(\theta, \phi) \cdot r  \sin(\pi r)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span>
 </pre></div>
 </div>
 </div>
