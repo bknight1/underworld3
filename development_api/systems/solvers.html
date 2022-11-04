@@ -1398,7 +1398,7 @@ class SNES_NavierStokes_Swarm(SNES_Stokes):
 <dl>
 <dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN"><code class="flex name class">
 <span>class <span class="ident">SNES_AdvectionDiffusion_SLCN</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7ff7763256c0> = None, V_Field: <function MeshVariable at 0x7ff7763256c0> = None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7effb15256c0> = None, V_Field: <function MeshVariable at 0x7effb15256c0> = None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Characteristics-based advection diffusion solver:</p>
@@ -1768,7 +1768,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm"><code class="flex name class">
 <span>class <span class="ident">SNES_AdvectionDiffusion_Swarm</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7ff7763256c0> = None, u_Star_fn=None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, projection: bool = True, verbose: bool = False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7effb15256c0> = None, u_Star_fn=None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, projection: bool = True, verbose: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Characteristics-based advection diffusion solver:</p>
@@ -2085,7 +2085,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Darcy"><code class="flex name class">
 <span>class <span class="ident">SNES_Darcy</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7ff7763256c0>, v_Field: <function MeshVariable at 0x7ff7763256c0>, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7effb15256c0>, v_Field: <function MeshVariable at 0x7effb15256c0>, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Darcy docstring &hellip;</p></div>
@@ -2384,7 +2384,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_NavierStokes_Swarm"><code class="flex name class">
 <span>class <span class="ident">SNES_NavierStokes_Swarm</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7ff7763256c0> = None, pressureField: <function MeshVariable at 0x7ff7763256c0> = None, velocityStar_fn=None, u_degree: Optional[int] = 2, p_degree: Optional[int] = None, p_continous: Optional[bool] = True, rho: Optional[float] = 0.0, viscosity: Optional[float] = 1.0, theta: Optional[float] = 0.5, penalty: Optional[float] = 0.0, solver_name: Optional[str] = '', verbose: Optional[bool] = False, projection: Optional[bool] = False, saddle_preconditioner=None, restore_points_func: Callable = None)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7effb15256c0> = None, pressureField: <function MeshVariable at 0x7effb15256c0> = None, velocityStar_fn=None, u_degree: Optional[int] = 2, p_degree: Optional[int] = None, p_continous: Optional[bool] = True, rho: Optional[float] = 0.0, viscosity: Optional[float] = 1.0, theta: Optional[float] = 0.5, penalty: Optional[float] = 0.0, solver_name: Optional[str] = '', verbose: Optional[bool] = False, projection: Optional[bool] = False, saddle_preconditioner=None, restore_points_func: Callable = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Swarm-based Navier Stokes:</p>
@@ -2800,7 +2800,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Poisson"><code class="flex name class">
 <span>class <span class="ident">SNES_Poisson</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7ff7763256c0> = None, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7effb15256c0> = None, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>SNES-based poisson equation solver</p></div>
@@ -2934,7 +2934,7 @@ def poisson_problem_description(self):
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Projection"><code class="flex name class">
 <span>class <span class="ident">SNES_Projection</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7ff7763256c0> = None, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7effb15256c0> = None, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map underworld (pointwise) function to continuous
@@ -3125,7 +3125,7 @@ def projection_problem_description(self):
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Solenoidal_Vector_Projection"><code class="flex name class">
 <span>class <span class="ident">SNES_Solenoidal_Vector_Projection</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7ff7763256c0>, pressureField: <function MeshVariable at 0x7ff7763256c0>, solver_name: Optional[str] = '', verbose: Optional[str] = False, saddle_preconditioner=None)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7effb15256c0>, pressureField: <function MeshVariable at 0x7effb15256c0>, solver_name: Optional[str] = '', verbose: Optional[str] = False, saddle_preconditioner=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map underworld (pointwise) function to continuous
@@ -3315,7 +3315,7 @@ self._smoothing = sympify(smoothing_factor)</p></div>
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Stokes"><code class="flex name class">
 <span>class <span class="ident">SNES_Stokes</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7ff7763256c0>, pressureField: <function MeshVariable at 0x7ff7763256c0>, solver_name: Optional[str] = '', verbose: Optional[str] = False, saddle_preconditioner=None)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7effb15256c0>, pressureField: <function MeshVariable at 0x7effb15256c0>, solver_name: Optional[str] = '', verbose: Optional[str] = False, saddle_preconditioner=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This class provides functionality for a discrete representation
@@ -3772,7 +3772,7 @@ def stokes_problem_description(self):
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Vector_Projection"><code class="flex name class">
 <span>class <span class="ident">SNES_Vector_Projection</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7ff7763256c0> = None, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7effb15256c0> = None, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map underworld (pointwise) function to continuous
