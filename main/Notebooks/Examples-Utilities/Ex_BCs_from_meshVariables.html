@@ -56,7 +56,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Symbolic forms v. mesh variables" href="Ex_Coordinates.html" />
-    <link rel="prev" title="Constitutive relationships in Underworld (pt 1)" href="Ex-ConstitutiveTensors.html" />
+    <link rel="prev" title="Tests" href="Ex-ConstitutiveTensors.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -222,7 +222,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -242,7 +242,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -504,7 +504,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2 current active">
@@ -585,6 +585,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-Utilities/Ex_BCs_from_meshVariables.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -806,12 +835,20 @@ title="Print to PDF"
     <span class="n">meshbox</span><span class="o">.</span><span class="n">vtk</span><span class="p">(</span><span class="s2">&quot;tmp_mesh.vtk&quot;</span><span class="p">)</span>
     <span class="n">pvmesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;tmp_mesh.vtk&quot;</span><span class="p">)</span>
 
-    <span class="n">clipped_stack</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">normal</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">invert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">clipped_stack</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+        <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">normal</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">invert</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
 
     <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 
     <span class="c1"># pl.add_mesh(pvmesh,&#39;Blue&#39;, &#39;wireframe&#39; )</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pvmesh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
+        <span class="n">pvmesh</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -821,7 +858,9 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Poisson object</span>
 
-<span class="n">poisson</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">u_Field</span><span class="o">=</span><span class="n">t_soln</span><span class="p">,</span> <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;poisson&quot;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">poisson</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span>
+    <span class="n">mesh</span><span class="p">,</span> <span class="n">u_Field</span><span class="o">=</span><span class="n">t_soln</span><span class="p">,</span> <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;poisson&quot;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="mf">0.0</span>
 
@@ -893,7 +932,13 @@ title="Print to PDF"
     <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 
     <span class="c1"># pl.add_mesh(pvmesh,&#39;Blue&#39;, &#39;wireframe&#39; )</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pvmesh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
+        <span class="n">pvmesh</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -949,7 +994,7 @@ title="Print to PDF"
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Constitutive relationships in Underworld (pt 1)</p>
+            <p class="prev-next-title">Tests</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="Ex_Coordinates.html" title="next page">

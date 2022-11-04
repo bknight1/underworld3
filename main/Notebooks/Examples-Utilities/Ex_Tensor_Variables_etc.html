@@ -223,7 +223,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -243,7 +243,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -505,7 +505,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -586,6 +586,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-Utilities/Ex_Tensor_Variables_etc.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -706,7 +735,9 @@ variable that consists of discrete level values (integers).</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshbox</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span><span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">cellSize</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">32.0</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshbox</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span>
+    <span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">cellSize</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">32.0</span>
+<span class="p">)</span>
 <span class="n">meshbox</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -718,7 +749,7 @@ variable that consists of discrete level values (integers).</p>
 
 <span class="c1"># Some useful coordinate stuff</span>
 
-<span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
 </pre></div>
 </div>
 </div>
@@ -800,9 +831,9 @@ variable that consists of discrete level values (integers).</p>
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mat_density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
 <span class="n">density</span> <span class="o">=</span> <span class="p">(</span>
-      <span class="n">mat_density</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mat_density</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="o">+</span> <span class="n">mat_density</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="o">+</span> <span class="n">mat_density</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> 
+    <span class="o">+</span> <span class="n">mat_density</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
     <span class="o">+</span> <span class="n">mat_density</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
@@ -813,7 +844,7 @@ variable that consists of discrete level values (integers).</p>
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mat_viscosity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
 <span class="n">viscosity</span> <span class="o">=</span> <span class="p">(</span>
-      <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="o">+</span> <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="o">+</span> <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
     <span class="o">+</span> <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
@@ -852,7 +883,9 @@ variable that consists of discrete level values (integers).</p>
     <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="mf">1.0</span> <span class="o">*</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M1&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M2&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M3&quot;</span><span class="p">]</span>
+        <span class="mf">1.0</span> <span class="o">*</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M1&quot;</span><span class="p">]</span>
+        <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M2&quot;</span><span class="p">]</span>
+        <span class="o">+</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M3&quot;</span><span class="p">]</span>
     <span class="p">)</span>
 
     <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">density</span><span class="p">,</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -870,7 +903,13 @@ variable that consists of discrete level values (integers).</p>
 
 
 <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-    <span class="n">pvmesh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;visc&quot;</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.95</span>
+    <span class="n">pvmesh</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+    <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+    <span class="n">show_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;visc&quot;</span><span class="p">,</span>
+    <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -906,7 +945,9 @@ variable that consists of discrete level values (integers).</p>
     <span class="n">t_soln</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_0</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
 
 <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">T1</span><span class="p">):</span>
-    <span class="n">T1</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">init_t</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">T1</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">init_t</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -976,9 +1017,13 @@ variable that consists of discrete level values (integers).</p>
     <span class="k">with</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
         <span class="n">usol</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;mT1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">ad</span><span class="o">.</span><span class="n">_u_star_projected</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;mT1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">ad</span><span class="o">.</span><span class="n">_u_star_projected</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span>
+    <span class="p">)</span>
     <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;T1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">T1</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dT1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">T1</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">ad</span><span class="o">.</span><span class="n">_u_star_projected</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dT1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">T1</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">ad</span><span class="o">.</span><span class="n">_u_star_projected</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">meshbox</span><span class="o">.</span><span class="n">data</span>
+    <span class="p">)</span>
 
     <span class="n">arrow_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
     <span class="n">arrow_loc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
@@ -991,7 +1036,13 @@ variable that consists of discrete level values (integers).</p>
     <span class="c1"># pl.add_mesh(pvmesh,&#39;Black&#39;, &#39;wireframe&#39;)</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pvmesh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;dT1&quot;</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span>
+        <span class="n">pvmesh</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;dT1&quot;</span><span class="p">,</span>
+        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># pl.add_arrows(arrow_loc, arrow_length, mag=1.0e-4, opacity=0.5)</span>
@@ -1084,7 +1135,11 @@ variable that consists of discrete level values (integers).</p>
         <span class="n">pl</span><span class="o">.</span><span class="n">remove_scalar_bar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
         <span class="c1"># pl.remove_scalar_bar(&quot;T1&quot;)</span>
 
-        <span class="n">pl</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1250</span><span class="p">,</span> <span class="mi">1250</span><span class="p">),</span> <span class="n">return_img</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span>
+            <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+            <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">1250</span><span class="p">,</span> <span class="mi">1250</span><span class="p">),</span>
+            <span class="n">return_img</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="c1"># pl.show()</span>
         <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -1200,7 +1255,12 @@ meshbox.generate_xdmf(savefile)</p>
     <span class="c1">#             )</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_points</span><span class="p">(</span>
-        <span class="n">swarm_point_cloud</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">render_points_as_spheres</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+        <span class="n">swarm_point_cloud</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">render_points_as_spheres</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">point_size</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
     <span class="p">)</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>

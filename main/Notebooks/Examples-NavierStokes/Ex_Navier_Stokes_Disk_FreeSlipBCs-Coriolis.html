@@ -222,7 +222,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -242,7 +242,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -504,7 +504,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-Utilities/Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -585,6 +585,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-NavierStokes/Ex_Navier_Stokes_Disk_FreeSlipBCs-Coriolis.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -706,7 +735,9 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">meshio</span>
 
-<span class="n">meshball</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshes</span><span class="o">.</span><span class="n">SphericalShell</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">radius_outer</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">radius_inner</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">cell_size</span><span class="o">=</span><span class="mf">0.075</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">meshball</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshes</span><span class="o">.</span><span class="n">SphericalShell</span><span class="p">(</span>
+    <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">radius_outer</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">radius_inner</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">cell_size</span><span class="o">=</span><span class="mf">0.075</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -745,7 +776,9 @@ title="Print to PDF"
 
 <span class="kn">import</span> <span class="nn">sympy</span>
 
-<span class="n">radius_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="p">))</span>  <span class="c1"># normalise by outer radius if not 1.0</span>
+<span class="n">radius_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span><span class="p">)</span>
+<span class="p">)</span>  <span class="c1"># normalise by outer radius if not 1.0</span>
 <span class="n">unit_rvec</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">rvec</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0e-10</span> <span class="o">+</span> <span class="n">radius_fn</span><span class="p">)</span>
 <span class="n">gravity_fn</span> <span class="o">=</span> <span class="n">radius_fn</span>
 
@@ -795,7 +828,9 @@ title="Print to PDF"
     <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;navier_stokes&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">navier_stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="o">.</span><span class="n">delValue</span><span class="p">(</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">)</span>  <span class="c1"># We can flip the default behaviour at some point</span>
+<span class="n">navier_stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="o">.</span><span class="n">delValue</span><span class="p">(</span>
+    <span class="s2">&quot;ksp_monitor&quot;</span>
+<span class="p">)</span>  <span class="c1"># We can flip the default behaviour at some point</span>
 <span class="n">navier_stokes</span><span class="o">.</span><span class="n">_u_star_projector</span><span class="o">.</span><span class="n">petsc_options</span><span class="o">.</span><span class="n">delValue</span><span class="p">(</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">)</span>
 <span class="n">navier_stokes</span><span class="o">.</span><span class="n">_u_star_projector</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-2</span>
 <span class="n">navier_stokes</span><span class="o">.</span><span class="n">_u_star_projector</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;newtontr&quot;</span>
@@ -820,7 +855,10 @@ title="Print to PDF"
 <span class="c1"># navier_stokes.add_dirichlet_bc( (0.0, 0.0), &quot;Upper&quot;,  (0,1))</span>
 <span class="c1"># navier_stokes.add_dirichlet_bc( (0.0, 0.0), &quot;Centre&quot;, (0,1))</span>
 
-<span class="n">v_theta</span> <span class="o">=</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">fn</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">u_star_fn</span>
+<span class="n">v_theta</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">navier_stokes</span><span class="o">.</span><span class="n">theta</span> <span class="o">*</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">fn</span>
+    <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">u_star_fn</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -844,7 +882,9 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">meshball</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-    <span class="n">r</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">meshball</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># cf radius_fn which is 0-&gt;1</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">meshball</span><span class="o">.</span><span class="n">data</span>
+    <span class="p">)</span>  <span class="c1"># cf radius_fn which is 0-&gt;1</span>
 
 <span class="c1"># Write density into a variable for saving</span>
 
@@ -937,7 +977,11 @@ title="Print to PDF"
         <span class="p">)</span>
         <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span><span class="n">arrow_loc</span><span class="p">,</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
 
-        <span class="n">pl</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2560</span><span class="p">,</span> <span class="mi">2560</span><span class="p">),</span> <span class="n">return_img</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span>
+            <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+            <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2560</span><span class="p">,</span> <span class="mi">2560</span><span class="p">),</span>
+            <span class="n">return_img</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
@@ -966,7 +1010,9 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
 
     <span class="n">Omega_0</span> <span class="o">=</span> <span class="mf">50.0</span> <span class="o">*</span> <span class="nb">min</span><span class="p">(</span><span class="n">ts</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-    <span class="n">Coriolis</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Omega_0</span> <span class="o">*</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">v_theta</span><span class="p">)</span>
+    <span class="n">Coriolis</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">2.0</span> <span class="o">*</span> <span class="n">Omega_0</span> <span class="o">*</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">meshball</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">v_theta</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">navier_stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">Rayleigh</span> <span class="o">*</span> <span class="n">unit_rvec</span> <span class="o">*</span> <span class="n">t_init</span>  <span class="c1"># minus * minus</span>
     <span class="n">navier_stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">-=</span> <span class="n">free_slip_penalty</span>
@@ -987,7 +1033,9 @@ title="Print to PDF"
         <span class="n">v_soln_1</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
 
     <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">v_star</span><span class="p">):</span>
-        <span class="n">v_star</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">v_star</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+        <span class="n">v_star</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mf">0.5</span> <span class="o">*</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">v_star</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+        <span class="p">)</span>
 
     <span class="n">swarm</span><span class="o">.</span><span class="n">advection</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="n">delta_t</span><span class="p">,</span> <span class="n">corrector</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -1073,7 +1121,13 @@ title="Print to PDF"
 
     <span class="c1"># pl.add_mesh(pvmesh,&#39;Black&#39;, &#39;wireframe&#39;)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pvmesh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;Om&quot;</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span>
+        <span class="n">pvmesh</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;Om&quot;</span><span class="p">,</span>
+        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span><span class="n">arrow_loc</span><span class="p">,</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
 
@@ -1084,7 +1138,9 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Omega</span><span class="p">,</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Omega</span><span class="p">,</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span>
+    <span class="n">sympy</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Omega</span><span class="p">,</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Omega</span><span class="p">,</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">))</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>

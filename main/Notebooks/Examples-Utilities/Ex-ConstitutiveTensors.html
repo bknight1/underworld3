@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Constitutive relationships in Underworld (pt 1) &#8212; Underworld 3</title>
+    <title>Tests &#8212; Underworld 3</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -224,7 +224,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,7 +244,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -506,7 +506,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul class="current">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -587,6 +587,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-Utilities/Ex-ConstitutiveTensors.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -681,32 +710,84 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#introduction-to-constitutive-models">
-   Introduction to constitutive models
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Tests
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#constitutive-tensors">
-   Constitutive tensors
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mandel-form-sympy-tensorial-form-voigt-form">
-   Mandel form, sympy tensorial form, Voigt form
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#voigt-form">
-     Voigt form
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction-to-constitutive-models">
+     Introduction to constitutive models
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#references">
-     References.
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#constitutive-tensors">
+     Constitutive tensors
     </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mandel-form-sympy-tensorial-form-voigt-form">
+     Mandel form, sympy tensorial form, Voigt form
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#voigt-form">
+       Voigt form
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#references">
+       References.
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-does-this-show-then">
+   What does this show then ?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#this-is-the-mandel-form-of-the-constitutive-matrix-for-constant-viscosity">
+   This is the mandel form of the constitutive matrix for constant viscosity
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-define-tensor-explicitly-or-in-canonical-form-with-rotation">
+   Equivalence test: define tensor explicitly or in canonical form with rotation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-2d-tensor-rotation">
+   Equivalence test - 2D tensor rotation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-2d-tensor-definition">
+   Equivalence test - 2D tensor definition
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-3d-tensor-rotation">
+   Equivalence test - 3D tensor rotation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-3d-tensor-definition">
+   Equivalence test - 3D tensor definition
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-two-forms-are-equivalent-the-second-is-simpler-to-implement-and-sympy-probably-likes-it-better">
+   the two forms are equivalent, the second is simpler to implement and sympy probably likes it better.
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-does-the-identity-tensor-look-like-in-c-ijkl-converted">
+   What does the identity tensor look like in C_ijkl, converted ?
+  </a>
  </li>
 </ul>
 
@@ -717,7 +798,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Constitutive relationships in Underworld (pt 1)</h1>
+                <h1>Tests</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -727,32 +808,84 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#introduction-to-constitutive-models">
-   Introduction to constitutive models
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Tests
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#constitutive-tensors">
-   Constitutive tensors
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mandel-form-sympy-tensorial-form-voigt-form">
-   Mandel form, sympy tensorial form, Voigt form
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#voigt-form">
-     Voigt form
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#introduction-to-constitutive-models">
+     Introduction to constitutive models
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#references">
-     References.
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#constitutive-tensors">
+     Constitutive tensors
     </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mandel-form-sympy-tensorial-form-voigt-form">
+     Mandel form, sympy tensorial form, Voigt form
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#voigt-form">
+       Voigt form
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#references">
+       References.
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-does-this-show-then">
+   What does this show then ?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#this-is-the-mandel-form-of-the-constitutive-matrix-for-constant-viscosity">
+   This is the mandel form of the constitutive matrix for constant viscosity
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-define-tensor-explicitly-or-in-canonical-form-with-rotation">
+   Equivalence test: define tensor explicitly or in canonical form with rotation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-2d-tensor-rotation">
+   Equivalence test - 2D tensor rotation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-2d-tensor-definition">
+   Equivalence test - 2D tensor definition
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-3d-tensor-rotation">
+   Equivalence test - 3D tensor rotation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#equivalence-test-3d-tensor-definition">
+   Equivalence test - 3D tensor definition
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-two-forms-are-equivalent-the-second-is-simpler-to-implement-and-sympy-probably-likes-it-better">
+   the two forms are equivalent, the second is simpler to implement and sympy probably likes it better.
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-does-the-identity-tensor-look-like-in-c-ijkl-converted">
+   What does the identity tensor look like in C_ijkl, converted ?
+  </a>
  </li>
 </ul>
 
@@ -764,12 +897,17 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="constitutive-relationships-in-underworld-pt-1">
-<h1>Constitutive relationships in Underworld (pt 1)<a class="headerlink" href="#constitutive-relationships-in-underworld-pt-1" title="Permalink to this headline">#</a></h1>
-<p>Introduction to how the constitutive relationships in Underworld are formulated.</p>
-<div class="cell docutils container">
+  <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">petsc4py</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># %% [markdown]</span>
+<span class="c1"># # Constitutive relationships in Underworld (pt 1)</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Introduction to how the constitutive relationships in Underworld are formulated.</span>
+<span class="c1">#</span>
+<span class="c1"># %%</span>
+<span class="kn">import</span> <span class="nn">petsc4py</span>
 <span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
 </pre></div>
 </div>
@@ -777,19 +915,26 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">underworld3</span> <span class="k">as</span> <span class="nn">uw</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="kn">import</span> <span class="nn">underworld3</span> <span class="k">as</span> <span class="nn">uw</span>
 <span class="kn">from</span> <span class="nn">underworld3.systems</span> <span class="kn">import</span> <span class="n">Poisson</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">sympy</span>
-
-<span class="kn">import</span> <span class="nn">pytest</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>  <span class="c1"># since pytest runs pure python</span>
 </pre></div>
 </div>
@@ -797,34 +942,55 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span><span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">mesh2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span><span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span> 
                                               <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span> 
                                               <span class="n">cellSize</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">48.0</span><span class="p">,</span> 
                                               <span class="n">regular</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">u2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathbf</span><span class="si">{u2}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh2</span><span class="p">,</span> <span class="n">mesh2</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">VECTOR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;p^{(2)}&quot;</span><span class="p">,</span> <span class="n">mesh2</span><span class="p">,</span> <span class="n">mesh2</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">phi2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\phi^{(2)}&quot;</span><span class="p">,</span> <span class="n">mesh2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">mesh3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span><span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span> 
-                                              <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span> 
-                                              <span class="n">cellSize</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">8.0</span><span class="p">,</span> 
-                                              <span class="n">regular</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">u3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathbf</span><span class="si">{u3}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh3</span><span class="p">,</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">VECTOR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">p3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;p^{(3)}&quot;</span><span class="p">,</span> <span class="n">mesh3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">phi3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\phi^{(3)}&quot;</span><span class="p">,</span> <span class="n">mesh3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poisson2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="n">mesh2</span><span class="p">,</span> <span class="n">u_Field</span><span class="o">=</span><span class="n">phi2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathbf</span><span class="si">{u2}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh2</span><span class="p">,</span> <span class="n">mesh2</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">VECTOR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;p^{(2)}&quot;</span><span class="p">,</span> <span class="n">mesh2</span><span class="p">,</span> <span class="n">mesh2</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">phi2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\phi^{(2)}&quot;</span><span class="p">,</span> <span class="n">mesh2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span><span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span> 
+                                              <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">),</span> 
+                                              <span class="n">cellSize</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">8.0</span><span class="p">,</span> 
+                                              <span class="n">regular</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\mathbf</span><span class="si">{u3}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mesh3</span><span class="p">,</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">VECTOR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;p^{(3)}&quot;</span><span class="p">,</span> <span class="n">mesh3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">phi3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\phi^{(3)}&quot;</span><span class="p">,</span> <span class="n">mesh3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">VarType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">poisson2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="n">mesh2</span><span class="p">,</span> <span class="n">u_Field</span><span class="o">=</span><span class="n">phi2</span><span class="p">)</span>
 <span class="n">poisson3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Poisson</span><span class="p">(</span><span class="n">mesh3</span><span class="p">,</span> <span class="n">u_Field</span><span class="o">=</span><span class="n">phi3</span><span class="p">)</span>
-
-<span class="n">stokes2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">mesh2</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">u2</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">mesh2</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">u2</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>
 <span class="n">stokes3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">mesh3</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">u3</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p3</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -832,21 +998,15 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes2</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">stokes2</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Tests </span>
-
-<span class="c1"># The following tests are implemented with pytest. </span>
-
-</pre></div>
-</div>
-</div>
-</div>
+<section class="tex2jax_ignore mathjax_ignore" id="tests">
+<h1>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">#</a></h1>
+<p>The following tests are implemented with pytest.</p>
 <section id="introduction-to-constitutive-models">
 <h2>Introduction to constitutive models<a class="headerlink" href="#introduction-to-constitutive-models" title="Permalink to this headline">#</a></h2>
 <p>Constitutive models relate fluxes of a quantity to the gradients of the unknowns. For example, in thermal diffusion, there is a relationship between heat flux and temperature gradients which is known as <em>Fourier’s law</em> and which involves an empirically determined thermal conductivity.</p>
@@ -932,7 +1092,8 @@ title="Print to PDF"
 <p>Helnwein, P. (2001). Some remarks on the compressed matrix representation of symmetric second-order and fourth-order tensors. Computer Methods in Applied Mechanics and Engineering, 190(22–23), 2753–2770. <a class="reference external" href="https://doi.org/10.1016/S0045-7825(00)00263-2">https://doi.org/10.1016/S0045-7825(00)00263-2</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epsdot</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank2_symmetric_sym</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">dot</span><span class="se">\\</span><span class="s2">varepsilon&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">epsdot</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank2_symmetric_sym</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">dot</span><span class="se">\\</span><span class="s2">varepsilon&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">epsdot</span><span class="p">)</span>
 <span class="n">epsdot_vec</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank2_to_voigt</span><span class="p">(</span><span class="n">epsdot</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">epsdot_vec</span><span class="p">)</span>
@@ -943,40 +1104,59 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I4</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_identity</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">I4</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_identity</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">I4v</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">I4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">I4m</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">I4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">I4v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">I4v</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">I4m</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="what-does-this-show-then">
+<h1>What does this show then ?<a class="headerlink" href="#what-does-this-show-then" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## What does this show then ?</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">Pm</span> <span class="o">*</span> <span class="n">Pm</span> <span class="o">*</span> <span class="n">epsdot_vec</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Pm</span> <span class="o">*</span> <span class="n">Pm</span> <span class="o">*</span> <span class="n">epsdot_vec</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">Pm</span> <span class="o">*</span> <span class="n">I4v</span> <span class="o">*</span> <span class="n">Pm</span> <span class="o">*</span> <span class="n">epsdot_vec</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is the generic constitutive tensor with relevant symmetries for fluid mechanics problems</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c4sym</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_symmetric_sym</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">c4sym</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="this-is-the-mandel-form-of-the-constitutive-matrix-for-constant-viscosity">
+<h1>This is the mandel form of the constitutive matrix for constant viscosity<a class="headerlink" href="#this-is-the-mandel-form-of-the-constitutive-matrix-for-constant-viscosity" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;\eta&quot;</span><span class="p">)</span>
+<span class="n">Ceta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="n">eta</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Ceta</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is the generic constitutive tensor with relevant symmetries for fluid mechanics problems</span>
-
-<span class="n">c4sym</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_symmetric_sym</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">c4sym</span><span class="p">)</span>
-
-<span class="c1">## This is the mandel form of the constitutive matrix for constant viscosity</span>
-
-<span class="n">eta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;\eta&quot;</span><span class="p">)</span>
-<span class="n">Ceta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="n">eta</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Ceta</span><span class="p">)</span>
-
-<span class="c1"># And this is the equivalent tensor</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># And this is the equivalent tensor</span>
 <span class="n">display</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">mandel_to_rank4</span><span class="p">(</span><span class="n">Ceta</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -984,10 +1164,16 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cv</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">c4sym</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cv</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">c4sym</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">Cm</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">c4sym</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">Cv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Cv</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">Cm</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -995,23 +1181,28 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">=</span><span class="mi">3</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">d</span><span class="o">=</span><span class="mi">3</span>
 <span class="n">display</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_identity</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">d</span><span class="p">))</span>
 <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,(</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>&#64;# This is how we use those things</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#@# This is how we use those things</span>
-
-<span class="n">ViscousFlow</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">TransverseIsotropicFlowModel</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ViscousFlow</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">TransverseIsotropicFlowModel</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">ViscousFlow</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">eta_0</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta_0&quot;</span><span class="p">)</span>
 <span class="n">ViscousFlow</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">eta_1</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta_1&quot;</span><span class="p">)</span>
 <span class="n">ViscousFlow</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">director</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-
-<span class="n">stokes3</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">ViscousFlow</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes3</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">ViscousFlow</span>
 <span class="n">display</span><span class="p">(</span><span class="n">stokes3</span><span class="o">.</span><span class="n">strainrate</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">stokes3</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">flux</span><span class="p">(</span><span class="n">stokes3</span><span class="o">.</span><span class="n">strainrate</span><span class="p">))</span>
 </pre></div>
@@ -1020,25 +1211,34 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ViscousFlow</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">eta_0</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta_0&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">ViscousFlow</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">eta_0</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta_0&quot;</span><span class="p">)</span>
 <span class="n">ViscousFlow</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">eta_1</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta_0&quot;</span><span class="p">)</span>
 <span class="n">ViscousFlow</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">director</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># Doesn&#39;t matter if the viscosity are the same</span>
-
-<span class="n">stokes3</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">flux</span><span class="p">(</span><span class="n">stokes3</span><span class="o">.</span><span class="n">strainrate</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmods</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">TransverseIsotropicFlowModel</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes3</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">flux</span><span class="p">(</span><span class="n">stokes3</span><span class="o">.</span><span class="n">strainrate</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmods</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">TransverseIsotropicFlowModel</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">Cmods</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">eta_0</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta_0&quot;</span><span class="p">)</span>
 <span class="n">Cmods</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">eta_1</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta_1&quot;</span><span class="p">)</span>
-
-<span class="n">Cmods</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">director</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-<span class="n">display</span><span class="p">(</span><span class="n">Cmods</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
-
-<span class="n">Cmods</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">director</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmods</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">director</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
 <span class="n">display</span><span class="p">(</span><span class="n">Cmods</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1046,7 +1246,16 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Description / help is especially useful in notebook form</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmods</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">director</span><span class="o">=</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Cmods</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Description / help is especially useful in notebook form</span>
 <span class="n">Cmods</span>
 </pre></div>
 </div>
@@ -1054,7 +1263,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gradT</span> <span class="o">=</span> <span class="n">mesh2</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">phi2</span><span class="o">.</span><span class="n">sym</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">gradT</span> <span class="o">=</span> <span class="n">mesh2</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">phi2</span><span class="o">.</span><span class="n">sym</span><span class="p">)</span>
 <span class="n">Cmodp</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">Constitutive_Model</span><span class="p">(</span><span class="n">mesh2</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">Cmodp</span>
 </pre></div>
@@ -1063,7 +1273,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmodp</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">kappa&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmodp</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">kappa&quot;</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">Cmodp</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">Cmodp</span><span class="o">.</span><span class="n">c</span><span class="p">)</span>
 </pre></div>
@@ -1072,14 +1283,16 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmodp</span><span class="o">.</span><span class="n">flux</span><span class="p">(</span><span class="n">gradT</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmodp</span><span class="o">.</span><span class="n">flux</span><span class="p">(</span><span class="n">gradT</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmods</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">eta&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmods</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">eta&quot;</span><span class="p">)</span>
 <span class="n">Cmods</span><span class="o">.</span><span class="n">c</span>
 </pre></div>
 </div>
@@ -1087,14 +1300,16 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmods</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmods</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmodv</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmodv</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">Cmodv</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\eta&quot;</span><span class="p">)</span>
 <span class="n">Cmodv</span>
 </pre></div>
@@ -1103,59 +1318,86 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmodv</span><span class="o">.</span><span class="n">flux</span><span class="p">(</span><span class="n">epsdot</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmodv</span><span class="o">.</span><span class="n">flux</span><span class="p">(</span><span class="n">epsdot</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Cvisc = sympy.symbols(r’\eta’) * uw.maths.tensor.rank4_identity(2)
+Celas = sympy.symbols(r’\mu’) * uw.maths.tensor.rank4_identity(2)</p>
+<p>Cvisc + Celas</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="equivalence-test-define-tensor-explicitly-or-in-canonical-form-with-rotation">
+<h1>Equivalence test: define tensor explicitly or in canonical form with rotation<a class="headerlink" href="#equivalence-test-define-tensor-explicitly-or-in-canonical-form-with-rotation" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cvisc = sympy.symbols(r&#39;\eta&#39;) * uw.maths.tensor.rank4_identity(2)</span>
-<span class="c1"># Celas = sympy.symbols(r&#39;\mu&#39;) * uw.maths.tensor.rank4_identity(2)</span>
-
-<span class="c1"># Cvisc + Celas</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Equivalence test: define tensor explicitly or in canonical form with rotation</span>
-
-<span class="n">n</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">((</span><span class="o">-</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
 <span class="n">n_ijk</span> <span class="o">=</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">to_vector</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 <span class="n">s_ijk</span> <span class="o">=</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">to_vector</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 <span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="n">mesh3</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(</span><span class="n">n_ijk</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">s_ijk</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
-
-<span class="n">R</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">((</span><span class="n">s</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">((</span><span class="n">s</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">()</span>
 <span class="n">R2</span> <span class="o">=</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
-
-<span class="c1">## Equivalence test - 2D tensor rotation </span>
-
-<span class="n">Delta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\Delta&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="equivalence-test-2d-tensor-rotation">
+<h1>Equivalence test - 2D tensor rotation<a class="headerlink" href="#equivalence-test-2d-tensor-rotation" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Delta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\Delta&quot;</span><span class="p">)</span>
 <span class="n">lambda_matrix</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">Delta</span><span class="p">])</span>
 <span class="n">lambda_ani</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">mandel_to_rank4</span><span class="p">(</span><span class="n">lambda_matrix</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">lambda_xyz</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">lambda_ani</span><span class="p">))</span>
 <span class="n">lambda_xyz_m</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">lambda_xyz</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-
-<span class="c1">## Equivalence test - 2D tensor definition</span>
-
-<span class="n">d</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="equivalence-test-2d-tensor-definition">
+<h1>Equivalence test - 2D tensor definition<a class="headerlink" href="#equivalence-test-2d-tensor-definition" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">=</span><span class="mi">2</span>
 <span class="n">lambda_mat2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_identity</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">0</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
                 <span class="n">lambda_mat2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">Delta</span> <span class="o">*</span> <span class="p">((</span><span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> 
                                                  <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">==</span><span class="n">i</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span> 
                                                  <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="p">)</span>
-
-<span class="n">lambda_mat_m</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">lambda_mat2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lambda_mat_m</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">lambda_mat2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">difference</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">lambda_mat_m</span> <span class="o">-</span> <span class="n">lambda_xyz_m</span><span class="p">)</span>
-
-<span class="c1"># Are they term-by-term equivalent </span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Are they term-by-term equivalent </span>
 <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">difference</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -1163,130 +1405,205 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="n">n</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
 <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">((</span><span class="o">-</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span><span class="o">/</span><span class="mi">2</span> 
 <span class="n">s</span> <span class="o">/=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">s</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>
-
-<span class="n">n_ijk</span> <span class="o">=</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">to_vector</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_ijk</span> <span class="o">=</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">to_vector</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 <span class="n">s_ijk</span> <span class="o">=</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">to_vector</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">mesh3</span><span class="o">.</span><span class="n">vector</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">(</span><span class="n">n_ijk</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">s_ijk</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
-
-<span class="n">R</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">()</span>
-
-<span class="c1">## Equivalence test - 3D tensor rotation </span>
-
-<span class="n">Delta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\Delta&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="equivalence-test-3d-tensor-rotation">
+<h1>Equivalence test - 3D tensor rotation<a class="headerlink" href="#equivalence-test-3d-tensor-rotation" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Delta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\Delta&quot;</span><span class="p">)</span>
 <span class="n">lambda_matrix</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Delta</span> <span class="p">,</span> <span class="n">Delta</span><span class="p">])</span>
 <span class="n">lambda_ani</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">mandel_to_rank4</span><span class="p">(</span><span class="n">lambda_matrix</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">lambda_xyz</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">lambda_ani</span><span class="p">))</span>
 <span class="n">lambda_xyz_m</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">lambda_xyz</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-
-<span class="c1">## Equivalence test - 3D tensor definition</span>
-
-<span class="n">d</span><span class="o">=</span><span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="equivalence-test-3d-tensor-definition">
+<h1>Equivalence test - 3D tensor definition<a class="headerlink" href="#equivalence-test-3d-tensor-definition" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">=</span><span class="mi">3</span>
 <span class="n">lambda_mat2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_identity</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mi">0</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
                 <span class="n">lambda_mat2</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">Delta</span> <span class="o">*</span> <span class="p">((</span><span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> 
                                                  <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">==</span><span class="n">i</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span> 
                                                  <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="p">)</span>
-
-<span class="n">lambda_mat_m</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">lambda_mat2</span><span class="p">,</span><span class="n">d</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lambda_mat_m</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">uw</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">lambda_mat2</span><span class="p">,</span><span class="n">d</span><span class="p">))</span>
 <span class="n">difference</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">lambda_mat_m</span> <span class="o">-</span> <span class="n">lambda_xyz_m</span><span class="p">)</span>
-
-<span class="c1"># Are they term-by-term equivalent (should be if n is a unit vector)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Are they term-by-term equivalent (should be if n is a unit vector)</span>
 <span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">difference</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
-
-
-<span class="c1">## the two forms are equivalent, the second is simpler to implement and sympy probably likes it better.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="the-two-forms-are-equivalent-the-second-is-simpler-to-implement-and-sympy-probably-likes-it-better">
+<h1>the two forms are equivalent, the second is simpler to implement and sympy probably likes it better.<a class="headerlink" href="#the-two-forms-are-equivalent-the-second-is-simpler-to-implement-and-sympy-probably-likes-it-better" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="what-does-the-identity-tensor-look-like-in-c-ijkl-converted">
+<h1>What does the identity tensor look like in C_ijkl, converted ?<a class="headerlink" href="#what-does-the-identity-tensor-look-like-in-c-ijkl-converted" title="Permalink to this headline">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## What does the identity tensor look like in C_ijkl, converted ?</span>
-
-<span class="n">d</span> <span class="o">=</span> <span class="mi">2</span>
-
-<span class="n">I</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
                 <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sympify</span><span class="p">((</span><span class="n">i</span><span class="o">==</span><span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="n">l</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="n">k</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
-
-<span class="n">I</span>
-
-<span class="n">mesh</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh3</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">voigt_to_rank4</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">inv</span><span class="p">()</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">P</span><span class="o">.</span><span class="n">inv</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\dot\epsilon&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_mandel</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">mesh3</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">voigt_to_rank4</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">inv</span><span class="p">()</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">P</span><span class="o">.</span><span class="n">inv</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">E3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\dot\epsilon&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
 <span class="n">E3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">E3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># enforce symmetry</span>
 <span class="n">E3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">E3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#    --- &quot; ---</span>
 <span class="n">E3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">E3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#    --- &quot; ---</span>
-
-<span class="n">mesh3</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank2_to_mandel</span><span class="p">(</span><span class="n">E3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tau_r</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">E3</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-
-<span class="n">tau_r</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh3</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank2_to_mandel</span><span class="p">(</span><span class="n">E3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">tau_r</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">E3</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span><span class="o">*</span><span class="n">mesh3</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="o">*</span><span class="n">P</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tau_r</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="n">Cmd</span> <span class="o">*</span> <span class="n">Em</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">P</span><span class="o">*</span><span class="n">mesh3</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="o">*</span><span class="n">P</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">P</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="n">Cmd</span> <span class="o">*</span> <span class="n">Em</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
 <span class="n">eta</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;\eta&quot;</span><span class="p">)</span>
 <span class="n">C</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="n">eta</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
@@ -1295,44 +1612,55 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Pm</span> <span class="o">=</span> 
-
-<span class="n">Cv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Pm</span> <span class="o">=</span> 
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">*</span> <span class="n">Cmods</span><span class="o">.</span><span class="n">template_L</span> <span class="c1"># this is the strain rate in Mandel form</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cv</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">P</span> <span class="o">*</span> <span class="n">Cmods</span><span class="o">.</span><span class="n">template_L</span> <span class="c1"># this is the strain rate in Mandel form</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\partial\phi,&#39;</span><span class="p">,(</span><span class="n">d</span><span class="p">,)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">left(</span><span class="se">\\</span><span class="s2">nabla</span><span class="se">\\</span><span class="s2">mathbf</span><span class="si">{u}</span><span class="se">\\</span><span class="s2">right)&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\partial\phi,&#39;</span><span class="p">,(</span><span class="n">d</span><span class="p">,)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">left(</span><span class="se">\\</span><span class="s2">nabla</span><span class="se">\\</span><span class="s2">mathbf</span><span class="si">{u}</span><span class="se">\\</span><span class="s2">right)&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
 <span class="n">M</span>
 </pre></div>
 </div>
@@ -1340,7 +1668,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Mt</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">left(</span><span class="se">\\</span><span class="s2">nabla</span><span class="se">\\</span><span class="s2">mathbf{u^*} + </span><span class="se">\\</span><span class="s2">nabla</span><span class="se">\\</span><span class="s2">mathbf{u^*}^T</span><span class="se">\\</span><span class="s2">right)&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Mt</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">left(</span><span class="se">\\</span><span class="s2">nabla</span><span class="se">\\</span><span class="s2">mathbf{u^*} + </span><span class="se">\\</span><span class="s2">nabla</span><span class="se">\\</span><span class="s2">mathbf{u^*}^T</span><span class="se">\\</span><span class="s2">right)&quot;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
 <span class="n">Mt</span>
 </pre></div>
 </div>
@@ -1348,21 +1677,24 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="o">.</span><span class="n">is_symmetric</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">C</span><span class="o">.</span><span class="n">is_symmetric</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">isinstance</span><span class="p">(</span><span class="n">stokes</span><span class="p">,</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">SNES_Vector</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">stokes</span><span class="p">,</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">SNES_Vector</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set some things</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Set some things</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="mf">1.</span> 
 <span class="n">poisson</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="mf">0.</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span> <span class="mf">1.</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span> <span class="p">)</span>  
@@ -1373,7 +1705,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poisson</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">poisson</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">snes</span><span class="o">.</span><span class="n">setTolerances</span><span class="p">(</span><span class="n">rtol</span><span class="o">=</span><span class="mf">1.0e-6</span><span class="p">)</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">snes</span><span class="o">.</span><span class="n">ksp</span><span class="o">.</span><span class="n">monitorCancel</span><span class="p">()</span>
 </pre></div>
@@ -1382,7 +1715,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solve time</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Solve time</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1390,7 +1724,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">poisson</span><span class="o">.</span><span class="n">_f1</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">display</span><span class="p">(</span><span class="n">poisson</span><span class="o">.</span><span class="n">_f1</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">poisson</span><span class="o">.</span><span class="n">_L</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1398,21 +1733,24 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmod</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">Constitutive_Model</span><span class="p">(</span><span class="n">poisson</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmod</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">Constitutive_Model</span><span class="p">(</span><span class="n">poisson</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmod</span><span class="o">.</span><span class="n">template_c</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmod</span><span class="o">.</span><span class="n">template_c</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmod3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">Constitutive_Model</span><span class="p">(</span><span class="n">poisson3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmod3</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">Constitutive_Model</span><span class="p">(</span><span class="n">poisson3</span><span class="p">)</span>
 <span class="n">Cmod3</span><span class="o">.</span><span class="n">template_c</span>
 </pre></div>
 </div>
@@ -1420,28 +1758,32 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmods</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">Constitutive_Model</span><span class="p">(</span><span class="n">stokes</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmods</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">Constitutive_Model</span><span class="p">(</span><span class="n">stokes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cmods</span><span class="o">.</span><span class="n">template_c</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Cmods</span><span class="o">.</span><span class="n">template_c</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">Cmods</span><span class="o">.</span><span class="n">template_c</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">rank4_to_voigt</span><span class="p">(</span><span class="n">Cmods</span><span class="o">.</span><span class="n">template_c</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
 <span class="n">K</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">K</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
 </pre></div>
@@ -1450,28 +1792,32 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">rot_axis3</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">rot_axis3</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">K</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">K</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">K1</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">K</span> <span class="o">*</span> <span class="n">R</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">K1</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">K</span> <span class="o">*</span> <span class="n">R</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">K1</span> <span class="o">*</span> <span class="n">poisson</span><span class="o">.</span><span class="n">_L</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="p">(</span><span class="n">K1</span> <span class="o">*</span> <span class="n">poisson</span><span class="o">.</span><span class="n">_L</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 </div>
 </div>
@@ -1487,17 +1833,20 @@ to make sure it works for rank 4 case.</p>
 <p><span class="math notranslate nohighlight">\(\displaystyle a_{ij}' = {\cal R}_{ik}\,{\cal R}_{jl}\,a_{kl},\)</span></p>
 <p>and for higher rank tensors, we just continue …</p>
 <p><span class="math notranslate nohighlight">\(\displaystyle a_{ijk}' = {\cal R}_{il}\,{\cal R}_{jm}\,{\cal R}_{kn}\,a_{lmn}.\)</span></p>
+<p>2D example - this should be one of the tests.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2D example - this should be one of the tests.</span>
-
-<span class="n">R</span>  <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">rot_axis3</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span>  <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">rot_axis3</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">R4</span>  <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">rot_axis3</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">R2</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">rot_axis3</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">R34</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">rot_axis3</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
-
-
-<span class="n">display</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">R2</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">R4</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">R34</span><span class="p">)</span>
@@ -1507,7 +1856,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tensor_rotation</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="k">def</span> <span class="nf">tensor_rotation</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
     <span class="n">rank</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rank = &quot;</span><span class="p">,</span><span class="n">rank</span><span class="p">)</span>
     
@@ -1523,12 +1873,16 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
 <span class="n">C</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
 <span class="n">V</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,(</span><span class="mi">2</span><span class="p">,)))</span>
-
-<span class="n">A3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
 <span class="n">C3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
 <span class="n">V3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,)))</span>
 </pre></div>
@@ -1537,41 +1891,74 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">CC</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
 <span class="n">eta0</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;\eta_0&quot;</span><span class="p">)</span>
 <span class="n">eta1</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;\eta_1&quot;</span><span class="p">)</span>
-
-<span class="n">CC</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">eta0</span>
-<span class="n">CC</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
-<span class="n">CC</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
-
-
-<span class="n">E</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\dot\epsilon&#39;</span><span class="p">,(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
-<span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># enforce symmetry</span>
-
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="n">CC3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">C3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">eta0</span>
+<span class="n">CC</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
+<span class="n">CC</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\dot\epsilon&#39;</span><span class="p">,(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)))</span>
+<span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># enforce symmetry</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">C3</span><span class="p">)</span>
 <span class="n">eta30</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;\eta_0&quot;</span><span class="p">)</span>
 <span class="n">eta31</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;\eta_1&quot;</span><span class="p">)</span>
-
-<span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">eta0</span>
-
-<span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">eta0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
 <span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
-
-<span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
 <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta1</span>
-
-<span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta0</span>
 <span class="n">CC3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">CC3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">eta0</span>
-
-<span class="n">E3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\dot\epsilon&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">E3</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseNDimArray</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">symarray</span><span class="p">(</span><span class="s1">&#39;\dot\epsilon&#39;</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
 <span class="n">E3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">E3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># enforce symmetry</span>
 <span class="n">E3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">E3</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#    --- &quot; ---</span>
 <span class="n">E3</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">E3</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#    --- &quot; ---</span>
@@ -1581,7 +1968,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
 <span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">P</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
@@ -1590,7 +1978,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tau_v</span> <span class="o">=</span> <span class="n">Cv</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="n">Ev</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">tau_v</span> <span class="o">=</span> <span class="n">Cv</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="n">Ev</span><span class="o">.</span><span class="n">T</span>
 <span class="n">tau_v</span>
 </pre></div>
 </div>
@@ -1598,7 +1987,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">voigt_to_rank2</span><span class="p">(</span><span class="n">tau_v</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">display</span><span class="p">(</span><span class="n">voigt_to_rank2</span><span class="p">(</span><span class="n">tau_v</span><span class="p">))</span>
 <span class="n">mesh3</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">voigt_to_rank2</span><span class="p">(</span><span class="n">tau_v</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1606,7 +1996,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tau</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">CC3</span><span class="p">,</span> <span class="n">E3</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">CC3</span><span class="p">,</span> <span class="n">E3</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">display</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1614,11 +2005,17 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CCr</span> <span class="o">=</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R34</span><span class="p">,</span> <span class="n">CC</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">CCr</span> <span class="o">=</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R34</span><span class="p">,</span> <span class="n">CC</span><span class="p">)</span>
 <span class="n">tau_r</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">CCr</span><span class="p">,</span> <span class="n">E</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">tau_r</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">CCr</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">CCr</span><span class="p">))</span>
 <span class="n">display</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">tau_r</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1626,34 +2023,41 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">display</span><span class="p">(</span><span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
 <span class="n">display</span><span class="p">(</span><span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">V</span><span class="p">))</span>
-
-<span class="n">A2</span> <span class="o">=</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A2</span> <span class="o">=</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
 <span class="n">A3</span> <span class="o">=</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">A2</span><span class="p">)</span>
-
-
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Crot</span> <span class="o">=</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">C</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Crot</span> <span class="o">=</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">tensor_rotation</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">C</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Crot</span> <span class="o">-</span> <span class="n">C</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">Crot</span> <span class="o">-</span> <span class="n">C</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">C</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">C</span><span class="o">.</span><span class="n">shape</span>
 <span class="n">C</span>
 </pre></div>
@@ -1662,38 +2066,41 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">R</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">sympy</span><span class="o">.</span><span class="n">tensorcontraction</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">R</span><span class="p">),(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">R</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">sympy</span><span class="o">.</span><span class="n">tensorproduct</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">R</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">R</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Check. Construct simple linear which is solution for
+above config.  Exclude boundaries from mesh data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check. Construct simple linear which is solution for </span>
-<span class="c1"># above config.  Exclude boundaries from mesh data. </span>
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="k">with</span> <span class="n">mesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
     <span class="n">mesh_numerical_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">poisson</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="n">mesh_analytic_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -1705,18 +2112,23 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">mesh_analytic_soln</span> <span class="o">-</span> <span class="n">mesh_numerical_soln</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="p">(</span><span class="n">mesh_analytic_soln</span> <span class="o">-</span> <span class="n">mesh_numerical_soln</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Validate</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Validate</span>
-
-<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
-
-<span class="k">if</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">size</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">size</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
 
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
@@ -1750,7 +2162,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now let&#39;s construct something a little more complex.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Now let&#39;s construct something a little more complex.</span>
 <span class="c1"># First get the coord system off the mesh/dm.</span>
 <span class="n">N</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">N</span>
 </pre></div>
@@ -1759,7 +2172,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create some function using one of the base scalars N.x/N.y/N.z</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Create some function using one of the base scalars N.x/N.y/N.z</span>
 <span class="kn">import</span> <span class="nn">sympy</span>
 <span class="n">k</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">N</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
@@ -1768,7 +2182,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># View</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># View</span>
 <span class="n">k</span>
 </pre></div>
 </div>
@@ -1776,7 +2191,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Don&#39;t forget to set the diffusivity</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Don&#39;t forget to set the diffusivity</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
 </pre></div>
 </div>
@@ -1784,17 +2200,24 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">mesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="k">with</span> <span class="n">mesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
     <span class="n">orig_soln</span> <span class="o">=</span> <span class="n">poisson</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    
-<span class="n">poisson</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simply confirm different results</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poisson</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Simply confirm different results</span>
 <span class="k">with</span> <span class="n">mesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">poisson</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">orig_soln</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unexpected values encountered.&quot;</span><span class="p">)</span>
@@ -1804,7 +2227,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nonlinear example</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Nonlinear example</span>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshes</span><span class="o">.</span><span class="n">Unstructured_Simplex_Box</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">cell_size</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span> 
 <span class="n">mesh</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
 </pre></div>
@@ -1813,21 +2237,24 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poisson</span> <span class="o">=</span> <span class="n">Poisson</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">poisson</span> <span class="o">=</span> <span class="n">Poisson</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">poisson</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">fn</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">poisson</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">fn</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sympy.vector</span> <span class="kn">import</span> <span class="n">gradient</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="kn">from</span> <span class="nn">sympy.vector</span> <span class="kn">import</span> <span class="n">gradient</span>
 <span class="n">nabla_u</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">nabla_u</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">nabla_u</span><span class="p">))</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">k</span>
@@ -1837,7 +2264,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">N</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">N</span>
 <span class="n">abs_r2</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">N</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="o">-</span><span class="mi">16</span><span class="o">*</span><span class="n">abs_r2</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">f</span>
@@ -1845,16 +2273,11 @@ to make sure it works for rank 4 case.</p>
 </div>
 </div>
 </div>
+<p>poisson.add_dirichlet_bc(abs_r2, “All_dm_boundaries” )</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># poisson.add_dirichlet_bc(abs_r2, &quot;All_dm_boundaries&quot; )</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># First solve linear to get reasonable initial guess.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># First solve linear to get reasonable initial guess.</span>
 <span class="n">k_keep</span> <span class="o">=</span> <span class="n">poisson</span><span class="o">.</span><span class="n">k</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="mf">1.</span>
 <span class="n">poisson</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
@@ -1867,7 +2290,8 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">mesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="k">with</span> <span class="n">mesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
     <span class="n">exact</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">mesh</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">poisson</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">exact</span><span class="p">[:],</span><span class="n">rtol</span><span class="o">=</span><span class="mf">7.e-2</span><span class="p">):</span>
         <span class="n">l2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">exact</span><span class="p">[:]</span><span class="o">-</span><span class="n">poisson</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
@@ -1878,20 +2302,20 @@ to make sure it works for rank 4 case.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poisson</span><span class="o">.</span><span class="n">_f1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">poisson</span><span class="o">.</span><span class="n">_f1</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-</section>
 </section>
 
     <script type="text/x-thebe-config">

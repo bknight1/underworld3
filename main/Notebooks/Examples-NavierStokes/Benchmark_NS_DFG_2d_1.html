@@ -224,7 +224,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -244,7 +244,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -506,7 +506,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-Utilities/Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -587,6 +587,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-NavierStokes/Benchmark_NS_DFG_2d_1.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -731,9 +760,17 @@ title="Print to PDF"
 
         <span class="n">geom</span><span class="o">.</span><span class="n">characteristic_length_max</span> <span class="o">=</span> <span class="n">csize</span>
 
-        <span class="n">inclusion</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_circle</span><span class="p">((</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">make_surface</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize_circle</span><span class="p">)</span>
+        <span class="n">inclusion</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_circle</span><span class="p">(</span>
+            <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">make_surface</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize_circle</span>
+        <span class="p">)</span>
         <span class="n">domain</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">add_rectangle</span><span class="p">(</span>
-            <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="p">[</span><span class="n">inclusion</span><span class="p">],</span> <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize</span>
+            <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">ymin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">xmax</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+            <span class="n">ymax</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+            <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">holes</span><span class="o">=</span><span class="p">[</span><span class="n">inclusion</span><span class="p">],</span>
+            <span class="n">mesh_size</span><span class="o">=</span><span class="n">csize</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">geom</span><span class="o">.</span><span class="n">add_physical</span><span class="p">(</span><span class="n">domain</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">curve_loop</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">)</span>
@@ -890,7 +927,9 @@ title="Print to PDF"
 <span class="n">navier_stokes</span><span class="o">.</span><span class="n">penalty</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">navier_stokes</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">navier_stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="mf">1.0e-32</span> <span class="o">*</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">i</span>
-<span class="n">navier_stokes</span><span class="o">.</span><span class="n">_Ppre_fn</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">navier_stokes</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">+</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">rho</span> <span class="o">/</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">delta_t</span><span class="p">)</span>
+<span class="n">navier_stokes</span><span class="o">.</span><span class="n">_Ppre_fn</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span>
+    <span class="n">navier_stokes</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">+</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">rho</span> <span class="o">/</span> <span class="n">navier_stokes</span><span class="o">.</span><span class="n">delta_t</span>
+<span class="p">)</span>
 
 
 <span class="n">hw</span> <span class="o">=</span> <span class="mf">1000.0</span> <span class="o">/</span> <span class="n">res</span>
@@ -970,9 +1009,13 @@ title="Print to PDF"
         <span class="n">usol</span> <span class="o">=</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">with</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Vmag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Vmag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">p_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dVy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">((</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">v_stokes</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span><span class="p">),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dVy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">v_stokes</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span><span class="p">),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span>
 
     <span class="n">v_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
     <span class="n">v_vectors</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
@@ -991,7 +1034,9 @@ title="Print to PDF"
     <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">_centroids</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
     <span class="n">point_cloud</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
 
-    <span class="n">pvstream</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">streamlines_from_source</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">,</span> <span class="n">vectors</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">integration_direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">pvstream</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">streamlines_from_source</span><span class="p">(</span>
+        <span class="n">point_cloud</span><span class="p">,</span> <span class="n">vectors</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">integration_direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">100</span>
+    <span class="p">)</span>
 
     <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
 
@@ -1057,8 +1102,12 @@ title="Print to PDF"
 
         <span class="k">with</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
             <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">p_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-            <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dVy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">((</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">v_stokes</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span><span class="p">),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-            <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Omega&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">vorticity</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dVy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">v_stokes</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span><span class="p">),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span>
+            <span class="p">)</span>
+            <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Omega&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+                <span class="n">vorticity</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span>
+            <span class="p">)</span>
 
         <span class="k">with</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
             <span class="n">usol</span> <span class="o">=</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1095,7 +1144,13 @@ title="Print to PDF"
 
         <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pvstream</span><span class="p">)</span>
 
-        <span class="n">pl</span><span class="o">.</span><span class="n">add_points</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">render_points_as_spheres</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">add_points</span><span class="p">(</span>
+            <span class="n">point_cloud</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+            <span class="n">render_points_as_spheres</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">SetPosition</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
         <span class="n">pl</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">SetFocalPoint</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
@@ -1105,7 +1160,11 @@ title="Print to PDF"
         <span class="n">pl</span><span class="o">.</span><span class="n">remove_scalar_bar</span><span class="p">(</span><span class="s2">&quot;mag&quot;</span><span class="p">)</span>
         <span class="n">pl</span><span class="o">.</span><span class="n">remove_scalar_bar</span><span class="p">(</span><span class="s2">&quot;V&quot;</span><span class="p">)</span>
 
-        <span class="n">pl</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2560</span><span class="p">,</span> <span class="mi">1280</span><span class="p">),</span> <span class="n">return_img</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">screenshot</span><span class="p">(</span>
+            <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+            <span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2560</span><span class="p">,</span> <span class="mi">1280</span><span class="p">),</span>
+            <span class="n">return_img</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="n">pl</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
@@ -1136,7 +1195,10 @@ title="Print to PDF"
     <span class="n">navier_stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">timestep</span><span class="o">=</span><span class="n">dt_ns</span><span class="p">,</span> <span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">v_star</span><span class="p">):</span>
-        <span class="n">v_star</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">v_star</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">v_star</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">phi</span> <span class="o">*</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">v_star</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span>
 
     <span class="c1"># update passive swarm</span>
 
@@ -1146,9 +1208,9 @@ title="Print to PDF"
     <span class="n">passive_swarm</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">addNPoints</span><span class="p">(</span><span class="n">npoints</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">passive_swarm</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">passive_swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">npoints</span><span class="p">):</span>
-            <span class="n">passive_swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="o">-</span><span class="p">(</span><span class="n">npoints</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.195</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">npoints</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-            <span class="p">)</span>
+            <span class="n">passive_swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[</span>
+                <span class="o">-</span><span class="mi">1</span> <span class="p">:</span> <span class="o">-</span><span class="p">(</span><span class="n">npoints</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span>
+            <span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.195</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">npoints</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
 
     <span class="c1"># update integration swarm</span>
 
@@ -1220,9 +1282,13 @@ title="Print to PDF"
         <span class="n">usol</span> <span class="o">=</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">with</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Vmag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Vmag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="n">sympy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">)),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">p_soln</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dVy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">((</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">v_stokes</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span><span class="p">),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dVy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">fn</span> <span class="o">-</span> <span class="n">v_stokes</span><span class="o">.</span><span class="n">fn</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span><span class="p">),</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span>
+        <span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;Omega&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">vorticity</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="n">v_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">pipemesh</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>

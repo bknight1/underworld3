@@ -220,7 +220,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -240,7 +240,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -502,7 +502,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-Utilities/Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -583,6 +583,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-UW-2to3/Ex_stokes_Sinker-UWComp-NonLinear.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -731,7 +760,8 @@ title="Print to PDF"
 <p>Testing a non-linear implementation of the Stokes sinker between UW2 and UW3. This system consists of a dense, high viscosity sphere falling through a background lower density and a non-linear viscoplastic fluid (strain-rate dependent).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">underworld</span> <span class="k">as</span> <span class="nn">uw2</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="kn">import</span> <span class="nn">underworld</span> <span class="k">as</span> <span class="nn">uw2</span>
 <span class="kn">from</span> <span class="nn">underworld</span> <span class="kn">import</span> <span class="n">function</span> <span class="k">as</span> <span class="n">fn</span>
 <span class="kn">import</span> <span class="nn">underworld.visualisation</span> <span class="k">as</span> <span class="nn">vis</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -745,39 +775,82 @@ title="Print to PDF"
 <p>Set simulation parameters for the test and position of the spherical sinker.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the resolution.</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Set the resolution.</span>
 <span class="n">res</span> <span class="o">=</span> <span class="mi">42</span>
-
-<span class="c1"># Set size and position of dense sphere.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set size and position of dense sphere.</span>
 <span class="n">sphereRadius</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">sphereCentre</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
-
-<span class="c1"># define some names for our index</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define some names for our index</span>
 <span class="n">materialLightIndex</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">materialHeavyIndex</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="n">eta_min</span> <span class="o">=</span> <span class="mf">1e-2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eta_min</span> <span class="o">=</span> <span class="mf">1e-2</span>
 <span class="n">eta_max</span> <span class="o">=</span> <span class="mf">1e2</span>
-
-<span class="c1"># Set constants for the viscosity and density of the sinker.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set constants for the viscosity and density of the sinker.</span>
 <span class="n">viscBG</span> <span class="o">=</span> <span class="n">eta_max</span>
 <span class="n">viscSphere</span> <span class="o">=</span> <span class="n">eta_max</span>
-
-<span class="n">densityBG</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">densityBG</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">densitySphere</span> <span class="o">=</span> <span class="mf">10.0</span>
-
-<span class="n">Cohesion</span> <span class="o">=</span> <span class="mf">0.15</span>
-
-
-<span class="c1"># location of tracer at bottom of sinker</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cohesion</span> <span class="o">=</span> <span class="mf">0.15</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># location of tracer at bottom of sinker</span>
 <span class="n">x_pos</span> <span class="o">=</span> <span class="n">sphereCentre</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">y_pos</span> <span class="o">=</span> <span class="n">sphereCentre</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">sphereRadius</span>
-
-
-<span class="n">nsteps</span> <span class="o">=</span> <span class="mi">10</span>
-
-
-<span class="n">swarmGPC</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nsteps</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">swarmGPC</span> <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
 </div>
 </div>
@@ -787,10 +860,14 @@ title="Print to PDF"
 <h2>Create mesh and finite element variables<a class="headerlink" href="#create-mesh-and-finite-element-variables" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">uw2_stokesSinker</span><span class="p">():</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="k">def</span> <span class="nf">uw2_stokesSinker</span><span class="p">():</span>
 
     <span class="n">mesh</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">FeMesh_Cartesian</span><span class="p">(</span>
-        <span class="n">elementType</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Q1/dQ0&quot;</span><span class="p">),</span> <span class="n">elementRes</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">)),</span> <span class="n">minCoord</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoord</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">elementType</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Q1/dQ0&quot;</span><span class="p">),</span>
+        <span class="n">elementRes</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">)),</span>
+        <span class="n">minCoord</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="n">maxCoord</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">velocityField</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">nodeDofCount</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -801,13 +878,17 @@ title="Print to PDF"
 
     <span class="c1"># Create the swarm and an advector associated with it</span>
     <span class="n">swarm</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">Swarm</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
-    <span class="n">advector</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">SwarmAdvector</span><span class="p">(</span><span class="n">swarm</span><span class="o">=</span><span class="n">swarm</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">advector</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">SwarmAdvector</span><span class="p">(</span>
+        <span class="n">swarm</span><span class="o">=</span><span class="n">swarm</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>
 
     <span class="c1"># Add a data variable which will store an index to determine material.</span>
     <span class="n">materialIndex</span> <span class="o">=</span> <span class="n">swarm</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">dataType</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Create a layout object that will populate the swarm across the whole domain.</span>
-    <span class="n">swarmLayout</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">PerCellGaussLayout</span><span class="p">(</span><span class="n">swarm</span><span class="o">=</span><span class="n">swarm</span><span class="p">,</span> <span class="n">gaussPointCount</span><span class="o">=</span><span class="n">swarmGPC</span><span class="p">)</span>
+    <span class="n">swarmLayout</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">PerCellGaussLayout</span><span class="p">(</span>
+        <span class="n">swarm</span><span class="o">=</span><span class="n">swarm</span><span class="p">,</span> <span class="n">gaussPointCount</span><span class="o">=</span><span class="n">swarmGPC</span>
+    <span class="p">)</span>
     <span class="c1"># swarmLayout = uw2.swarm.layouts.PerCellSpaceFillerLayout( swarm=swarm, particlesPerCell=swarmFill )</span>
 
     <span class="c1"># Go ahead and populate the swarm.</span>
@@ -826,7 +907,9 @@ title="Print to PDF"
 
     <span class="c1"># build a tracer swarm with one particle</span>
     <span class="n">tracerSwarm</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">Swarm</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
-    <span class="n">advector_tracer</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">SwarmAdvector</span><span class="p">(</span><span class="n">swarm</span><span class="o">=</span><span class="n">tracerSwarm</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">advector_tracer</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">SwarmAdvector</span><span class="p">(</span>
+        <span class="n">swarm</span><span class="o">=</span><span class="n">tracerSwarm</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>
 
     <span class="c1"># build a numpy array with one particle, specifying it&#39;s exact location</span>
     <span class="n">coord_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">object</span><span class="o">=</span><span class="p">(</span><span class="n">x_pos</span><span class="p">,</span> <span class="n">y_pos</span><span class="p">),</span> <span class="n">ndmin</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -841,20 +924,32 @@ title="Print to PDF"
     <span class="n">fig1</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="c1"># The yeilding of the BG material is dependent on the SR.</span>
-    <span class="n">strainRate_2ndInvariant</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">second_invariant</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">symmetric</span><span class="p">(</span><span class="n">velocityField</span><span class="o">.</span><span class="n">fn_gradient</span><span class="p">))</span>
+    <span class="n">strainRate_2ndInvariant</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">second_invariant</span><span class="p">(</span>
+        <span class="n">fn</span><span class="o">.</span><span class="n">tensor</span><span class="o">.</span><span class="n">symmetric</span><span class="p">(</span><span class="n">velocityField</span><span class="o">.</span><span class="n">fn_gradient</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="c1"># vonMises = (Cohesion_BG / (2.*((strainRate_2ndInvariant+1.0e-20)*ref_SR))) / ref_viscosity</span>
 
     <span class="n">vonMises</span> <span class="o">=</span> <span class="n">Cohesion</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="p">((</span><span class="n">strainRate_2ndInvariant</span> <span class="o">+</span> <span class="mf">1.0e-20</span><span class="p">)))</span>
 
-    <span class="n">viscoplasticBG</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="n">SafeMaths</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">vonMises</span><span class="p">,</span> <span class="n">viscBG</span><span class="p">),</span> <span class="n">eta_min</span><span class="p">),</span> <span class="n">eta_max</span><span class="p">))</span>
+    <span class="n">viscoplasticBG</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="n">SafeMaths</span><span class="p">(</span>
+        <span class="n">fn</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">vonMises</span><span class="p">,</span> <span class="n">viscBG</span><span class="p">),</span> <span class="n">eta_min</span><span class="p">),</span> <span class="n">eta_max</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="c1"># Here we set a viscosity value of &#39;1.&#39; for both materials</span>
-    <span class="n">mappingDictViscosity</span> <span class="o">=</span> <span class="p">{</span><span class="n">materialLightIndex</span><span class="p">:</span> <span class="n">viscoplasticBG</span><span class="p">,</span> <span class="n">materialHeavyIndex</span><span class="p">:</span> <span class="n">viscSphere</span><span class="p">}</span>
+    <span class="n">mappingDictViscosity</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">materialLightIndex</span><span class="p">:</span> <span class="n">viscoplasticBG</span><span class="p">,</span>
+        <span class="n">materialHeavyIndex</span><span class="p">:</span> <span class="n">viscSphere</span><span class="p">,</span>
+    <span class="p">}</span>
     <span class="c1"># Create the viscosity map function.</span>
-    <span class="n">viscosityMapFn</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">branching</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fn_key</span><span class="o">=</span><span class="n">materialIndex</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">mappingDictViscosity</span><span class="p">)</span>
+    <span class="n">viscosityMapFn</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">branching</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="n">fn_key</span><span class="o">=</span><span class="n">materialIndex</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">mappingDictViscosity</span>
+    <span class="p">)</span>
     <span class="c1"># Here we set a density of &#39;0.&#39; for the lightMaterial, and &#39;1.&#39; for the heavymaterial.</span>
-    <span class="n">mappingDictDensity</span> <span class="o">=</span> <span class="p">{</span><span class="n">materialLightIndex</span><span class="p">:</span> <span class="n">densityBG</span><span class="p">,</span> <span class="n">materialHeavyIndex</span><span class="p">:</span> <span class="n">densitySphere</span><span class="p">}</span>
+    <span class="n">mappingDictDensity</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">materialLightIndex</span><span class="p">:</span> <span class="n">densityBG</span><span class="p">,</span>
+        <span class="n">materialHeavyIndex</span><span class="p">:</span> <span class="n">densitySphere</span><span class="p">,</span>
+    <span class="p">}</span>
     <span class="c1"># Create the density map function.</span>
     <span class="n">densityFn</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">branching</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fn_key</span><span class="o">=</span><span class="n">materialIndex</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="n">mappingDictDensity</span><span class="p">)</span>
 
@@ -865,7 +960,9 @@ title="Print to PDF"
     <span class="n">iWalls</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">specialSets</span><span class="p">[</span><span class="s2">&quot;MinI_VertexSet&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">mesh</span><span class="o">.</span><span class="n">specialSets</span><span class="p">[</span><span class="s2">&quot;MaxI_VertexSet&quot;</span><span class="p">]</span>
     <span class="n">jWalls</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">specialSets</span><span class="p">[</span><span class="s2">&quot;MinJ_VertexSet&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">mesh</span><span class="o">.</span><span class="n">specialSets</span><span class="p">[</span><span class="s2">&quot;MaxJ_VertexSet&quot;</span><span class="p">]</span>
 
-    <span class="n">freeslipBC</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">conditions</span><span class="o">.</span><span class="n">DirichletCondition</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">indexSetsPerDof</span><span class="o">=</span><span class="p">(</span><span class="n">iWalls</span><span class="p">,</span> <span class="n">jWalls</span><span class="p">))</span>
+    <span class="n">freeslipBC</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">conditions</span><span class="o">.</span><span class="n">DirichletCondition</span><span class="p">(</span>
+        <span class="n">variable</span><span class="o">=</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">indexSetsPerDof</span><span class="o">=</span><span class="p">(</span><span class="n">iWalls</span><span class="p">,</span> <span class="n">jWalls</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">noslipBC</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">conditions</span><span class="o">.</span><span class="n">DirichletCondition</span><span class="p">(</span>
         <span class="n">variable</span><span class="o">=</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">indexSetsPerDof</span><span class="o">=</span><span class="p">(</span><span class="n">iWalls</span> <span class="o">+</span> <span class="n">jWalls</span><span class="p">,</span> <span class="n">iWalls</span> <span class="o">+</span> <span class="n">jWalls</span><span class="p">)</span>
@@ -887,7 +984,9 @@ title="Print to PDF"
     <span class="c1"># Optional solver settings</span>
 
     <span class="n">top</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">specialSets</span><span class="p">[</span><span class="s2">&quot;MaxJ_VertexSet&quot;</span><span class="p">]</span>
-    <span class="n">surfaceArea</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">Integral</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">integrationType</span><span class="o">=</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">surfaceIndexSet</span><span class="o">=</span><span class="n">top</span><span class="p">)</span>
+    <span class="n">surfaceArea</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">Integral</span><span class="p">(</span>
+        <span class="n">fn</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">integrationType</span><span class="o">=</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">surfaceIndexSet</span><span class="o">=</span><span class="n">top</span>
+    <span class="p">)</span>
     <span class="n">surfacePressureIntegral</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">Integral</span><span class="p">(</span>
         <span class="n">fn</span><span class="o">=</span><span class="n">pressureField</span><span class="p">,</span> <span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">integrationType</span><span class="o">=</span><span class="s2">&quot;surface&quot;</span><span class="p">,</span> <span class="n">surfaceIndexSet</span><span class="o">=</span><span class="n">top</span>
     <span class="p">)</span>
@@ -898,7 +997,9 @@ title="Print to PDF"
         <span class="p">(</span><span class="n">p0</span><span class="p">,)</span> <span class="o">=</span> <span class="n">surfacePressureIntegral</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">/</span> <span class="n">area</span>
         <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Zeroing pressure using mean upper surface pressure </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;Zeroing pressure using mean upper surface pressure </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="n">pressureField</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">-=</span> <span class="n">offset</span>
 
     <span class="n">vdotv</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">velocityField</span><span class="p">,</span> <span class="n">velocityField</span><span class="p">)</span>
@@ -947,8 +1048,14 @@ title="Print to PDF"
         <span class="n">time</span> <span class="o">+=</span> <span class="n">dt</span>
 
     <span class="k">if</span> <span class="n">uw2</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initial position: t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tSinker</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ySinker0</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final position:   t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tSinker</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ySinker0</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Initial position: t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tSinker</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ySinker0</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Final position:   t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">tSinker</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ySinker0</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="n">uw2</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">matplotlib_inline</span><span class="p">()</span>
         <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pyplot</span>
@@ -970,21 +1077,28 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
 <span class="kn">import</span> <span class="nn">underworld3</span> <span class="k">as</span> <span class="nn">uw3</span>
 <span class="kn">from</span> <span class="nn">underworld3.systems</span> <span class="kn">import</span> <span class="n">Stokes</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">sympy</span>
 <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
-
-<span class="n">options</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Options</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">uw3_stokesSinker</span><span class="p">(</span><span class="n">render</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Options</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="k">def</span> <span class="nf">uw3_stokesSinker</span><span class="p">(</span><span class="n">render</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
     <span class="n">sys</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Sys</span><span class="p">()</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">pushErrorHandler</span><span class="p">(</span><span class="s2">&quot;traceback&quot;</span><span class="p">)</span>
@@ -995,14 +1109,18 @@ title="Print to PDF"
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;snes_converged_reason&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;snes_monitor_short&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">mesh</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">StructuredQuadBox</span><span class="p">(</span><span class="n">elementRes</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">)),</span> <span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">StructuredQuadBox</span><span class="p">(</span>
+        <span class="n">elementRes</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">)),</span> <span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="p">)</span>
 
     <span class="n">v</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">stokes</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 
-    <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+    <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span>
+        <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span>
+    <span class="p">)</span>
 
     <span class="c1">### free slip.</span>
     <span class="c1">### note with petsc we always need to provide a vector of correct cardinality.</span>
@@ -1012,8 +1130,12 @@ title="Print to PDF"
     <span class="c1">### No slip (?)</span>
     <span class="n">sol_vel</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
-    <span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="n">sol_vel</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Top&quot;</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># top/bottom: components, function, markers</span>
-    <span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="n">sol_vel</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># left/right: components, function, markers</span>
+    <span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span>
+        <span class="n">sol_vel</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Top&quot;</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>  <span class="c1"># top/bottom: components, function, markers</span>
+    <span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span>
+        <span class="n">sol_vel</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>  <span class="c1"># left/right: components, function, markers</span>
 
     <span class="n">swarm</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">Swarm</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh</span><span class="p">)</span>
     <span class="n">material</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">IndexSwarmVariable</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">swarm</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -1033,7 +1155,9 @@ title="Print to PDF"
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blob</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">blob</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">cx</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cy</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">cx</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span>
+                <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">cy</span>
+            <span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span>
             <span class="n">material</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">inside</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span>
 
     <span class="n">tracer</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
@@ -1047,7 +1171,9 @@ title="Print to PDF"
 
     <span class="n">mat_viscosity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">viscoPlastic_BG</span><span class="p">,</span> <span class="n">viscSphere</span><span class="p">])</span>
 
-    <span class="n">viscosityMat</span> <span class="o">=</span> <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">viscosityMat</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">mat_viscosity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
 
     <span class="n">viscosity</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Max</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="n">viscosityMat</span><span class="p">,</span> <span class="n">eta_max</span><span class="p">),</span> <span class="n">eta_min</span><span class="p">)</span>
 
@@ -1126,7 +1252,9 @@ title="Print to PDF"
 
     <span class="c1">#### initial linear solve</span>
     <span class="n">stokes</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">material_properties</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(</span><span class="n">viscosity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">material_properties</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(</span><span class="n">viscosity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="c1"># stokes.bodyforce =  -1* 1e-32 * mesh.N.j</span>
     <span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">density</span> <span class="o">*</span> <span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span>
     <span class="c1"># stokes.petsc_options[&quot;snes_type&quot;]  = &quot;ksponly&quot;</span>
@@ -1134,7 +1262,9 @@ title="Print to PDF"
 
     <span class="c1">### add in NL viscosity</span>
     <span class="n">stokes</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="n">viscosity</span>
-    <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">material_properties</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(</span><span class="n">viscosity</span><span class="o">=</span><span class="n">viscosity</span><span class="p">)</span>
+    <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">material_properties</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(</span><span class="n">viscosity</span><span class="o">=</span><span class="n">viscosity</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">density</span> <span class="o">*</span> <span class="n">mesh</span><span class="o">.</span><span class="n">N</span><span class="o">.</span><span class="n">j</span>
 
     <span class="k">while</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="n">nsteps</span><span class="p">:</span>
@@ -1145,13 +1275,17 @@ title="Print to PDF"
             <span class="n">ymin</span> <span class="o">=</span> <span class="n">tracer</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
             <span class="n">ySinker</span><span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">ymin</span>
             <span class="n">tSinker</span><span class="p">[</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, time: </span><span class="si">{</span><span class="n">time</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2">, tracer:  </span><span class="si">{</span><span class="n">ymin</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># , vrms {vrms_val:.3e}&quot;)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Step: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">step</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="si">}</span><span class="s2">, time: </span><span class="si">{</span><span class="n">time</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2">, tracer:  </span><span class="si">{</span><span class="n">ymin</span><span class="si">:</span><span class="s2">6.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>  <span class="c1"># , vrms {vrms_val:.3e}&quot;)</span>
 
         <span class="c1">### estimate dt</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">estimate_dt</span><span class="p">()</span>
 
         <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
-            <span class="n">vel_on_particles</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">vel_on_particles</span> <span class="o">=</span> <span class="n">uw3</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+                <span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">fn</span><span class="p">,</span> <span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span>
+            <span class="p">)</span>
 
         <span class="c1">### advect swarm</span>
         <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="p">):</span>
@@ -1168,8 +1302,14 @@ title="Print to PDF"
         <span class="n">time</span> <span class="o">+=</span> <span class="n">dt</span>
 
     <span class="k">if</span> <span class="n">uw3</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initial position: t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tSinker</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ySinker</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final position:   t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tSinker</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ySinker</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Initial position: t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tSinker</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ySinker</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Final position:   t = </span><span class="si">{0:.3f}</span><span class="s2">, y = </span><span class="si">{1:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">tSinker</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ySinker</span><span class="p">[</span><span class="n">nsteps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="n">uw2</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">matplotlib_inline</span><span class="p">()</span>
         <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pyplot</span>
@@ -1193,21 +1333,24 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tSinker_UW2</span><span class="p">,</span> <span class="n">ySinker0_UW2</span><span class="p">,</span> <span class="n">ySinker1_UW2</span> <span class="o">=</span> <span class="n">uw2_stokesSinker</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">tSinker_UW2</span><span class="p">,</span> <span class="n">ySinker0_UW2</span><span class="p">,</span> <span class="n">ySinker1_UW2</span> <span class="o">=</span> <span class="n">uw2_stokesSinker</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tSinker_UW3</span><span class="p">,</span> <span class="n">ySinker_UW3</span> <span class="o">=</span> <span class="n">uw3_stokesSinker</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">tSinker_UW3</span><span class="p">,</span> <span class="n">ySinker_UW3</span> <span class="o">=</span> <span class="n">uw3_stokesSinker</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">UW2_vel</span> <span class="o">=</span> <span class="p">(</span><span class="n">ySinker0_UW2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">ySinker0_UW2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">tSinker_UW2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">tSinker_UW2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">UW2_vel</span> <span class="o">=</span> <span class="p">(</span><span class="n">ySinker0_UW2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">ySinker0_UW2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">tSinker_UW2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">tSinker_UW2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">UW3_vel</span> <span class="o">=</span> <span class="p">(</span><span class="n">ySinker_UW3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">ySinker_UW3</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">tSinker_UW3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">tSinker_UW3</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -1215,14 +1358,16 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2"> UW2 velocity: </span><span class="si">{</span><span class="n">UW2_vel</span><span class="si">}</span><span class="s2">, UW3 velocity: </span><span class="si">{</span><span class="n">UW3_vel</span><span class="o">/</span><span class="mf">2.</span><span class="si">}</span><span class="s2"> </span><span class="se">\n\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2"> UW2 velocity: </span><span class="si">{</span><span class="n">UW2_vel</span><span class="si">}</span><span class="s2">, UW3 velocity: </span><span class="si">{</span><span class="n">UW3_vel</span><span class="o">/</span><span class="mf">2.</span><span class="si">}</span><span class="s2"> </span><span class="se">\n\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">uw3</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="k">if</span> <span class="n">uw3</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pyplot</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>

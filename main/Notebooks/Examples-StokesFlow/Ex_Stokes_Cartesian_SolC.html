@@ -53,6 +53,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Cylindrical Stokes (Cartesian formulation)" href="Ex_Stokes_Disk_Cartesian.html" />
@@ -222,7 +224,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
-     Poisson Equation
+     Poisson Equation (generic)
     </a>
    </li>
    <li class="toctree-l2">
@@ -242,7 +244,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
-     Poisson Cartesian
+     Poisson Equation (simple)
     </a>
    </li>
   </ul>
@@ -504,7 +506,7 @@ const thebe_selector_output = ".output, .cell_output"
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="../Examples-Utilities/Ex-ConstitutiveTensors.html">
-     Constitutive relationships in Underworld (pt 1)
+     Tests
     </a>
    </li>
    <li class="toctree-l2">
@@ -585,6 +587,35 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-StokesFlow/Ex_Stokes_Cartesian_SolC.py&branch=main"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -679,21 +710,9 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Stokes Benchmark SolCx
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#visualise-it">
-     Visualise it !
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solcx-from-the-same-setup">
-   SolCx from the same setup
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualise-it">
+   Visualise it !
   </a>
  </li>
 </ul>
@@ -715,21 +734,9 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Stokes Benchmark SolCx
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#visualise-it">
-     Visualise it !
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solcx-from-the-same-setup">
-   SolCx from the same setup
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualise-it">
+   Visualise it !
   </a>
  </li>
 </ul>
@@ -744,20 +751,20 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="stokes-benchmark-solcx">
 <h1>Stokes Benchmark SolCx<a class="headerlink" href="#stokes-benchmark-solcx" title="Permalink to this headline">#</a></h1>
+<p>options = PETSc.Options()
+options[“help”] = None</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># options = PETSc.Options()</span>
-<span class="c1"># options[&quot;help&quot;] = None</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="kn">import</span> <span class="nn">petsc4py</span>
+<span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">petsc4py</span>
-<span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
-
-<span class="kn">import</span> <span class="nn">underworld3</span> <span class="k">as</span> <span class="nn">uw</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">underworld3</span> <span class="k">as</span> <span class="nn">uw</span>
 <span class="kn">from</span> <span class="nn">underworld3.systems</span> <span class="kn">import</span> <span class="n">Stokes</span>
 <span class="kn">from</span> <span class="nn">underworld3</span> <span class="kn">import</span> <span class="n">function</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -767,15 +774,19 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_els</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">mesh</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span><span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">cellSize</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">20</span><span class="p">,</span> <span class="n">qdegree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">n_els</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">UnstructuredSimplexBox</span><span class="p">(</span>
+    <span class="n">minCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">maxCoords</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">cellSize</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">20</span><span class="p">,</span> <span class="n">qdegree</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -783,7 +794,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="n">stokes</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
@@ -792,25 +804,45 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set some things</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Set some things</span>
 <span class="kn">import</span> <span class="nn">sympy</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Piecewise</span>
-
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
-
-<span class="n">res</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_els</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_els</span>
 <span class="n">hw</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">/</span> <span class="n">res</span>
 <span class="n">surface_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
-<span class="n">base_fn</span>    <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
-<span class="n">right_fn</span>   <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
-<span class="n">left_fn</span>    <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
-
-<span class="n">eta_0</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">base_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
+<span class="n">right_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
+<span class="n">left_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eta_0</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">x_c</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">f_0</span> <span class="o">=</span> <span class="mf">1.0</span>
-
-
-<span class="n">stokes</span><span class="o">.</span><span class="n">penalty</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">penalty</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="mi">0</span><span class="p">,</span>
@@ -820,38 +852,49 @@ title="Print to PDF"
         <span class="p">),</span>
     <span class="p">]</span>
 <span class="p">)</span>
-
-<span class="c1"># stokes.bodyforce[0] -= 1.0e6 * v.sym[0] * (left_fn + right_fn)</span>
-<span class="c1"># stokes.bodyforce[1] -= 1.0e6 * v.sym[1] * (surface_fn + base_fn)</span>
-
-<span class="n">stokes</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
-
-<span class="c1"># free slip.</span>
-<span class="c1"># note with petsc we always need to provide a vector of correct cardinality.</span>
-<span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;Top&quot;</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># top/bottom: components, function, markers</span>
-<span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># left/right: components, function, markers</span>
-
+</pre></div>
+</div>
+</div>
+</div>
+<p>stokes.bodyforce[0] -= 1.0e6 * v.sym[0] * (left_fn + right_fn)
+stokes.bodyforce[1] -= 1.0e6 * v.sym[1] * (surface_fn + base_fn)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># We may need to adjust the tolerance if $\Delta \eta$ is large</span>
-
-<span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-6</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># free slip.</span>
+<span class="c1"># note with petsc we always need to provide a vector of correct cardinality.</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span>
+    <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;Top&quot;</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span><span class="p">],</span> <span class="mi">1</span>
+<span class="p">)</span>  <span class="c1"># top/bottom: components, function, markers</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span>
+    <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">],</span> <span class="mi">0</span>
+<span class="p">)</span>  <span class="c1"># left/right: components, function, markers</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We may need to adjust the tolerance if <span class="math notranslate nohighlight">\(\Delta \eta\)</span> is large</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-6</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;ksp_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-6</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_max_it&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
-
-<span class="c1"># stokes.petsc_options[&quot;snes_monitor&quot;]= None</span>
-<span class="c1"># stokes.petsc_options[&quot;ksp_monitor&quot;] = None</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>stokes.petsc_options[“snes_monitor”]= None
+stokes.petsc_options[“ksp_monitor”] = None</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solve time</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
+<span class="c1"># Solve time</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -859,12 +902,10 @@ title="Print to PDF"
 </div>
 <section id="visualise-it">
 <h2>Visualise it !<a class="headerlink" href="#visualise-it" title="Permalink to this headline">#</a></h2>
+<p>OR</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># OR</span>
-
-<span class="c1"># +</span>
-<span class="c1"># check the mesh if in a notebook / serial</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the mesh if in a notebook / serial</span>
 
 <span class="kn">import</span> <span class="nn">mpi4py</span>
 
@@ -897,23 +938,27 @@ title="Print to PDF"
     <span class="n">pl</span><span class="o">.</span><span class="n">add_axes</span><span class="p">()</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pvmesh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span>
+        <span class="n">pvmesh</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span>
+        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span><span class="n">arrow_loc</span><span class="p">,</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="solcx-from-the-same-setup">
-<h1>SolCx from the same setup<a class="headerlink" href="#solcx-from-the-same-setup" title="Permalink to this headline">#</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">y</span><span class="p">)])</span>
+
+
+<span class="c1"># %% [markdown]</span>
+<span class="c1"># # SolCx from the same setup</span>
+
+<span class="c1"># %%</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">y</span><span class="p">)]</span>
+<span class="p">)</span>
 <span class="n">viscosity_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Piecewise</span><span class="p">(</span>
     <span class="p">(</span>
         <span class="mf">1.0e6</span><span class="p">,</span>
@@ -921,32 +966,24 @@ title="Print to PDF"
     <span class="p">),</span>
     <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span><span class="o">=</span><span class="n">viscosity_fn</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="n">viscosity_fn</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># OR</span>
 
-<span class="c1"># +</span>
-<span class="c1"># check the mesh if in a notebook / serial</span>
+<span class="c1"># %%</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
+
+<span class="c1"># %%</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="c1"># %%</span>
+<span class="c1"># OR</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the mesh if in a notebook / serial</span>
 
 <span class="kn">import</span> <span class="nn">mpi4py</span>
 
@@ -979,7 +1016,13 @@ title="Print to PDF"
     <span class="n">pl</span><span class="o">.</span><span class="n">add_axes</span><span class="p">()</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pvmesh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span>
+        <span class="n">pvmesh</span><span class="p">,</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span>
+        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">,</span>
+        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># pl.add_mesh(pvmesh, cmap=&quot;coolwarm&quot;, edge_color=&quot;Black&quot;, show_edges=True, scalars=&quot;T&quot;,</span>
@@ -988,13 +1031,10 @@ title="Print to PDF"
     <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span><span class="n">arrow_loc</span><span class="p">,</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+
+
+<span class="c1"># %%</span>
+<span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">underworld</span> <span class="k">as</span> <span class="nn">uw2</span>
 
     <span class="n">solC</span> <span class="o">=</span> <span class="n">uw2</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">analytic</span><span class="o">.</span><span class="n">SolC</span><span class="p">()</span>
@@ -1016,10 +1056,13 @@ title="Print to PDF"
     <span class="kn">import</span> <span class="nn">warnings</span>
 
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Unable to test SolC results as UW2 not available.&quot;</span><span class="p">)</span>
+
+<span class="c1"># %%</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
