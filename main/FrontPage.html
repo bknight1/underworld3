@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Links &#8212; Underworld 3</title>
+    <title>The Underworld Geodynamics Platform &#8212; Underworld 3</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -111,7 +111,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Links
+                    The Underworld Geodynamics Platform
                 </a>
             </li>
         </ul>
@@ -678,37 +678,42 @@ title="Print to PDF"
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Links
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-parallel-python-particle-in-cell-finite-element-code-for-geodynamics">
+   A parallel, python, particle-in-cell, finite-element code for Geodynamics
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#links">
+     Links
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#governance">
+     Governance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#background">
+     Background
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementation-and-parallelism">
+     Implementation and parallelism
+    </a>
+   </li>
+  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#governance">
-   Governance
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#background">
-   Background
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation-and-parallelism">
-   Implementation and parallelism
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#acknowledgements">
    Acknowledgements
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#accessibility">
    Accessibility
   </a>
-  <ul class="visible nav section-nav flex-column">
-  </ul>
  </li>
 </ul>
 
@@ -719,7 +724,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Links</h1>
+                <h1>The Underworld Geodynamics Platform</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -729,37 +734,42 @@ title="Print to PDF"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Links
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-parallel-python-particle-in-cell-finite-element-code-for-geodynamics">
+   A parallel, python, particle-in-cell, finite-element code for Geodynamics
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#links">
+     Links
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#governance">
+     Governance
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#background">
+     Background
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementation-and-parallelism">
+     Implementation and parallelism
+    </a>
+   </li>
+  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#governance">
-   Governance
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#background">
-   Background
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation-and-parallelism">
-   Implementation and parallelism
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#acknowledgements">
    Acknowledgements
   </a>
  </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#accessibility">
    Accessibility
   </a>
-  <ul class="visible nav section-nav flex-column">
-  </ul>
  </li>
 </ul>
 
@@ -771,49 +781,64 @@ title="Print to PDF"
                 
               <div>
                 
-  <p>Come into the garden, Maud <br>
-For the black bat night has flown <br>
-Come into the garden, Maud <br>
-I am here at the gate alone; <br>
-And the woodbine spices are wafted abroad, <br>
-And the musk of the rose is blown. <br></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="the-underworld-geodynamics-platform">
+<h1>The Underworld Geodynamics Platform<a class="headerlink" href="#the-underworld-geodynamics-platform" title="Permalink to this headline">#</a></h1>
+<p><img alt="" src="_images/SocialShare.png" /></p>
+<section id="a-parallel-python-particle-in-cell-finite-element-code-for-geodynamics">
+<h2>A parallel, python, particle-in-cell, finite-element code for Geodynamics<a class="headerlink" href="#a-parallel-python-particle-in-cell-finite-element-code-for-geodynamics" title="Permalink to this headline">#</a></h2>
+<aside class="margin sidebar">
+<p class="sidebar-title"></p>
+<p><img alt="" src="_images/MansoursNightmare.png" /></p>
+<small>
+Come into the garden, Maud </br>
+Come into the garden, Maud </br>
+I am here at the gate alone; </br>
+And the woodbine spices are wafted abroad, </br>
+And the musk of the rose is blown. </br>
+</br>
+Alfred, Lord Tennyson
+</small>
+</aside>
+<p>Underworld is a python-friendly geodynamics code which provides a programmable and flexible front end to all the functionality of the code running in a parallel HPC environment. This gives significant advantages to the user, with access to the power of python libraries for setup of complex problems, analysis at runtime, problem steering, and coupling of multiple problems. Underworld is integrated with the literate programming environment of the jupyter notebook system for tutorials and as a teaching tool for solid Earth geoscience.</p>
 <p>Underworld is an open-source, particle-in-cell finite element code tuned for large-scale geodynamics simulations. The numerical algorithms allow the tracking of history information through the high-strain deformation associated with fluid flow (for example, transport of the stress tensor in a viscoelastic, convecting medium, or the advection of fine-scale damage parameters by the large-scale flow). The finite element mesh can be static or dynamic, but it is not constrained to move in lock-step with the evolving geometry of the fluid. This hybrid approach is very well suited to complex fluids which is how the solid Earth behaves on a geological timescale.</p>
 <section id="links">
-<h1>Links<a class="headerlink" href="#links" title="Permalink to this headline">#</a></h1>
+<h3>Links<a class="headerlink" href="#links" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.underworldcode.org/articles">Underworld Blog</a></p></li>
-<li><p><a class="reference external" href="https://github.com/underworldcode">Underworld on Github</a></p></li>
+<li><p><a class="reference external" href="https://github.com/underworldcode/underworld3">Underworld on Github</a></p></li>
+<li><p><a class="reference external" href="https://underworldcode.github.io/underworld3/main">Underworld documentation</a></p></li>
+<li><p><a class="reference external" href="https://underworldcode.github.io/underworld3/main_api">Underworld api documentation</a></p></li>
+<li><p><a class="reference external" href="https://underworldcode.github.io/underworld3">Underworld beta documentation</a></p></li>
 </ul>
 </section>
 <section id="governance">
-<h1>Governance<a class="headerlink" href="#governance" title="Permalink to this headline">#</a></h1>
+<h3>Governance<a class="headerlink" href="#governance" title="Permalink to this headline">#</a></h3>
 <p>Underworld is funded by AuScope which is part of the Australian Government’s NCRIS initiative to provide community research infrastructure (please see <a class="reference external" href="http://www.auscope.org.au">www.auscope.org.au</a> for more information).</p>
-<p>The Underworld development team is based in Australia at the Australian National University, the University of Melbourne and at Monash University and is led by Louis Moresi.</p>
+<p>The Underworld development team is based in Australia at the Australian National University, the University of Sydney and at Monash University and is led by Louis Moresi (ANU).</p>
 <p>All development is overseen by a steering committee drawn from the supporting organisations and representatives from the Underworld community.</p>
 </section>
 <section id="background">
-<h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">#</a></h1>
+<h3>Background<a class="headerlink" href="#background" title="Permalink to this headline">#</a></h3>
 <p>The numerical methods have been published in detail in Moresi et al, (2002, 2003). These papers dealt primarily with 2D applications but in recent years, we have introduced a number of improvements in the method to enable us to scale the problem to 3D (Moresi et al, 2007). For example we use a fast discrete Voronoi method to compute the integration weights of the particle-to-mesh mapping efficiently (Velic et al, 2009). We have also concentrated on extremely robust solvers / preconditioners which are necessary because the material variations and geometrical complexity are both large and unpredictable when we start of the simulation.</p>
 <p>The benefit of this approach is associated with the separation of the computational mesh from the swarm of points which track the history. This allows us to retain a much more structured computational mesh than the deformation / material history would otherwise allow. We can take full advantage of the most efficient geometrical multigrid solvers and there is no need to preserve structure during any remeshing operations we undertake (for example if we do need to track a free surface or an internal interface). Although there are several complexities introduced by enforcing this separation, we find that the benefits, for our particular class of problems, are significant.</p>
 </section>
 <section id="implementation-and-parallelism">
-<h1>Implementation and parallelism<a class="headerlink" href="#implementation-and-parallelism" title="Permalink to this headline">#</a></h1>
+<h3>Implementation and parallelism<a class="headerlink" href="#implementation-and-parallelism" title="Permalink to this headline">#</a></h3>
 <p>The numerical solvers are based around the PETSc software suite which focuses on delivering good parallel scalability (up to thousands-of-cores). Our experience to date shows good scalability 2000+ cores</p>
 </section>
+</section>
 <section id="acknowledgements">
-<h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">#</a></h1>
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">#</a></h2>
 <p>We would like to acknowledge AuScope Simulation, Analysis and Modelling for providing long term funding which has made the project possible. Additional funding for specific improvements and additional functionality has come from the Australian Research Council (<a class="reference external" href="http://www.arc.gov.au">http://www.arc.gov.au</a>). The python toolkit was funded by the NeCTAR eresearch_tools program. Underworld2 was originally developed in collaboration with the Victorian Partnership for Advanced Computing.</p>
 <p><em>The documentation and tutorial materials provided by the authors are open source under a creative commons licence.
 We acknowledge the contribution of the community in providing other materials and we endeavour to provide the correct attribution and citation. Please contact <a class="reference external" href="mailto:louis&#46;moresi&#37;&#52;&#48;anu&#46;edu&#46;au">louis<span>&#46;</span>moresi<span>&#64;</span>anu<span>&#46;</span>edu<span>&#46;</span>au</a> for updates and corrections.</em></p>
 </section>
 <hr class="docutils" />
 <section id="accessibility">
-<h1>Accessibility<a class="headerlink" href="#accessibility" title="Permalink to this headline">#</a></h1>
+<h2>Accessibility<a class="headerlink" href="#accessibility" title="Permalink to this headline">#</a></h2>
 <p><button type="button" onclick="legibleFontSwitcher()">Switch Font</button>  <button type="button" onclick="fontScaler(1.1)">➕</button><button type="button" onclick="fontScaler(0.0)">●</button><button type="button" onclick="fontScaler(0.909)">➖</button></p>
 <p>The html can also be typeset using the <a class="reference external" href="https://brailleinstitute.org/freefont">Atkinson Hyperlegible</a> font everywhere, other than monospaced computer code, as an aid to legibility. This button is also located at the bottom of the left navigation bar on every page and will toggle between settings.</p>
+</section>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
