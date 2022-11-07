@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Cylindrical Stokes &#8212; Underworld 3</title>
+    <title>Spherical Stokes &#8212; Underworld 3</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -57,8 +57,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Mathematical formulation" href="Ex_Stokes_Spherical_FreeSlipBCs.html" />
-    <link rel="prev" title="Cylindrical Stokes (Cartesian formulation)" href="Ex_Stokes_Disk_Cartesian.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -201,7 +199,7 @@ const thebe_selector_output = ".output, .cell_output"
   Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../Index.html">
    Index of Sample notebooks
@@ -276,16 +274,16 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="Readme.html">
    Stokes Flow
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="Ex_Stokes_Swarm_Bubbles.html">
      Multiple materials - Drips and Blobs
@@ -311,8 +309,8 @@ const thebe_selector_output = ".output, .cell_output"
      Cylindrical Stokes (Cartesian formulation)
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Ex_Stokes_Disk_CylCoords.html">
      Cylindrical Stokes
     </a>
    </li>
@@ -595,7 +593,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-StokesFlow/Ex_Stokes_Disk_CylCoords.py&branch=main"
+        <a href="https://emsc4033.rses.underworldcloud.org/hub/user-redirect/git-pull?repo=https%3A//github.com/underworldcode/underworld3&urlpath=tree/underworld3/Jupyterbook/Notebooks/Examples-StokesFlow/Ex_Stokes_Sphere_SphCoords.py&branch=main"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -651,7 +649,7 @@ title="Source repository"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../../_sources/Notebooks/Examples-StokesFlow/Ex_Stokes_Disk_CylCoords.py"
+        <a href="../../_sources/Notebooks/Examples-StokesFlow/Ex_Stokes_Sphere_SphCoords.py"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -711,8 +709,8 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#strain-rate-in-cylindrical-2d-geometry-is-this">
-   Strain rate in Cylindrical (2D) geometry is this:
+  <a class="reference internal nav-link" href="#strain-rate-in-spherical-geometry">
+   Strain rate in Spherical geometry
   </a>
  </li>
 </ul>
@@ -724,7 +722,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Cylindrical Stokes</h1>
+                <h1>Spherical Stokes</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -735,8 +733,8 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#strain-rate-in-cylindrical-2d-geometry-is-this">
-   Strain rate in Cylindrical (2D) geometry is this:
+  <a class="reference internal nav-link" href="#strain-rate-in-spherical-geometry">
+   Strain rate in Spherical geometry
   </a>
  </li>
 </ul>
@@ -749,9 +747,9 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="cylindrical-stokes">
-<h1>Cylindrical Stokes<a class="headerlink" href="#cylindrical-stokes" title="Permalink to this headline">#</a></h1>
-<p>(In cylindrical coordinates)</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="spherical-stokes">
+<h1>Spherical Stokes<a class="headerlink" href="#spherical-stokes" title="Permalink to this headline">#</a></h1>
+<p>(In spherical coordinates)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">petsc4py</span>
@@ -765,9 +763,12 @@ title="Print to PDF"
 
 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SYMPY_USE_CACHE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;no&quot;</span>
 
-<span class="n">res</span> <span class="o">=</span> <span class="mf">0.075</span>
 <span class="n">r_o</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">r_i</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">r_i</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="n">num_els</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">r_o</span> <span class="o">+</span> <span class="n">r_i</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">num_els</span><span class="p">)</span>
+
 <span class="n">free_slip_upper</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
@@ -775,8 +776,16 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball_xyz_tmp</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Annulus</span><span class="p">(</span>
-    <span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> <span class="n">cellSize</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;./tmp_meshball.msh&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># meshball_xyz_tmp = uw.meshing.Annulus(</span>
+<span class="c1">#     radiusOuter=r_o, radiusInner=r_i, cellSize=res, filename=&quot;./tmp_meshball.msh&quot;</span>
+<span class="c1"># )</span>
+
+<span class="n">meshball_xyz_tmp</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">CubedSphere</span><span class="p">(</span>
+    <span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> 
+    <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> 
+    <span class="n">numElements</span><span class="o">=</span><span class="n">num_els</span><span class="p">,</span> 
+    <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;./tmp_meshball3.msh&quot;</span><span class="p">,</span> 
+    <span class="n">qdegree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -784,15 +793,22 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xy_vec</span> <span class="o">=</span> <span class="n">meshball_xyz_tmp</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">getCoordinates</span><span class="p">()</span>
-<span class="n">xy</span> <span class="o">=</span> <span class="n">xy_vec</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xyz_vec</span> <span class="o">=</span> <span class="n">meshball_xyz_tmp</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">getCoordinates</span><span class="p">()</span>
+<span class="n">xyz</span> <span class="o">=</span> <span class="n">xyz_vec</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">dmplex</span> <span class="o">=</span> <span class="n">meshball_xyz_tmp</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-<span class="n">rtheta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
-<span class="n">rtheta</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">rtheta</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">,</span> <span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">)</span>
-<span class="n">rtheta_vec</span> <span class="o">=</span> <span class="n">xy_vec</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">rtheta_vec</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">rtheta</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">]</span>
-<span class="n">dmplex</span><span class="o">.</span><span class="n">setCoordinates</span><span class="p">(</span><span class="n">rtheta_vec</span><span class="p">)</span>
+
+<span class="n">rl1l2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span>
+
+
+<span class="c1">## Fix this one ... </span>
+
+<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">,</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">)</span>
+<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span> <span class="o">/</span> <span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">)</span>
+
+<span class="n">rl1l2_vec</span> <span class="o">=</span> <span class="n">xyz_vec</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">rl1l2_vec</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">rl1l2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">]</span>
+<span class="n">dmplex</span><span class="o">.</span><span class="n">setCoordinates</span><span class="p">(</span><span class="n">rl1l2_vec</span><span class="p">)</span>
 <span class="k">del</span> <span class="n">meshball_xyz_tmp</span>
 </pre></div>
 </div>
@@ -802,10 +818,10 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Mesh</span><span class="p">(</span>
     <span class="n">dmplex</span><span class="p">,</span>
-    <span class="n">coordinate_system_type</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">CoordinateSystemType</span><span class="o">.</span><span class="n">CYLINDRICAL2D_NATIVE</span><span class="p">,</span>
+    <span class="n">coordinate_system_type</span><span class="o">=</span><span class="n">uw</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">CoordinateSystemType</span><span class="o">.</span><span class="n">SPHERICAL_NATIVE</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">uw</span><span class="o">.</span><span class="n">cython</span><span class="o">.</span><span class="n">petsc_discretisation</span><span class="o">.</span><span class="n">petsc_dm_set_periodicity</span><span class="p">(</span>
-    <span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">]</span>
+    <span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">6.28</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
 <span class="p">)</span>
 <span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
 </pre></div>
@@ -814,7 +830,20 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball_xyz</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">Annulus</span><span class="p">(</span><span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> <span class="n">cellSize</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">localizeCoordinates</span><span class="p">()</span>
+<span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball_xyz</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">CubedSphere</span><span class="p">(</span>
+    <span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> 
+    <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> 
+    <span class="n">numElements</span><span class="o">=</span><span class="n">num_els</span><span class="p">,</span> 
+    <span class="n">qdegree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -845,8 +874,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
-<span class="n">r</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">R</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
+<span class="n">r</span><span class="p">,</span> <span class="n">l1</span><span class="p">,</span> <span class="n">l2</span>  <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">R</span>
 </pre></div>
 </div>
 </div>
@@ -860,7 +889,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">p_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">p_cont</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Pc&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
@@ -869,8 +898,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln_xy</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Uxy&quot;</span><span class="p">,</span> <span class="n">meshball_xyz</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">p_soln_xy</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln_xyz</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Uxyz&quot;</span><span class="p">,</span> <span class="n">meshball_xyz</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">p_soln_xyz</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span>
     <span class="s2">&quot;Pxy&quot;</span><span class="p">,</span> <span class="n">meshball_xyz</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 </pre></div>
@@ -884,9 +913,6 @@ title="Print to PDF"
 <span class="c1"># of the sphere to (say) 1 at the surface</span>
 
 <span class="c1"># Some useful coordinate stuff</span>
-
-<span class="n">r</span><span class="p">,</span> <span class="n">th</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">R</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
 
 <span class="n">unit_rvec</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">unit_e_0</span>
 <span class="n">gravity_fn</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="n">r_o</span>
@@ -925,14 +951,15 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<section id="strain-rate-in-cylindrical-2d-geometry-is-this">
-<h2>Strain rate in Cylindrical (2D) geometry is this:<a class="headerlink" href="#strain-rate-in-cylindrical-2d-geometry-is-this" title="Permalink to this headline">#</a></h2>
+<section id="strain-rate-in-spherical-geometry">
+<h2>Strain rate in Spherical geometry<a class="headerlink" href="#strain-rate-in-spherical-geometry" title="Permalink to this headline">#</a></h2>
+<p>Note: the standard formulation for this is usually in <span class="math notranslate nohighlight">\(r,\theta, \phi\)</span> coordinates and there are different conventions for which angle is listed first. In UW3, we are using latitute (<span class="math notranslate nohighlight">\(\lambda_1\)</span>) and latitude (<span class="math notranslate nohighlight">\(\lambda_2\)</span>) which is not a standard form of spherical coordinates even if it is quite a logical choice when using geographical data.</p>
 <div class="math notranslate nohighlight">
-\[ \dot\epsilon_{rr} = \frac{\partial u_r}{\partial r}\]</div>
+\[ \dot\epsilon_{rr} \equiv \dot\epsilon_{00} = U_{ 0,0}(\mathbf{r}) \]</div>
 <div class="math notranslate nohighlight">
-\[ \dot\epsilon_{\theta\theta} = \frac{1}{r} \frac{\partial u_\theta}{\partial \theta} + \frac{u_r}{r} \]</div>
+\[ \dot\epsilon_{r\lambda_1} \equiv \dot\epsilon_{01} = \frac{U_{ 1,0}(\mathbf{r})}{2} + \frac{U_{ 0,1}(\mathbf{r})}{2 r \cos{\left(\lambda_2 \right)}} - \frac{U_{ 1 }(\mathbf{r})}{2 r} \]</div>
 <div class="math notranslate nohighlight">
-\[ 2\dot\epsilon_{r\theta} = \frac{1}{r} \frac{\partial u_r}{\partial \theta} + \frac{\partial u_\theta}{\partial r} - \frac{u_\theta}{r} \]</div>
+\[ \dot\epsilon_{r\lambda_2} \equiv \dot\epsilon_{02} = \frac{U_{ 2,0}(\mathbf{r})}{2} + \frac{U_{ 0,2}(\mathbf{r})}{2 r} - \frac{U_{ 2 }(\mathbf{r})}{2 r} \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">strainrate</span>
@@ -957,25 +984,25 @@ title="Print to PDF"
 <span class="n">surface_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">radius_fn</span> <span class="o">-</span> <span class="n">r_o</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
 <span class="n">base_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">radius_fn</span> <span class="o">-</span> <span class="n">r_i</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">hw</span><span class="p">)</span>
 
-<span class="n">stokes_xy</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span>
+<span class="n">stokes_xyz</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span>
     <span class="n">meshball_xyz</span><span class="p">,</span>
-    <span class="n">velocityField</span><span class="o">=</span><span class="n">v_soln_xy</span><span class="p">,</span>
-    <span class="n">pressureField</span><span class="o">=</span><span class="n">p_soln_xy</span><span class="p">,</span>
-    <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;stokes_xy&quot;</span><span class="p">,</span>
+    <span class="n">velocityField</span><span class="o">=</span><span class="n">v_soln_xyz</span><span class="p">,</span>
+    <span class="n">pressureField</span><span class="o">=</span><span class="n">p_soln_xyz</span><span class="p">,</span>
+    <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;stokes_xyz&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span>
     <span class="n">meshball_xyz</span><span class="o">.</span><span class="n">dim</span>
 <span class="p">)</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes_xy</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes_xyz</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
 
 <span class="c1"># Velocity boundary conditions</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">free_slip_upper</span><span class="p">:</span>
-    <span class="n">stokes_xy</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="s2">&quot;Upper&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">stokes_xyz</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="s2">&quot;Upper&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="s2">&quot;Lower&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="s2">&quot;Lower&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -992,15 +1019,37 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># t_init = 10.0 * sympy.exp(-5.0 * (x**2 + (y - 0.5) ** 2))</span>
-<span class="n">t_init</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">th</span><span class="p">)</span>
-<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">Rayleigh</span> <span class="o">*</span> <span class="n">t_init</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">t_init</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">l1</span><span class="p">)</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">Rayleigh</span> <span class="o">*</span> <span class="n">t_init</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
 <span class="c1"># ----</span>
 
-<span class="n">t_init_xy</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">meshball_xyz</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">xR</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">t_init_xyz</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">meshball_xyz</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">xR</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">unit_rvec</span> <span class="o">=</span> <span class="n">meshball_xyz</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">unit_e_0</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">Rayleigh</span> <span class="o">*</span> <span class="n">t_init_xy</span> <span class="o">*</span> <span class="n">unit_rvec</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">-=</span> <span class="mf">1.0e6</span> <span class="o">*</span> <span class="n">v_soln_xy</span><span class="o">.</span><span class="n">sym</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">unit_rvec</span><span class="p">)</span> <span class="o">*</span> <span class="n">surface_fn</span> <span class="o">*</span> <span class="n">unit_rvec</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">Rayleigh</span> <span class="o">*</span> <span class="n">t_init_xyz</span> <span class="o">*</span> <span class="n">unit_rvec</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">-=</span> <span class="mf">1.0e6</span> <span class="o">*</span> <span class="n">v_soln_xyz</span><span class="o">.</span><span class="n">sym</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">unit_rvec</span><span class="p">)</span> <span class="o">*</span> <span class="n">surface_fn</span> <span class="o">*</span> <span class="n">unit_rvec</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">xRotN</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes_xyz</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
@@ -1008,13 +1057,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">pressure_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1022,15 +1065,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes_xy</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">U_xy</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">xRotN</span> <span class="o">*</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">sym</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">U_xyz</span> <span class="o">=</span> <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">xRotN</span> <span class="o">*</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">sym</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 </div>
 </div>
@@ -1177,20 +1212,6 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="Ex_Stokes_Disk_Cartesian.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Cylindrical Stokes (Cartesian formulation)</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="Ex_Stokes_Spherical_FreeSlipBCs.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Mathematical formulation</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
 </div>
             </footer>
         </div>
