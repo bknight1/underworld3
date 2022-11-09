@@ -785,8 +785,16 @@ title="Print to PDF"
     <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> 
     <span class="n">numElements</span><span class="o">=</span><span class="n">num_els</span><span class="p">,</span> 
     <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;./tmp_meshball3.msh&quot;</span><span class="p">,</span> 
-    <span class="n">qdegree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">qdegree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
+
+<span class="c1"># meshball_xyz_tmp = uw.meshing.SphericalShell(</span>
+<span class="c1">#     radiusOuter=r_o, </span>
+<span class="c1">#     radiusInner=r_i, </span>
+<span class="c1">#     cellSize=res,</span>
+<span class="c1">#     filename=&quot;./tmp_meshball3.msh&quot;, </span>
+<span class="c1">#     qdegree=3, </span>
+<span class="c1"># )</span>
 </pre></div>
 </div>
 </div>
@@ -799,12 +807,9 @@ title="Print to PDF"
 
 <span class="n">rl1l2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">xyz</span><span class="p">)</span>
 
-
-<span class="c1">## Fix this one ... </span>
-
 <span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">,</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">)</span>
-<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span> <span class="o">/</span> <span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">)</span>
+<span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="mf">0.01</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span> <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span> <span class="o">/</span> <span class="n">rl1l2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.0e-16</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
 
 <span class="n">rl1l2_vec</span> <span class="o">=</span> <span class="n">xyz_vec</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">rl1l2_vec</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">rl1l2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">]</span>
@@ -830,8 +835,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">localizeCoordinates</span><span class="p">()</span>
-<span class="n">meshball</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># meshball.dm.localizeCoordinates()</span>
+<span class="c1"># meshball.dm.view()</span>
 </pre></div>
 </div>
 </div>
@@ -842,7 +847,8 @@ title="Print to PDF"
     <span class="n">radiusOuter</span><span class="o">=</span><span class="n">r_o</span><span class="p">,</span> 
     <span class="n">radiusInner</span><span class="o">=</span><span class="n">r_i</span><span class="p">,</span> 
     <span class="n">numElements</span><span class="o">=</span><span class="n">num_els</span><span class="p">,</span> 
-    <span class="n">qdegree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;./tmp_meshball3.msh&quot;</span><span class="p">,</span> 
+    <span class="n">qdegree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">simplex</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -890,7 +896,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">p_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">p_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">p_cont</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Pc&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1034,7 +1040,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">xRotN</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
 </pre></div>
 </div>
 </div>
@@ -1049,15 +1055,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
-<span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">pressure_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1089,7 +1088,7 @@ title="Print to PDF"
     <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">jupyter_backend</span> <span class="o">=</span> <span class="s2">&quot;panel&quot;</span>
     <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">smooth_shading</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="n">pvmesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;./tmp_meshball.msh&quot;</span><span class="p">)</span>
+    <span class="n">pvmesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;./tmp_meshball3.msh&quot;</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">meshball</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;V&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
@@ -1097,50 +1096,54 @@ title="Print to PDF"
         <span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">p_cont</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">meshball</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-            <span class="n">t_init_xy</span><span class="p">,</span> <span class="n">meshball_xyz</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">coord_sys</span><span class="o">=</span><span class="n">meshball_xyz</span><span class="o">.</span><span class="n">N</span>
+            <span class="n">t_init_xyz</span><span class="p">,</span> <span class="n">meshball_xyz</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">coord_sys</span><span class="o">=</span><span class="n">meshball_xyz</span><span class="o">.</span><span class="n">N</span>
         <span class="p">)</span>
 
     <span class="n">usol</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-    <span class="n">usol</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">U_xy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-    <span class="n">usol</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">U_xy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">usol</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">U_xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">usol</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">U_xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">usol</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">U_xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
 
-    <span class="n">usol_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">v_soln_xy</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-    <span class="n">usol_xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln_xy</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v_soln_xy</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-    <span class="n">usol_xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln_xy</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v_soln_xy</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">usol_xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">v_soln_xyz</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">usol_xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln_xyz</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v_soln_xyz</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">usol_xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">v_soln_xyz</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v_soln_xyz</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
 
-    <span class="n">xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-    <span class="n">xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
         <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">coord_sys</span><span class="o">=</span><span class="n">meshball</span><span class="o">.</span><span class="n">N</span>
     <span class="p">)</span>
-    <span class="n">xy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+    <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
         <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">coord_sys</span><span class="o">=</span><span class="n">meshball</span><span class="o">.</span><span class="n">N</span>
+    <span class="p">)</span>
+    <span class="n">xyz</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+        <span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">v_soln</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">coord_sys</span><span class="o">=</span><span class="n">meshball</span><span class="o">.</span><span class="n">N</span>
     <span class="p">)</span>
 
     <span class="n">arrow_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="n">arrow_loc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">xy</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="n">arrow_loc</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
 
     <span class="n">arrow_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="n">arrow_length</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">usol</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="n">arrow_length</span><span class="p">[:,:]</span> <span class="o">=</span> <span class="n">usol</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
 
     <span class="n">arrow_length_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="n">arrow_length_xy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">usol_xy</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="n">arrow_length_xy</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">usol_xyz</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
 
     <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="p">(</span><span class="mi">750</span><span class="p">,</span> <span class="mi">750</span><span class="p">))</span>
 
-    <span class="c1"># pl.add_mesh(pvmesh,&#39;Black&#39;, &#39;wireframe&#39;)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pvmesh</span><span class="p">,</span>
-        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
-        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Grey&quot;</span><span class="p">,</span>
-        <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;P&quot;</span><span class="p">,</span>
-        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pvmesh</span><span class="p">,</span><span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="s1">&#39;wireframe&#39;</span><span class="p">)</span>
+    <span class="c1"># pl.add_mesh(</span>
+    <span class="c1">#     pvmesh,</span>
+    <span class="c1">#     cmap=&quot;coolwarm&quot;,</span>
+    <span class="c1">#     edge_color=&quot;Grey&quot;,</span>
+    <span class="c1">#     scalars=&quot;P&quot;,</span>
+    <span class="c1">#     show_edges=True,</span>
+    <span class="c1">#     use_transparency=False,</span>
+    <span class="c1">#     opacity=0.75,</span>
+    <span class="c1"># )</span>
 
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span><span class="n">arrow_loc</span><span class="p">,</span> <span class="n">arrow_length_xy</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.00005</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Blue&quot;</span><span class="p">)</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span><span class="n">arrow_loc</span><span class="p">,</span> <span class="n">arrow_length_xy</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Blue&quot;</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span>
-        <span class="n">arrow_loc</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.00005</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Red&quot;</span>
+        <span class="n">arrow_loc</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Red&quot;</span>
     <span class="p">)</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
