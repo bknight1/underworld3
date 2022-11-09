@@ -549,7 +549,7 @@ def Annulus(
     filename=None,
 ):
 
-    boundaries = {&#34;Lower&#34;: 1, &#34;Upper&#34;: 2}
+    boundaries = {&#34;Lower&#34;: 1, &#34;Upper&#34;: 2, &#34;FixedStars&#34;: 3}
 
     vertices = {&#34;Centre&#34;: 10}
 
@@ -620,8 +620,6 @@ def Annulus(
         else:
             plex.removeLabel(name)
 
-    plex.removeLabel(&#34;Face Sets&#34;)
-
     for name, tag in vertices.items():
         plex.createLabel(name)
         label = plex.getLabel(name)
@@ -631,7 +629,130 @@ def Annulus(
         else:
             plex.removeLabel(name)
 
-    plex.removeLabel(&#34;Vertex Sets&#34;)
+    return Mesh(
+        plex,
+        degree=degree,
+        qdegree=qdegree,
+        coordinate_system_type=CoordinateSystemType.CYLINDRICAL2D,
+        filename=filename,
+    )
+
+
+def AnnulusFixedStars(
+    radiusFixedStars: float = 1.5,
+    radiusOuter: float = 1.0,
+    radiusInner: float = 0.5,
+    cellSize: float = 0.1,
+    cellSize_FS: float = 0.2,
+    centre: bool = False,
+    degree: int = 1,
+    qdegree: int = 2,
+    filename=None,
+):
+
+    boundaries = {&#34;Lower&#34;: 1, &#34;Upper&#34;: 2, &#34;FixedStars&#34;: 3}
+    vertices = {&#34;Centre&#34;: 10}
+
+    import gmsh
+
+    gmsh.initialize()
+    gmsh.option.setNumber(&#34;General.Verbosity&#34;, 1)
+    gmsh.model.add(&#34;AnnulusFS&#34;)
+
+    p1 = gmsh.model.geo.add_point(0.0, 0.0, 0.0, meshSize=cellSize)
+
+    loops = []
+
+    if radiusInner &gt; 0.0:
+        p2 = gmsh.model.geo.add_point(radiusInner, 0.0, 0.0, meshSize=cellSize)
+        p3 = gmsh.model.geo.add_point(-radiusInner, 0.0, 0.0, meshSize=cellSize)
+
+        c1 = gmsh.model.geo.add_circle_arc(p2, p1, p3)
+        c2 = gmsh.model.geo.add_circle_arc(p3, p1, p2)
+
+        cl1 = gmsh.model.geo.add_curve_loop([c1, c2], tag=boundaries[&#34;Lower&#34;])
+
+        loops = [cl1] + loops
+
+    p4 = gmsh.model.geo.add_point(radiusOuter, 0.0, 0.0, meshSize=cellSize)
+    p5 = gmsh.model.geo.add_point(-radiusOuter, 0.0, 0.0, meshSize=cellSize)
+
+    c3 = gmsh.model.geo.add_circle_arc(p4, p1, p5)
+    c4 = gmsh.model.geo.add_circle_arc(p5, p1, p4)
+
+    # Fixed Stars
+
+    p6 = gmsh.model.geo.add_point(radiusFixedStars, 0.0, 0.0, meshSize=cellSize_FS)
+    p7 = gmsh.model.geo.add_point(-radiusFixedStars, 0.0, 0.0, meshSize=cellSize_FS)
+
+    c5 = gmsh.model.geo.add_circle_arc(p6, p1, p7)
+    c6 = gmsh.model.geo.add_circle_arc(p7, p1, p6)
+
+    cl2 = gmsh.model.geo.add_curve_loop([c3, c4], tag=boundaries[&#34;Upper&#34;])
+    cl3 = gmsh.model.geo.add_curve_loop([c5, c6], tag=boundaries[&#34;FixedStars&#34;])
+
+    loops = [cl3] + loops
+
+    s = gmsh.model.geo.add_plane_surface(loops)
+
+    gmsh.model.geo.synchronize()
+
+    if radiusInner == 0.0:
+        gmsh.model.mesh.embed(0, [p1], 2, s)
+
+    gmsh.model.geo.synchronize()
+    gmsh.model.mesh.embed(1, [c3, c4], 2, s)
+
+    gmsh.model.geo.synchronize()
+
+    if radiusInner &gt; 0.0:
+        gmsh.model.addPhysicalGroup(1, [c1, c2], boundaries[&#34;Lower&#34;], name=&#34;Lower&#34;)
+    else:
+        gmsh.model.addPhysicalGroup(0, [p1], tag=vertices[&#34;Centre&#34;], name=&#34;Centre&#34;)
+
+    gmsh.model.addPhysicalGroup(
+        1,
+        [c3, c4],
+        boundaries[&#34;Upper&#34;],
+        name=&#34;Upper&#34;,
+    )
+    gmsh.model.addPhysicalGroup(
+        1,
+        [c5, c6],
+        boundaries[&#34;FixedStars&#34;],
+        name=&#34;FixedStars&#34;,
+    )
+
+    gmsh.model.addPhysicalGroup(2, [s], 666666, &#34;Elements&#34;)
+
+    gmsh.model.geo.synchronize()
+
+    # Generate Mesh
+    with tempfile.NamedTemporaryFile(mode=&#34;w&#34;, suffix=&#34;.msh&#34;) as fp:
+        gmsh.model.mesh.generate(2)
+        gmsh.write(fp.name)
+        if filename:
+            gmsh.write(filename)
+        gmsh.finalize()
+        plex = PETSc.DMPlex().createFromFile(fp.name)
+
+    for name, tag in boundaries.items():
+        plex.createLabel(name)
+        label = plex.getLabel(name)
+        indexSet = plex.getStratumIS(&#34;Face Sets&#34;, tag)
+        if indexSet:
+            label.insertIS(indexSet, 1)
+        else:
+            plex.removeLabel(name)
+
+    for name, tag in vertices.items():
+        plex.createLabel(name)
+        label = plex.getLabel(name)
+        indexSet = plex.getStratumIS(&#34;Vertex Sets&#34;, tag)
+        if indexSet:
+            label.insertIS(indexSet, 1)
+        else:
+            plex.removeLabel(name)
 
     return Mesh(
         plex,
@@ -808,7 +929,7 @@ def CubedSphere(
     filename=None,
 ):
 
-    boundaries = {&#34;Lower&#34;: 1, &#34;Upper&#34;: 2}
+    boundaries = {&#34;Lower&#34;: 1, &#34;Upper&#34;: 2, &#34;FixedStars&#34;: 3}
 
     vertices = {&#34;Centre&#34;: 10}
 
@@ -879,8 +1000,6 @@ def CubedSphere(
         else:
             plex.removeLabel(name)
 
-    plex.removeLabel(&#34;Face Sets&#34;)
-
     for name, tag in vertices.items():
         plex.createLabel(name)
         label = plex.getLabel(name)
@@ -890,7 +1009,139 @@ def CubedSphere(
         else:
             plex.removeLabel(name)
 
-    plex.removeLabel(&#34;Vertex Sets&#34;)
+    return Mesh(
+        plex,
+        degree=degree,
+        qdegree=qdegree,
+        coordinate_system_type=CoordinateSystemType.CYLINDRICAL2D,
+        filename=filename,
+    )</code></pre>
+</details>
+</dd>
+<dt id="underworld3.meshing.AnnulusFixedStars"><code class="name flex">
+<span>def <span class="ident">AnnulusFixedStars</span></span>(<span>radiusFixedStars: float = 1.5, radiusOuter: float = 1.0, radiusInner: float = 0.5, cellSize: float = 0.1, cellSize_FS: float = 0.2, centre: bool = False, degree: int = 1, qdegree: int = 2, filename=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def AnnulusFixedStars(
+    radiusFixedStars: float = 1.5,
+    radiusOuter: float = 1.0,
+    radiusInner: float = 0.5,
+    cellSize: float = 0.1,
+    cellSize_FS: float = 0.2,
+    centre: bool = False,
+    degree: int = 1,
+    qdegree: int = 2,
+    filename=None,
+):
+
+    boundaries = {&#34;Lower&#34;: 1, &#34;Upper&#34;: 2, &#34;FixedStars&#34;: 3}
+    vertices = {&#34;Centre&#34;: 10}
+
+    import gmsh
+
+    gmsh.initialize()
+    gmsh.option.setNumber(&#34;General.Verbosity&#34;, 1)
+    gmsh.model.add(&#34;AnnulusFS&#34;)
+
+    p1 = gmsh.model.geo.add_point(0.0, 0.0, 0.0, meshSize=cellSize)
+
+    loops = []
+
+    if radiusInner &gt; 0.0:
+        p2 = gmsh.model.geo.add_point(radiusInner, 0.0, 0.0, meshSize=cellSize)
+        p3 = gmsh.model.geo.add_point(-radiusInner, 0.0, 0.0, meshSize=cellSize)
+
+        c1 = gmsh.model.geo.add_circle_arc(p2, p1, p3)
+        c2 = gmsh.model.geo.add_circle_arc(p3, p1, p2)
+
+        cl1 = gmsh.model.geo.add_curve_loop([c1, c2], tag=boundaries[&#34;Lower&#34;])
+
+        loops = [cl1] + loops
+
+    p4 = gmsh.model.geo.add_point(radiusOuter, 0.0, 0.0, meshSize=cellSize)
+    p5 = gmsh.model.geo.add_point(-radiusOuter, 0.0, 0.0, meshSize=cellSize)
+
+    c3 = gmsh.model.geo.add_circle_arc(p4, p1, p5)
+    c4 = gmsh.model.geo.add_circle_arc(p5, p1, p4)
+
+    # Fixed Stars
+
+    p6 = gmsh.model.geo.add_point(radiusFixedStars, 0.0, 0.0, meshSize=cellSize_FS)
+    p7 = gmsh.model.geo.add_point(-radiusFixedStars, 0.0, 0.0, meshSize=cellSize_FS)
+
+    c5 = gmsh.model.geo.add_circle_arc(p6, p1, p7)
+    c6 = gmsh.model.geo.add_circle_arc(p7, p1, p6)
+
+    cl2 = gmsh.model.geo.add_curve_loop([c3, c4], tag=boundaries[&#34;Upper&#34;])
+    cl3 = gmsh.model.geo.add_curve_loop([c5, c6], tag=boundaries[&#34;FixedStars&#34;])
+
+    loops = [cl3] + loops
+
+    s = gmsh.model.geo.add_plane_surface(loops)
+
+    gmsh.model.geo.synchronize()
+
+    if radiusInner == 0.0:
+        gmsh.model.mesh.embed(0, [p1], 2, s)
+
+    gmsh.model.geo.synchronize()
+    gmsh.model.mesh.embed(1, [c3, c4], 2, s)
+
+    gmsh.model.geo.synchronize()
+
+    if radiusInner &gt; 0.0:
+        gmsh.model.addPhysicalGroup(1, [c1, c2], boundaries[&#34;Lower&#34;], name=&#34;Lower&#34;)
+    else:
+        gmsh.model.addPhysicalGroup(0, [p1], tag=vertices[&#34;Centre&#34;], name=&#34;Centre&#34;)
+
+    gmsh.model.addPhysicalGroup(
+        1,
+        [c3, c4],
+        boundaries[&#34;Upper&#34;],
+        name=&#34;Upper&#34;,
+    )
+    gmsh.model.addPhysicalGroup(
+        1,
+        [c5, c6],
+        boundaries[&#34;FixedStars&#34;],
+        name=&#34;FixedStars&#34;,
+    )
+
+    gmsh.model.addPhysicalGroup(2, [s], 666666, &#34;Elements&#34;)
+
+    gmsh.model.geo.synchronize()
+
+    # Generate Mesh
+    with tempfile.NamedTemporaryFile(mode=&#34;w&#34;, suffix=&#34;.msh&#34;) as fp:
+        gmsh.model.mesh.generate(2)
+        gmsh.write(fp.name)
+        if filename:
+            gmsh.write(filename)
+        gmsh.finalize()
+        plex = PETSc.DMPlex().createFromFile(fp.name)
+
+    for name, tag in boundaries.items():
+        plex.createLabel(name)
+        label = plex.getLabel(name)
+        indexSet = plex.getStratumIS(&#34;Face Sets&#34;, tag)
+        if indexSet:
+            label.insertIS(indexSet, 1)
+        else:
+            plex.removeLabel(name)
+
+    for name, tag in vertices.items():
+        plex.createLabel(name)
+        label = plex.getLabel(name)
+        indexSet = plex.getStratumIS(&#34;Vertex Sets&#34;, tag)
+        if indexSet:
+            label.insertIS(indexSet, 1)
+        else:
+            plex.removeLabel(name)
 
     return Mesh(
         plex,
@@ -1611,6 +1862,7 @@ Tuple specifying maximum mesh location.</p>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="underworld3.meshing.Annulus" href="#underworld3.meshing.Annulus">Annulus</a></code></li>
+<li><code><a title="underworld3.meshing.AnnulusFixedStars" href="#underworld3.meshing.AnnulusFixedStars">AnnulusFixedStars</a></code></li>
 <li><code><a title="underworld3.meshing.CubedSphere" href="#underworld3.meshing.CubedSphere">CubedSphere</a></code></li>
 <li><code><a title="underworld3.meshing.SphericalShell" href="#underworld3.meshing.SphericalShell">SphericalShell</a></code></li>
 <li><code><a title="underworld3.meshing.StructuredQuadBox" href="#underworld3.meshing.StructuredQuadBox">StructuredQuadBox</a></code></li>
