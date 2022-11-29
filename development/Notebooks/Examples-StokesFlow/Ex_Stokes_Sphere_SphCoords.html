@@ -749,7 +749,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="spherical-stokes">
 <h1>Spherical Stokes<a class="headerlink" href="#spherical-stokes" title="Permalink to this headline">#</a></h1>
-<p>(In spherical coordinates)</p>
+<p>(In a spherical coordinate system)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">petsc4py</span>
@@ -888,15 +888,8 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># uw.function.evaluate(meshball.CoordinateSystem.R[0], meshball.data)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">p_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">p_soln</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">p_cont</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Pc&quot;</span><span class="p">,</span> <span class="n">meshball</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -963,23 +956,19 @@ title="Print to PDF"
 <div class="math notranslate nohighlight">
 \[ \dot\epsilon_{rr} \equiv \dot\epsilon_{00} = U_{ 0,0}(\mathbf{r}) \]</div>
 <div class="math notranslate nohighlight">
-\[ \dot\epsilon_{r\lambda_1} \equiv \dot\epsilon_{01} = \frac{U_{ 1,0}(\mathbf{r})}{2} + \frac{U_{ 0,1}(\mathbf{r})}{2 r \cos{\left(\lambda_2 \right)}} - \frac{U_{ 1 }(\mathbf{r})}{2 r} \]</div>
+\[ \dot\epsilon_{\lambda_2 \lambda_2} \equiv \dot\epsilon_{22} = 
+\frac{U_{ 0 }(\mathbf{r}) + U_{ 2,2}(\mathbf{r})}{r}
+\]</div>
 <div class="math notranslate nohighlight">
-\[ \dot\epsilon_{r\lambda_2} \equiv \dot\epsilon_{02} = \frac{U_{ 2,0}(\mathbf{r})}{2} + \frac{U_{ 0,2}(\mathbf{r})}{2 r} - \frac{U_{ 2 }(\mathbf{r})}{2 r} \]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">strainrate</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">stress</span>
-</pre></div>
-</div>
-</div>
-</div>
+\[ \dot\epsilon_{\lambda_1 \lambda_1} \equiv \dot\epsilon_{11} =
+\frac{U_{ 0 }(\mathbf{r}) \cos{\left(\lambda_2 \right)} + U_{ 1,1}(\mathbf{r}) - U_{ 2 }(\mathbf{r}) \sin{\left(\lambda_2 \right)}}{r \cos{\left(\lambda_2 \right)}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[ \dot\epsilon_{r\lambda_2} \equiv \dot\epsilon_{02} = -\frac{U_{ 2,0}(\mathbf{r})}{2} - \frac{U_{ 0,2}(\mathbf{r})}{2 r} + \frac{U_{ 2 }(\mathbf{r})}{2 r} \]</div>
+<div class="math notranslate nohighlight">
+\[ \dot\epsilon_{\lambda_1 \lambda_2} \equiv \dot\epsilon_{12} =\frac{- U_{ 1 }(\mathbf{r}) \tan{\left(\lambda_2 \right)} - U_{ 1,2}(\mathbf{r}) - \frac{U_{ 2,1}(\mathbf{r})}{\cos{\left(\lambda_2 \right)}}}{2 r} \]</div>
+<div class="math notranslate nohighlight">
+\[ \dot\epsilon_{r\lambda_1} \equiv \dot\epsilon_{01} = \frac{U_{ 1,0}(\mathbf{r})}{2} + \frac{U_{ 0,1}(\mathbf{r})}{2 r \cos{\left(\lambda_2 \right)}} - \frac{U_{ 1 }(\mathbf{r})}{2 r} \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Stokes object (x,y)</span>
@@ -1040,15 +1029,20 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">meshball</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes_xyz</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
+<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes_xyz</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
-<span class="n">stokes_xyz</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;fieldsplit_velocity_ksp_monitor&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;fieldsplit_pressure_ksp_monitor&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">,</span><span class="mf">1.0e-2</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;pc_gamg_agg_nsmooths&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;pc_gamg_threshold&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1058,6 +1052,13 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">_setup_terms</span><span class="p">()</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">pressure_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
 </pre></div>
 </div>
 </div>
@@ -1174,13 +1175,6 @@ title="Print to PDF"
 <span class="c1"># 0.1</span>
 <span class="c1"># MEAN: 0.8601596694865591</span>
 <span class="c1"># MAX:  1.0587809789060159</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span>
 </pre></div>
 </div>
 </div>

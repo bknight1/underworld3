@@ -856,8 +856,14 @@ options[“help”] = None</p>
 </div>
 </div>
 </div>
-<p>stokes.bodyforce[0] -= 1.0e6 * v.sym[0] * (left_fn + right_fn)
-stokes.bodyforce[1] -= 1.0e6 * v.sym[1] * (surface_fn + base_fn)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># stokes.bodyforce[0] -= 1.0e6 * v.sym[0] * (left_fn + right_fn)</span>
+<span class="c1"># stokes.bodyforce[1] -= 1.0e6 * v.sym[1] * (surface_fn + base_fn)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
@@ -902,7 +908,6 @@ stokes.petsc_options[“ksp_monitor”] = None</p>
 </div>
 <section id="visualise-it">
 <h2>Visualise it !<a class="headerlink" href="#visualise-it" title="Permalink to this headline">#</a></h2>
-<p>OR</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the mesh if in a notebook / serial</span>
