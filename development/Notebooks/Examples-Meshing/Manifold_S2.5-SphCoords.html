@@ -618,7 +618,7 @@ title="Source repository"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../../_sources/Notebooks/Examples-Meshing/Manifold_S2.5.py"
+        <a href="../../_sources/Notebooks/Examples-Meshing/Manifold_S2.5-SphCoords.py"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -738,12 +738,12 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bubblemesh</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">SegmentedSphere</span><span class="p">(</span>
     <span class="n">radiusOuter</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">radiusInner</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span>
+    <span class="n">radiusInner</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">cellSize</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
     <span class="n">numSegments</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> 
     <span class="n">qdegree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
     <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;tmpWedge.msh&quot;</span><span class="p">,</span>
-    <span class="n">coordinatesNative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">coordinatesNative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -765,10 +765,10 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">P</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">Pc</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Pc&quot;</span><span class="p">,</span><span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">T</span>  <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">T</span>  <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">Tnode</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Tn&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">Tdiff</span>  <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;dT&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">Tdiffc</span>  <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;dTc&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Tdiffc</span>  <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;dTc&quot;</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">continuous</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -782,10 +782,18 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t_init</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sympify</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">lon</span><span class="p">)</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">lat</span><span class="p">)</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="n">t_init</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sympify</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="n">lon</span><span class="p">)</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n">lat</span><span class="p">)</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat</span><span class="p">))</span>
 
-<span class="k">with</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
-    <span class="n">T</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">t_init</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Tnode</span><span class="p">):</span>
+    <span class="n">T</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">t_init</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="o">.</span><span class="n">gradient</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -798,6 +806,13 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="o">.</span><span class="n">gradient</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="snes-example">
 <h2>SNES example<a class="headerlink" href="#snes-example" title="Permalink to this headline">#</a></h2>
 <p>The simplest possible solver implementation is just a projection operator</p>
@@ -805,7 +820,10 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">projector</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">bubblemesh</span><span class="p">,</span> <span class="n">Tnode</span><span class="p">)</span>
 <span class="n">projector</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">projector</span><span class="o">.</span><span class="n">smoothing</span> <span class="o">=</span> <span class="mf">1.0e-3</span>
+<span class="n">projector</span><span class="o">.</span><span class="n">smoothing</span> <span class="o">=</span> <span class="mf">1.0e-6</span>
+<span class="c1"># Test if bc&#39;s work</span>
+<span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PoleAxisN&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNi&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,[</span><span class="s2">&quot;PoleAxisS&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtSo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtSi&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">projector</span><span class="o">.</span><span class="n">petsc_options</span>
 <span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">,</span><span class="mf">1.0e-4</span><span class="p">)</span>
@@ -823,7 +841,7 @@ title="Print to PDF"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">projector</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">bubblemesh</span><span class="p">,</span> <span class="n">Tdiff</span><span class="p">)</span>
 <span class="n">projector</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">slope</span> <span class="c1"># sympy.diff(T.sym[0], lon)        </span>
 <span class="n">projector</span><span class="o">.</span><span class="n">smoothing</span> <span class="o">=</span> <span class="mf">1.0e-6</span>
-<span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PoleAxisN&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNi&quot;</span><span class="p">]</span> <span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PoleAxisN&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNi&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PoleAxisS&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtSo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtSi&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">projector</span><span class="o">.</span><span class="n">petsc_options</span>
@@ -837,14 +855,13 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">projector</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">bubblemesh</span><span class="p">,</span> <span class="n">Tdiffc</span><span class="p">)</span>
-<span class="n">projector</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">slope</span> <span class="c1"># sympy.diff(T.sym[0], lon)        </span>
+<span class="n">projector</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">Tdiff</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># sympy.diff(T.sym[0], lon)        </span>
 <span class="n">projector</span><span class="o">.</span><span class="n">smoothing</span> <span class="o">=</span> <span class="mf">1.0e-6</span>
-<span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PoleAxisN&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNi&quot;</span><span class="p">]</span> <span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PoleAxisN&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtNi&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">projector</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;PoleAxisS&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtSo&quot;</span><span class="p">,</span> <span class="s2">&quot;PolePtSi&quot;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">projector</span><span class="o">.</span><span class="n">petsc_options</span>
 <span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">,</span><span class="mf">1.0e-4</span><span class="p">)</span>
-
 
 <span class="n">projector</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
@@ -869,26 +886,32 @@ title="Print to PDF"
     <span class="n">pvmesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;tmpWedge.msh&quot;</span><span class="p">)</span>
    
     <span class="k">with</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;nT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">Tnode</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;nT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tnode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">Tdiff</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dTc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">Tdiffc</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bubblemesh</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">pvmesh</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;dTc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tdiffc</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>  
 
-    <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">()</span>
-  
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
-        <span class="n">pvmesh</span><span class="p">,</span>
-        <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;dT&quot;</span><span class="p">,</span>
-        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu&quot;</span><span class="p">,</span>
-        <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>  
-        <span class="c1"># clim=[0,1]</span>
-    <span class="p">)</span>
+<span class="n">clipped</span> <span class="o">=</span> <span class="n">pvmesh</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">normal</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">crinkle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    
-    <span class="n">pl</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">labels_off</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
+    <span class="n">clipped</span><span class="p">,</span>
+    <span class="n">show_edges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;dT&quot;</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdYlBu&quot;</span><span class="p">,</span>
+    <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>  
+    <span class="c1"># clim=[-6,6]</span>
+<span class="p">)</span>
+
+<span class="n">pl</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">labels_off</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
-    <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
