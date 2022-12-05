@@ -63,13 +63,13 @@ def _from_gmsh(filename, comm=None, cellSets=None, faceSets=None, vertexSets=Non
 
     options = PETSc.Options()
     options[&#34;dm_plex_gmsh_multiple_tags&#34;] = None
-    # options[&#34;dm_plex_gmsh_spacedim&#34;] = 2  # The embedding dimension if not obvious from the mesh file
     options[&#34;dm_plex_gmsh_use_regions&#34;] = None
     options[&#34;dm_plex_gmsh_mark_vertices&#34;] = None
 
     # This is probably simpler
     gmsh_plex = PETSc.DMPlex().createFromFile(filename)
 
+    &#34;&#34;&#34;
     # Extract Physical groups from the gmsh file
 
     ## NOTE: should we be doing this is parallel ??
@@ -145,6 +145,7 @@ def _from_gmsh(filename, comm=None, cellSets=None, faceSets=None, vertexSets=Non
             indexSet.destroy()
 
     gmsh.finalize()
+    &#34;&#34;&#34;
 
     return gmsh_plex
 
@@ -266,7 +267,7 @@ class Mesh(_api_tools.Stateful):
             self.CoordinateSystem.coordinate_type
             == CoordinateSystemType.SPHERICAL_NATIVE
         ):
-            self.vector = uw.maths.vector_calculus_spherical_lonlat(
+            self.vector = uw.maths.vector_calculus_spherical(
                 mesh=self,
             )  ## Not yet complete or tested
 
@@ -1511,7 +1512,7 @@ at the conclusion of their modifications.</p></div>
             self.CoordinateSystem.coordinate_type
             == CoordinateSystemType.SPHERICAL_NATIVE
         ):
-            self.vector = uw.maths.vector_calculus_spherical_lonlat(
+            self.vector = uw.maths.vector_calculus_spherical(
                 mesh=self,
             )  ## Not yet complete or tested
 
