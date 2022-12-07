@@ -453,21 +453,6 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Examples-NavierStokes/Benchmark_NS_DFG_2d_1_ss.html">
-     Navier Stokes test: flow around a circular inclusion (2D)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Examples-NavierStokes/Benchmark_NS_DFG_2d_2.html">
-     Navier Stokes test: flow around a circular inclusion (2D)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Examples-NavierStokes/Ex_NavierStokesFlowAroundSphere-StreakSwarm.html">
-     Navier Stokes test: flow around a circular inclusion (2D)
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../Examples-NavierStokes/Ex_NavierStokesFlowAroundSphere.html">
      Navier Stokes test: flow around a circular inclusion (2D)
     </a>
@@ -715,6 +700,11 @@ title="Print to PDF"
    Visualise it !
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#solcx-from-the-same-setup">
+   SolCx from the same setup
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -737,6 +727,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#visualise-it">
    Visualise it !
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#solcx-from-the-same-setup">
+   SolCx from the same setup
   </a>
  </li>
 </ul>
@@ -814,7 +809,14 @@ options[“help”] = None</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">CoordinateSystem</span><span class="o">.</span><span class="n">X</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">dm</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">X</span>
 </pre></div>
 </div>
 </div>
@@ -856,8 +858,16 @@ options[“help”] = None</p>
 </div>
 </div>
 </div>
-<p>stokes.bodyforce[0] -= 1.0e6 * v.sym[0] * (left_fn + right_fn)
-stokes.bodyforce[1] -= 1.0e6 * v.sym[1] * (surface_fn + base_fn)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is the other way to impose no vertical </span>
+
+<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0e6</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">left_fn</span> <span class="o">+</span> <span class="n">right_fn</span><span class="p">)</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0e6</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">surface_fn</span> <span class="o">+</span> <span class="n">base_fn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
@@ -872,8 +882,9 @@ stokes.bodyforce[1] -= 1.0e6 * v.sym[1] * (surface_fn + base_fn)</p>
 <span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span>
     <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;Top&quot;</span><span class="p">,</span> <span class="s2">&quot;Bottom&quot;</span><span class="p">],</span> <span class="mi">1</span>
 <span class="p">)</span>  <span class="c1"># top/bottom: components, function, markers</span>
+
 <span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span>
-    <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">],</span> <span class="mi">0</span>
+    <span class="p">(</span><span class="mf">0.0</span><span class="p">,),</span> <span class="p">[</span><span class="s2">&quot;Left&quot;</span><span class="p">,</span> <span class="s2">&quot;Right&quot;</span><span class="p">],</span> <span class="mi">0</span>
 <span class="p">)</span>  <span class="c1"># left/right: components, function, markers</span>
 </pre></div>
 </div>
@@ -889,8 +900,14 @@ stokes.bodyforce[1] -= 1.0e6 * v.sym[1] * (surface_fn + base_fn)</p>
 </div>
 </div>
 </div>
-<p>stokes.petsc_options[“snes_monitor”]= None
-stokes.petsc_options[“ksp_monitor”] = None</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_monitor&quot;</span><span class="p">]</span><span class="o">=</span> <span class="kc">None</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
@@ -900,9 +917,22 @@ stokes.petsc_options[“ksp_monitor”] = None</p>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">snes</span><span class="o">.</span><span class="n">getConvergedReason</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">/</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="visualise-it">
 <h2>Visualise it !<a class="headerlink" href="#visualise-it" title="Permalink to this headline">#</a></h2>
-<p>OR</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the mesh if in a notebook / serial</span>
@@ -953,12 +983,23 @@ stokes.petsc_options[“ksp_monitor”] = None</p>
 
 
 <span class="c1"># %% [markdown]</span>
-<span class="c1"># # SolCx from the same setup</span>
-
-<span class="c1"># %%</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="solcx-from-the-same-setup">
+<h2>SolCx from the same setup<a class="headerlink" href="#solcx-from-the-same-setup" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># %%</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">sympy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">y</span><span class="p">)]</span>
 <span class="p">)</span>
+
+<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0e6</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">left_fn</span> <span class="o">+</span> <span class="n">right_fn</span><span class="p">)</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0e6</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">surface_fn</span> <span class="o">+</span> <span class="n">base_fn</span><span class="p">)</span>
+
 <span class="n">viscosity_fn</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Piecewise</span><span class="p">(</span>
     <span class="p">(</span>
         <span class="mf">1.0e6</span><span class="p">,</span>
@@ -970,13 +1011,9 @@ stokes.petsc_options[“ksp_monitor”] = None</p>
 <span class="n">stokes</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
 
 <span class="c1"># %%</span>
+
 <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
-
-<span class="c1"># %%</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
-
-<span class="c1"># %%</span>
-<span class="c1"># OR</span>
 </pre></div>
 </div>
 </div>
@@ -1058,6 +1095,13 @@ stokes.petsc_options[“ksp_monitor”] = None</p>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Unable to test SolC results as UW2 not available.&quot;</span><span class="p">)</span>
 
 <span class="c1"># %%</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># </span>
 </pre></div>
 </div>
 </div>

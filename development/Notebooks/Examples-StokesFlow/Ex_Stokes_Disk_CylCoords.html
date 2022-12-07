@@ -453,21 +453,6 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Examples-NavierStokes/Benchmark_NS_DFG_2d_1_ss.html">
-     Navier Stokes test: flow around a circular inclusion (2D)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Examples-NavierStokes/Benchmark_NS_DFG_2d_2.html">
-     Navier Stokes test: flow around a circular inclusion (2D)
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Examples-NavierStokes/Ex_NavierStokesFlowAroundSphere-StreakSwarm.html">
-     Navier Stokes test: flow around a circular inclusion (2D)
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="../Examples-NavierStokes/Ex_NavierStokesFlowAroundSphere.html">
      Navier Stokes test: flow around a circular inclusion (2D)
     </a>
@@ -904,7 +889,12 @@ title="Print to PDF"
 <span class="n">stokes</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span>
     <span class="n">meshball</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">v_soln</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p_soln</span><span class="p">,</span> <span class="n">solver_name</span><span class="o">=</span><span class="s2">&quot;stokes&quot;</span>
 <span class="p">)</span>
-<span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">,</span><span class="mf">1.0e-4</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;pc_gamg_type&quot;</span><span class="p">,</span><span class="s2">&quot;agg&quot;</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;pc_gamg_agg_nsmooths&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s2">&quot;pc_gamg_threshold&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 
 <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span>
     <span class="n">meshball</span><span class="o">.</span><span class="n">dim</span>
@@ -912,6 +902,8 @@ title="Print to PDF"
 <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">penalty</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">stokes</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-8</span>
+
 
 <span class="c1"># Velocity boundary conditions</span>
 
@@ -968,7 +960,7 @@ title="Print to PDF"
 <span class="p">)</span>
 <span class="n">stokes_xy</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">stokes_xy</span><span class="o">.</span><span class="n">saddle_preconditioner</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">stokes_xy</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
-<span class="n">stokes_xy</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-5</span>
+<span class="n">stokes_xy</span><span class="o">.</span><span class="n">petsc_options</span><span class="p">[</span><span class="s2">&quot;snes_rtol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0e-8</span>
 
 <span class="c1"># Velocity boundary conditions</span>
 
@@ -1014,7 +1006,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">pressure_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1105,7 +1097,7 @@ title="Print to PDF"
 
     <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span><span class="n">arrow_loc</span><span class="p">,</span> <span class="n">arrow_length_xy</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.00005</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Blue&quot;</span><span class="p">)</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">add_arrows</span><span class="p">(</span>
-        <span class="n">arrow_loc</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.00005</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Red&quot;</span>
+        <span class="n">arrow_loc</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">arrow_length</span><span class="p">,</span> <span class="n">mag</span><span class="o">=</span><span class="mf">0.00005</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Red&quot;</span>
     <span class="p">)</span>
 
     <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
