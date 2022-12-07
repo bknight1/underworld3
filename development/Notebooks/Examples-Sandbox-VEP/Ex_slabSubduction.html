@@ -1,0 +1,1446 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Slab subduction &#8212; Underworld 3</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/customize.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script src="../../_static/font_button.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/AuWorldEQ.jpg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Underworld 3</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../FrontPage.html">
+                    The Underworld Geodynamics Platform
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Instruction Manual
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../Manual/Index.html">
+   Introduction to Underworld 3
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Manual/Meshes.html">
+     Meshes and model objects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Manual/Swarms.html">
+     Particle Swarms
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Manual/VariablesAndFunctions.html">
+     Underworld Variables
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Theory
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../Theory/Index.html">
+   Underworld Theory Manual
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Theory/MathematicalBackground.html">
+     Mathematical Background
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Theory/FiniteElements.html">
+     The Lagrangian-Particle FEM
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Theory/PointwiseFunctions.html">
+     PETSc pointwise functions and PDE solvers
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Theory/LinearAlgebra.html">
+     Linear Algebra
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../Theory/NonLinear.html">
+     Non Linear Methods
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Index.html">
+   Index of Sample notebooks
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Examples-PoissonEquation/Readme.html">
+   Solving the Poisson Equation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Gradient_Recovery.html">
+     Poisson Equation with flux recovery
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian_Generic.html">
+     Poisson Equation (generic)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Spherical.html">
+     Steady state diffusion in a hollow sphere
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PoissonEquation/Ex_DiffusionSLCN_Cartesian-NL.html">
+     Nonlinear diffusion of a hot pipe
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PoissonEquation/Ex_DiffusionSLCN_Cartesian.html">
+     Linear diffusion of a hot pipe
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PoissonEquation/Ex_Poisson_Cartesian.html">
+     Poisson Equation (simple)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Examples-PorousFlow/Readme.html">
+   Porous flow examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PorousFlow/Ex_Darcy_1D_benchmark.html">
+     Darcy flow (1d) using xy coordinates to define permeability distribution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PorousFlow/Ex_Darcy_1D_benchmark-Swarm.html">
+     Darcy flow (1d) using swarm variable to define permeability
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-PorousFlow/Ex_Darcy_Cartesian.html">
+     Underworld Groundwater Flow Benchmark 1
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Examples-StokesFlow/Readme.html">
+   Stokes Flow
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Swarm_Bubbles.html">
+     Multiple materials - Drips and Blobs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Cartesian_SolNL.html">
+     Non-linear Stokes benchmark
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Sinker.html">
+     Multiple materials - Linear stokes sinker
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Cartesian_SolC.html">
+     Stokes Benchmark SolCx
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Disk_Cartesian.html">
+     Cylindrical Stokes (Cartesian formulation)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Disk_CylCoords.html">
+     Cylindrical Stokes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Spherical_FreeSlipBCs.html">
+     Mathematical formulation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Swarm_RT_Cartesian.html">
+     Rayleigh Taylor - swarm materials
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_Stokes_Swarm_RT_Spherical.html">
+     Rayleigh-Taylor (Level-set based) in the sphere
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-StokesFlow/Ex_WIP_Stokes_Periodic.html">
+     Periodic Mesh Example (WIP)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Examples-Convection/Readme.html">
+   Convection modelling examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_AdvectionDiffusionSLCN_RotationTest.html">
+     Field Advection solver test - shear flow driven by a pre-defined, rigid body rotation in a disc
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_AdvectionDiffusionSwarm_RotationTest.html">
+     Field Advection solver test - shear flow driven by a pre-defined, rigid body rotation in a disc
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_1_SLCN_Cartesian.html">
+     Constant viscosity convection, Cartesian domain (benchmark)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_2_SLCN_Cartesian-TdepVisc.html">
+     Temperature-dependent viscosity convection, Cartesian Domain(benchmark)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_3_SLCN_Cylindrical-TdepVisc.html">
+     Temperature-dependent viscosity convection, Cylindrical domain (benchmark)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_4_SLCN_Cartesian-NL.html">
+     Non-linear viscosity convection, Cartesian domain (benchmark)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_5_SLCN_Cartesian-Yield.html">
+     Non-linear viscosity convection, Cartesian domain (benchmark)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_Cartesian-Swarm.html">
+     Constant viscosity convection, Cartesian domain (benchmark)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_Cartesian_ThermoChem.html">
+     Thermochemical convection
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_Cylinder.html">
+     Stokes in a disc with adv_diff to solve T and back-in-time sampling with particles
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Convection/Ex_Convection_Disc_InternalHeat.html">
+     Convection in a disc with internal heating and rigid or free boundaries
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="Readme.html">
+   Visco-elastic-plastic models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Ex_Shear_Band_Notch_Benchmark.html">
+     Spiegelman et al, notch-deformation benchmark
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Ex_Shear_Band_Plasticity_PS.html">
+     Flow and Shear banding around a circular inclusion in pure shear
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Ex_Shear_Band_Plasticity_SS.html">
+     Shear bands around a circular inclusion in a simple shear flow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Ex_Sheared_Layer_Test.html">
+     Validate constitutive models
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Examples-NavierStokes/Readme.html">
+   Navier Stokes Equation
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Benchmark_NS_DFG_2d_1.html">
+     Navier Stokes test: flow around a circular inclusion (2D)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Benchmark_NS_DFG_2d_1_ss.html">
+     Navier Stokes test: flow around a circular inclusion (2D)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Benchmark_NS_DFG_2d_2.html">
+     Navier Stokes test: flow around a circular inclusion (2D)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Ex_NavierStokesFlowAroundSphere-StreakSwarm.html">
+     Navier Stokes test: flow around a circular inclusion (2D)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Ex_NavierStokesFlowAroundSphere.html">
+     Navier Stokes test: flow around a circular inclusion (2D)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Ex_NavierStokesRotationTest.html">
+     Navier Stokes test: boundary driven ring with step change in boundary conditions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Ex_Navier_Stokes_Disk_FreeSlipBCs-Coriolis.html">
+     Cylindrical Stokes with Coriolis term (out of plane)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Ex_Navier_Stokes_Disk_NoSlipBCs-Coriolis.html">
+     Cylindrical Stokes with Coriolis term (out of plane)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-NavierStokes/Ex_Navier_Stokes_Disk_NoSlipBCs-Coriolis_ss.html">
+     Cylindrical Stokes with Coriolis term (out of plane)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Examples-Utilities/Readme.html">
+   Miscellaneous Tips and Tricks
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Utilities/Ex-ConstitutiveTensors.html">
+     Tests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Utilities/Ex_BCs_from_meshVariables.html">
+     Cylindrical 2D Diffusion
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Utilities/Ex_Coordinates.html">
+     Symbolic forms v. mesh variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Utilities/Ex_Integrals_on_Meshes.html">
+     Using the PETSc mesh integration routines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Utilities/Ex_Projection_Function_Eval.html">
+     Projection-based function evaluation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Examples-Utilities/Ex_Tensor_Variables_etc.html">
+     Examples with General Mesh variable manipulation
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            <button type="button" onclick="legibleFontSwitcher()">Switch Font</button>&nbsp;&nbsp;<button type="button" onclick="fontScaler(1.1)">&#10133;</button><button type="button" onclick="fontScaler(0.0)">&#9679;</button><button type="button" onclick="fontScaler(0.909)">&#10134;</button>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/underworldcode/underworld3"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/Notebooks/Examples-Sandbox-VEP/Ex_slabSubduction.py"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.py</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-dan-sandiford">
+   From Dan Sandiford
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-mesh-and-mesh-vars">
+   Create mesh and mesh vars
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-swarm-and-swarm-vars">
+   Create swarm and swarm vars
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-fields-to-mesh-vars">
+     Project fields to mesh vars
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-the-material-distribution">
+   Setup the material distribution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#update-the-material-variable-of-the-swarm">
+     Update the material variable of the swarm
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#function-to-save-output-of-model">
+     Function to save output of model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rheology">
+     Rheology
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#density">
+       Density
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#boundary-conditions">
+     Boundary conditions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#initial-first-guess-of-constant-viscosity">
+       initial first guess of constant viscosity
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#add-in-nl-viscosity-for-solve-loop">
+       add in NL viscosity for solve loop
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#main-loop">
+     Main loop
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Slab subduction</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-dan-sandiford">
+   From Dan Sandiford
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-mesh-and-mesh-vars">
+   Create mesh and mesh vars
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-swarm-and-swarm-vars">
+   Create swarm and swarm vars
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-fields-to-mesh-vars">
+     Project fields to mesh vars
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-the-material-distribution">
+   Setup the material distribution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#update-the-material-variable-of-the-swarm">
+     Update the material variable of the swarm
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#function-to-save-output-of-model">
+     Function to save output of model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rheology">
+     Rheology
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#density">
+       Density
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#boundary-conditions">
+     Boundary conditions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#initial-first-guess-of-constant-viscosity">
+       initial first guess of constant viscosity
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#add-in-nl-viscosity-for-solve-loop">
+       add in NL viscosity for solve loop
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#main-loop">
+     Main loop
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="slab-subduction">
+<h1>Slab subduction<a class="headerlink" href="#slab-subduction" title="Permalink to this headline">#</a></h1>
+<section id="from-dan-sandiford">
+<h2><a class="reference external" href="https://github.com/dansand/uw3_models/blob/main/slabsubduction.ipynb">From Dan Sandiford</a><a class="headerlink" href="#from-dan-sandiford" title="Permalink to this headline">#</a></h2>
+<p>UW2 example ported to UW3</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">underworld3</span>
+
+
+<span class="kn">from</span> <span class="nn">underworld3.utilities</span> <span class="kn">import</span> <span class="n">petsc_gen_xdmf</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">expt_name</span> <span class="o">=</span> <span class="s1">&#39;output/slabSubduction/&#39;</span>
+
+<span class="c1"># Make output directory if necessary.</span>
+<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+<span class="k">if</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">rank</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+    <span class="c1">### delete previous model run</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">expt_name</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">expt_name</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">expt_name</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+            
+    <span class="c1">### create folder if not run before</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">expt_name</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">expt_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### For visualisation</span>
+<span class="n">render</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Basic direct solver parameters from Firedrake docs, for ref</span>
+
+<span class="c1">#mumps_solver_parameters = {</span>
+<span class="c1">#    &quot;mat_type&quot;: &quot;aij&quot;,</span>
+<span class="c1">#    &quot;snes_type&quot;: &quot;ksponly&quot;,</span>
+<span class="c1">#    &quot;ksp_type&quot;: &quot;preonly&quot;,</span>
+<span class="c1">#    &quot;pc_type&quot;: &quot;lu&quot;,</span>
+<span class="c1">#    &quot;pc_factor_mat_solver_type&quot;: &quot;mumps&quot;,</span>
+<span class="c1">#}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">petsc4py</span> <span class="kn">import</span> <span class="n">PETSc</span>
+<span class="kn">import</span> <span class="nn">underworld3</span> <span class="k">as</span> <span class="nn">uw</span>
+<span class="kn">from</span> <span class="nn">underworld3.systems</span> <span class="kn">import</span> <span class="n">Stokes</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Options</span><span class="p">()</span>
+
+<span class="n">options</span><span class="p">[</span><span class="s2">&quot;snes_converged_reason&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">options</span><span class="p">[</span><span class="s2">&quot;snes_monitor_short&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### can be changed, currently using UW3 default values</span>
+
+<span class="c1"># options[&quot;snes_max_it&quot;] = 3</span>
+
+<span class="c1"># options[&quot;mat_type&quot;]=&quot;aij&quot;</span>
+
+<span class="c1"># options[&quot;ksp_type&quot;]=&quot;preonly&quot;</span>
+<span class="c1"># options[&quot;pc_type&quot;] = &quot;lu&quot;</span>
+<span class="c1"># options[&quot;pc_factor_mat_solver_type&quot;] = &quot;mumps&quot;</span>
+
+<span class="c1"># options[&quot;ksp_rtol&quot;] =  1.0e-6</span>
+<span class="c1"># options[&quot;ksp_atol&quot;] =  1.0e-6</span>
+
+<span class="c1"># options[&quot;snes_rtol&quot;] =  1.0e-6</span>
+<span class="c1"># options[&quot;snes_atol&quot;] =  1.0e-6</span>
+
+<span class="n">sys</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Sys</span><span class="p">()</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">pushErrorHandler</span><span class="p">(</span><span class="s2">&quot;traceback&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_els</span>     <span class="o">=</span>  <span class="mi">10</span>
+<span class="n">dim</span>       <span class="o">=</span>   <span class="mi">2</span>
+<span class="n">boxLength</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="n">boxHeight</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">ppcell</span>    <span class="o">=</span>   <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-mesh-and-mesh-vars">
+<h2>Create mesh and mesh vars<a class="headerlink" href="#create-mesh-and-mesh-vars" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">meshing</span><span class="o">.</span><span class="n">StructuredQuadBox</span><span class="p">(</span><span class="n">elementRes</span><span class="o">=</span><span class="p">(</span>    <span class="mi">4</span><span class="o">*</span><span class="n">n_els</span><span class="p">,</span><span class="n">n_els</span><span class="p">),</span> 
+                    <span class="n">minCoords</span> <span class="o">=</span><span class="p">(</span>       <span class="mf">0.</span><span class="p">,)</span><span class="o">*</span><span class="n">dim</span><span class="p">,</span> 
+                    <span class="n">maxCoords</span> <span class="o">=</span><span class="p">(</span><span class="n">boxLength</span><span class="p">,</span><span class="n">boxHeight</span><span class="p">),)</span>
+
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Velocity&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Pressure&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">strain_rate_inv2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;SR&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">node_viscosity</span>   <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Viscosity&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">materialField</span>    <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">discretisation</span><span class="o">.</span><span class="n">MeshVariable</span><span class="p">(</span><span class="s2">&quot;Material&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">stokes</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Stokes</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">velocityField</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">pressureField</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">constitutive_models</span><span class="o">.</span><span class="n">ViscousFlowModel</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-swarm-and-swarm-vars">
+<h2>Create swarm and swarm vars<a class="headerlink" href="#create-swarm-and-swarm-vars" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>‘swarm.add_variable’ is a traditional swarm, can’t be used to map material properties. Can be used for sympy operations, similar to mesh vars.</p></li>
+<li><p>‘uw.swarm.IndexSwarmVariable’, creates a mask for each material and can be used to map material properties. Can’t be used for sympy operations.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">swarm</span>  <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">Swarm</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## # Add variable for material</span>
+<span class="n">materialVariable</span>      <span class="o">=</span> <span class="n">swarm</span><span class="o">.</span><span class="n">add_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;materialVariable&quot;</span><span class="p">,</span> <span class="n">num_components</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">PETSc</span><span class="o">.</span><span class="n">IntType</span><span class="p">)</span>
+<span class="n">material</span>              <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">swarm</span><span class="o">.</span><span class="n">IndexSwarmVariable</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="n">swarm</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> 
+
+<span class="n">swarm</span><span class="o">.</span><span class="n">populate</span><span class="p">()</span>
+
+<span class="c1"># Add some randomness to the particle distribution</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="p">):</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">boxLength</span><span class="o">/</span><span class="n">n_els</span><span class="o">/</span><span class="n">ppcell</span>
+    <span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">+=</span> <span class="n">factor</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+      
+</pre></div>
+</div>
+</div>
+</div>
+<section id="project-fields-to-mesh-vars">
+<h3>Project fields to mesh vars<a class="headerlink" href="#project-fields-to-mesh-vars" title="Permalink to this headline">#</a></h3>
+<p>Useful for visualising stuff on the mesh (Viscosity, material, strain rate etc) and saving to a grouped xdmf file</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nodal_strain_rate_inv2</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">strain_rate_inv2</span><span class="p">)</span>
+<span class="n">nodal_strain_rate_inv2</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">_Einv2</span>
+<span class="c1"># nodal_strain_rate_inv2.smoothing = 1.0e-3</span>
+<span class="n">nodal_strain_rate_inv2</span><span class="o">.</span><span class="n">petsc_options</span><span class="o">.</span><span class="n">delValue</span><span class="p">(</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">)</span>
+
+<span class="n">nodal_visc_calc</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">node_viscosity</span><span class="p">)</span>
+<span class="n">nodal_visc_calc</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
+<span class="c1"># nodal_visc_calc.smoothing = 1.0e-3</span>
+<span class="n">nodal_visc_calc</span><span class="o">.</span><span class="n">petsc_options</span><span class="o">.</span><span class="n">delValue</span><span class="p">(</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">)</span>
+
+<span class="n">meshMat</span> <span class="o">=</span> <span class="n">uw</span><span class="o">.</span><span class="n">systems</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">materialField</span><span class="p">)</span>
+<span class="n">meshMat</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">materialVariable</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># meshMat.smoothing = 1.0e-3</span>
+<span class="n">meshMat</span><span class="o">.</span><span class="n">petsc_options</span><span class="o">.</span><span class="n">delValue</span><span class="p">(</span><span class="s2">&quot;ksp_monitor&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">updateFields</span><span class="p">():</span>
+    <span class="c1">### update strain rate</span>
+    <span class="n">nodal_strain_rate_inv2</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">_Einv2</span>
+    <span class="n">nodal_strain_rate_inv2</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+    <span class="c1">### update viscosity</span>
+    <span class="n">nodal_visc_calc</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>
+    <span class="n">nodal_visc_calc</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">_force_setup</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1">### update material field from swarm</span>
+    <span class="n">meshMat</span><span class="o">.</span><span class="n">uw_function</span> <span class="o">=</span> <span class="n">materialVariable</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+    <span class="n">meshMat</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">_force_setup</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="setup-the-material-distribution">
+<h2>Setup the material distribution<a class="headerlink" href="#setup-the-material-distribution" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.path</span> <span class="k">as</span> <span class="nn">mpltPath</span>
+
+<span class="c1">### initialise the &#39;materialVariable&#39; data to represent two different materials. </span>
+<span class="n">upperMantleIndex</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">lowerMantleIndex</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">upperSlabIndex</span>   <span class="o">=</span> <span class="mi">2</span>
+<span class="n">lowerSlabIndex</span>   <span class="o">=</span> <span class="mi">3</span>
+<span class="n">coreSlabIndex</span>    <span class="o">=</span> <span class="mi">4</span>
+
+<span class="c1">### Initial material layout has a flat lying slab with at 15\degree perturbation</span>
+<span class="n">lowerMantleY</span>   <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">slabLowerShape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.925</span> <span class="p">),</span> <span class="p">(</span><span class="mf">3.25</span><span class="p">,</span><span class="mf">0.925</span> <span class="p">),</span> <span class="p">(</span><span class="mf">3.20</span><span class="p">,</span><span class="mf">0.900</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.900</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.02</span><span class="p">,</span><span class="mf">0.825</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.02</span><span class="p">,</span><span class="mf">0.850</span><span class="p">)</span> <span class="p">])</span>
+<span class="n">slabCoreShape</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.975</span> <span class="p">),</span> <span class="p">(</span><span class="mf">3.35</span><span class="p">,</span><span class="mf">0.975</span> <span class="p">),</span> <span class="p">(</span><span class="mf">3.25</span><span class="p">,</span><span class="mf">0.925</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.925</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.02</span><span class="p">,</span><span class="mf">0.850</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.02</span><span class="p">,</span><span class="mf">0.900</span><span class="p">)</span> <span class="p">])</span>
+<span class="n">slabUpperShape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">1.000</span> <span class="p">),</span> <span class="p">(</span><span class="mf">3.40</span><span class="p">,</span><span class="mf">1.000</span> <span class="p">),</span> <span class="p">(</span><span class="mf">3.35</span><span class="p">,</span><span class="mf">0.975</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.2</span><span class="p">,</span><span class="mf">0.975</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.02</span><span class="p">,</span><span class="mf">0.900</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.02</span><span class="p">,</span><span class="mf">0.925</span><span class="p">)</span> <span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">slabLower</span>  <span class="o">=</span> <span class="n">mpltPath</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">slabLowerShape</span><span class="p">)</span>
+<span class="n">slabCore</span>   <span class="o">=</span> <span class="n">mpltPath</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">slabCoreShape</span><span class="p">)</span>
+<span class="n">slabUpper</span>  <span class="o">=</span> <span class="n">mpltPath</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">slabUpperShape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="update-the-material-variable-of-the-swarm">
+<h3>Update the material variable of the swarm<a class="headerlink" href="#update-the-material-variable-of-the-swarm" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="p">,</span> <span class="n">materialVariable</span><span class="p">,</span> <span class="n">material</span><span class="p">):</span>
+    
+    <span class="c1">#### for the piecewise functions for material properties</span>
+    <span class="n">materialVariable</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">upperMantleIndex</span>
+    <span class="n">materialVariable</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lowerMantleY</span><span class="p">]</span>           <span class="o">=</span> <span class="n">lowerMantleIndex</span>
+    <span class="n">materialVariable</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slabLower</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:])]</span> <span class="o">=</span> <span class="n">lowerSlabIndex</span>
+    <span class="n">materialVariable</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slabCore</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:])]</span>  <span class="o">=</span> <span class="n">coreSlabIndex</span>
+    <span class="n">materialVariable</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slabUpper</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:])]</span> <span class="o">=</span> <span class="n">upperSlabIndex</span>
+    
+    <span class="c1">### for the symbolic mapping of material properties</span>
+    <span class="n">material</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">upperMantleIndex</span>
+    <span class="n">material</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lowerMantleY</span><span class="p">]</span>           <span class="o">=</span> <span class="n">lowerMantleIndex</span>
+    <span class="n">material</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slabLower</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:])]</span> <span class="o">=</span> <span class="n">lowerSlabIndex</span>
+    <span class="n">material</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slabCore</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:])]</span>  <span class="o">=</span> <span class="n">coreSlabIndex</span>
+    <span class="n">material</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slabUpper</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">swarm</span><span class="o">.</span><span class="n">particle_coordinates</span><span class="o">.</span><span class="n">data</span><span class="p">[:])]</span> <span class="o">=</span> <span class="n">upperSlabIndex</span>
+    
+    
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_mat</span><span class="p">():</span>
+
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+    <span class="kn">import</span> <span class="nn">vtk</span>
+
+    <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+    <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">750</span><span class="p">,</span> <span class="mi">750</span><span class="p">]</span>
+    <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">antialiasing</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">jupyter_backend</span> <span class="o">=</span> <span class="s1">&#39;panel&#39;</span>
+    <span class="n">pv</span><span class="o">.</span><span class="n">global_theme</span><span class="o">.</span><span class="n">smooth_shading</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+    <span class="n">mesh</span><span class="o">.</span><span class="n">vtk</span><span class="p">(</span><span class="s2">&quot;tempMsh.vtk&quot;</span><span class="p">)</span>
+    <span class="n">pvmesh</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;tempMsh.vtk&quot;</span><span class="p">)</span> 
+
+    <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">points</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="n">point_cloud</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+
+    <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
+        <span class="n">point_cloud</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">materialVariable</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+
+
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">notebook</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">pvmesh</span><span class="p">,</span><span class="s1">&#39;Black&#39;</span><span class="p">,</span> <span class="s1">&#39;wireframe&#39;</span><span class="p">)</span>
+
+    <span class="c1"># pl.add_points(point_cloud, color=&quot;Black&quot;,</span>
+    <span class="c1">#                   render_points_as_spheres=False,</span>
+    <span class="c1">#                   point_size=2.5, opacity=0.75)       </span>
+
+
+
+    <span class="n">pl</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">point_cloud</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;Black&quot;</span><span class="p">,</span> <span class="n">show_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="s2">&quot;M&quot;</span><span class="p">,</span>
+                        <span class="n">use_transparency</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+
+
+
+    <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">cpos</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+ 
+<span class="k">if</span> <span class="n">render</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">plot_mat</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="function-to-save-output-of-model">
+<h3>Function to save output of model<a class="headerlink" href="#function-to-save-output-of-model" title="Permalink to this headline">#</a></h3>
+<p>Saves both the mesh vars and swarm vars</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">saveData</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">):</span>
+    
+    <span class="c1">### save mesh vars</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">expt_name</span><span class="si">}{</span><span class="s1">&#39;step_&#39;</span><span class="si">}{</span><span class="n">step</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">.h5&quot;</span>
+    <span class="n">xfname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">expt_name</span><span class="si">}{</span><span class="s1">&#39;step_&#39;</span><span class="si">}{</span><span class="n">step</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">.xdmf&quot;</span>
+    <span class="n">viewer</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">ViewerHDF5</span><span class="p">()</span><span class="o">.</span><span class="n">createHDF5</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">PETSc</span><span class="o">.</span><span class="n">Viewer</span><span class="o">.</span><span class="n">Mode</span><span class="o">.</span><span class="n">WRITE</span><span class="p">,</span>  <span class="n">comm</span><span class="o">=</span><span class="n">PETSc</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="p">)</span>
+
+    <span class="n">viewer</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">dm</span><span class="p">)</span>
+
+    <span class="c1">### add mesh vars to viewer to save as one h5/xdmf file. Has to be a PETSc object (?)</span>
+    <span class="n">viewer</span><span class="p">(</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">_gvec</span><span class="p">)</span>         <span class="c1"># add velocity</span>
+    <span class="n">viewer</span><span class="p">(</span><span class="n">stokes</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">_gvec</span><span class="p">)</span>         <span class="c1"># add pressure</span>
+    <span class="n">viewer</span><span class="p">(</span><span class="n">materialField</span><span class="o">.</span><span class="n">_gvec</span><span class="p">)</span>    <span class="c1"># add material projection</span>
+    <span class="n">viewer</span><span class="p">(</span><span class="n">strain_rate_inv2</span><span class="o">.</span><span class="n">_gvec</span><span class="p">)</span> <span class="c1"># add strain rate</span>
+    <span class="n">viewer</span><span class="p">(</span><span class="n">node_viscosity</span><span class="o">.</span><span class="n">_gvec</span><span class="p">)</span>   <span class="c1"># add viscosity</span>
+    <span class="n">viewer</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span> 
+    <span class="n">petsc_gen_xdmf</span><span class="o">.</span><span class="n">generateXdmf</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">xfname</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">uw</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">pyvista</span> <span class="k">as</span> <span class="nn">pv</span>
+        <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
+            <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">3</span><span class="p">))</span>
+            <span class="n">points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">points</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">swarm</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">points</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="n">point_cloud</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+
+        <span class="k">with</span> <span class="n">swarm</span><span class="o">.</span><span class="n">access</span><span class="p">():</span>
+            <span class="n">point_cloud</span><span class="o">.</span><span class="n">point_data</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">materialVariable</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">point_cloud</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">outputPath</span><span class="si">}{</span><span class="s1">&#39;swarm_step_&#39;</span><span class="si">}{</span><span class="n">step</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">.vtk&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="rheology">
+<h3>Rheology<a class="headerlink" href="#rheology" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Piecewise</span><span class="p">,</span> <span class="n">ceiling</span><span class="p">,</span> <span class="n">Abs</span><span class="p">,</span> <span class="n">Min</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">Max</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># upperMantleViscosity =    1.0</span>
+<span class="c1"># lowerMantleViscosity =   50.0</span>
+
+<span class="c1"># slabViscosity        =  100.0</span>
+<span class="c1"># coreViscosity        =  250.0</span>
+
+<span class="c1">### viscosity from UW2 example</span>
+<span class="n">upperMantleViscosity</span> <span class="o">=</span>    <span class="mf">1.0</span>
+<span class="n">lowerMantleViscosity</span> <span class="o">=</span>  <span class="mf">100.0</span>
+<span class="n">slabViscosity</span>        <span class="o">=</span>  <span class="mf">500.0</span>
+<span class="n">coreViscosity</span>        <span class="o">=</span>  <span class="mf">500.0</span>
+
+
+<span class="n">strainRate_2ndInvariant</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">_Einv2</span> <span class="c1">#sqrt(inv2)</span>
+
+
+<span class="n">cohesion</span> <span class="o">=</span> <span class="mf">0.06</span>
+<span class="n">vonMises</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">cohesion</span> <span class="o">/</span> <span class="p">(</span><span class="n">strainRate_2ndInvariant</span><span class="o">+</span><span class="mf">1.0e-18</span><span class="p">)</span>
+
+
+<span class="c1"># The upper slab viscosity is the minimum of the &#39;slabViscosity&#39; or the &#39;vonMises&#39; </span>
+<span class="n">slabYieldvisc</span> <span class="o">=</span>  <span class="n">Max</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">Min</span><span class="p">(</span><span class="n">vonMises</span><span class="p">,</span> <span class="n">slabViscosity</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="density">
+<h4>Density<a class="headerlink" href="#density" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mantleDensity</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">slabDensity</span>   <span class="o">=</span> <span class="mf">1.0</span> 
+
+<span class="c1"># density = Piecewise( (mantleDensity, Abs(materialVariable.sym[0] - upperMantleIndex) &lt; 0.5),</span>
+<span class="c1">#                      (mantleDensity, Abs(materialVariable.sym[0] -  lowerMantleIndex) &lt; 0.5),</span>
+<span class="c1">#                      (slabDensity, Abs(materialVariable.sym[0] - upperSlabIndex) &lt; 0.5),</span>
+<span class="c1">#                      (slabDensity , Abs(materialVariable.sym[0] - lowerSlabIndex) &lt; 0.5),</span>
+<span class="c1">#                      (slabDensity, Abs(materialVariable.sym[0] - coreSlabIndex) &lt; 0.5),</span>
+<span class="c1">#                      ( mantleDensity,                                True ))</span>
+
+
+<span class="n">density</span> <span class="o">=</span> <span class="n">mantleDensity</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> \
+          <span class="n">mantleDensity</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+          <span class="n">slabDensity</span>   <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> \
+          <span class="n">slabDensity</span>   <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> \
+          <span class="n">slabDensity</span>   <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+
+
+<span class="n">stokes</span><span class="o">.</span><span class="n">bodyforce</span> <span class="o">=</span>  <span class="n">Matrix</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">density</span><span class="p">])</span> <span class="c1"># -density*mesh.N.j</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="boundary-conditions">
+<h3>Boundary conditions<a class="headerlink" href="#boundary-conditions" title="Permalink to this headline">#</a></h3>
+<p>Free slip by only constraining one component of velocity</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#free slip</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;Top&#39;</span><span class="p">,</span>  <span class="s1">&#39;Bottom&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># top/bottom: function, boundaries, components </span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">add_dirichlet_bc</span><span class="p">(</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;Left&#39;</span><span class="p">,</span> <span class="s1">&#39;Right&#39;</span> <span class="p">],</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># left/right: function, boundaries, components</span>
+
+
+<span class="c1"># ## Initial Solve</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="initial-first-guess-of-constant-viscosity">
+<h4>initial first guess of constant viscosity<a class="headerlink" href="#initial-first-guess-of-constant-viscosity" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">### initial linear solve</span>
+<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span>  <span class="o">=</span> <span class="mf">1.</span>
+
+<span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="add-in-nl-viscosity-for-solve-loop">
+<h4>add in NL viscosity for solve loop<a class="headerlink" href="#add-in-nl-viscosity-for-solve-loop" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># stokes.constitutive_model.Parameters.viscosity= Piecewise( (upperMantleViscosity, Abs(materialVariable.sym[0] - upperMantleIndex) &lt; 0.5),</span>
+<span class="c1">#                               (lowerMantleViscosity, Abs(materialVariable.sym[0] -  lowerMantleIndex) &lt; 0.5),</span>
+<span class="c1">#                               (slabYieldvisc, Abs(materialVariable.sym[0] - upperSlabIndex) &lt; 0.5),</span>
+<span class="c1">#                               (slabYieldvisc , Abs(materialVariable.sym[0] - lowerSlabIndex) &lt; 0.5),</span>
+<span class="c1">#                               (coreViscosity, Abs(materialVariable.sym[0] - coreSlabIndex) &lt; 0.5), </span>
+<span class="c1">#                               ( lowerMantleViscosity,                                True ))</span>
+
+
+<span class="n">stokes</span><span class="o">.</span><span class="n">constitutive_model</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">viscosity</span> <span class="o">=</span> <span class="n">upperMantleViscosity</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> \
+                                                 <span class="n">lowerMantleViscosity</span> <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
+                                                 <span class="n">slabYieldvisc</span>        <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> \
+                                                 <span class="n">slabYieldvisc</span>        <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> \
+                                                 <span class="n">coreViscosity</span>        <span class="o">*</span> <span class="n">material</span><span class="o">.</span><span class="n">sym</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="main-loop">
+<h3>Main loop<a class="headerlink" href="#main-loop" title="Permalink to this headline">#</a></h3>
+<p>Stokes solve loop</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span>      <span class="o">=</span> <span class="mi">0</span>
+<span class="n">max_steps</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">time</span>      <span class="o">=</span> <span class="mi">0</span>
+
+
+<span class="c1">#timing setup</span>
+<span class="c1">#viewer.getTimestep()</span>
+<span class="c1">#viewer.setTimestep(1)</span>
+
+
+<span class="k">while</span> <span class="n">step</span><span class="o">&lt;</span><span class="n">max_steps</span><span class="p">:</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">step: </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s1">, time: </span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+          
+    <span class="c1">#viz for parallel case - write the hdf5s/xdmfs </span>
+    <span class="k">if</span> <span class="n">step</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">uw</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Visualisation: &#39;</span><span class="p">)</span>
+            
+        <span class="c1">### updates projection of fields to the mesh</span>
+        <span class="n">updateFields</span><span class="p">()</span>
+        
+        <span class="c1">### saves the mesh and swarm</span>
+        <span class="n">saveData</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">expt_name</span><span class="p">)</span>
+        
+
+            
+    
+    <span class="k">if</span> <span class="n">uw</span><span class="o">.</span><span class="n">mpi</span><span class="o">.</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Stokes solve: &#39;</span><span class="p">)</span>  
+        
+    <span class="n">stokes</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">zero_init_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="c1">### get the timestep</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">stokes</span><span class="o">.</span><span class="n">estimate_dt</span><span class="p">()</span>
+ 
+    <span class="c1">### advect the particles according to the timestep</span>
+    <span class="n">swarm</span><span class="o">.</span><span class="n">advection</span><span class="p">(</span><span class="n">V_fn</span><span class="o">=</span><span class="n">stokes</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">sym</span><span class="p">,</span> <span class="n">delta_t</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">corrector</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+    <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="n">time</span> <span class="o">+=</span> <span class="n">dt</span>
+
+
+
+    <span class="c1">#viewer.setTimestep(step)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Notebooks/Examples-Sandbox-VEP"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Louis Moresi<br/>
+  
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
