@@ -117,12 +117,7 @@ Rayleigh = 1.0e5
 stokes = uw.systems.Stokes(
     meshball, velocityField=v_soln, pressureField=p_soln, solver_name="stokes"
 )
-
-options = stokes.petsc_options
-options.setValue("snes_rtol",1.0e-4)
-options.setValue("pc_gamg_type","agg")
-options.setValue("pc_gamg_agg_nsmooths", 3)
-options.setValue("pc_gamg_threshold", 0.5)
+stokes.petsc_options["snes_rtol"] = 1.0e-5
 
 stokes.constitutive_model = uw.systems.constitutive_models.ViscousFlowModel(
     meshball.dim
@@ -130,8 +125,6 @@ stokes.constitutive_model = uw.systems.constitutive_models.ViscousFlowModel(
 stokes.constitutive_model.Parameters.viscosity = 1
 stokes.penalty = 1.0
 stokes.saddle_preconditioner = 1 / stokes.constitutive_model.Parameters.viscosity
-stokes.petsc_options["snes_rtol"] = 1.0e-8
-
 
 # Velocity boundary conditions
 
@@ -176,7 +169,7 @@ stokes_xy.constitutive_model = uw.systems.constitutive_models.ViscousFlowModel(
 )
 stokes_xy.constitutive_model.Parameters.viscosity = 1
 stokes_xy.saddle_preconditioner = 1 / stokes_xy.constitutive_model.Parameters.viscosity
-stokes_xy.petsc_options["snes_rtol"] = 1.0e-8
+stokes_xy.petsc_options["snes_rtol"] = 1.0e-5
 
 # Velocity boundary conditions
 
@@ -206,7 +199,7 @@ stokes_xy.bodyforce -= 1.0e6 * v_soln_xy.sym.dot(unit_rvec) * surface_fn * unit_
 
 stokes._setup_terms()
 
-stokes.solve(zero_init_guess=True)
+stokes.solve(zero_init_guess=False)
 pressure_solver.solve()
 
 stokes_xy._setup_terms()
@@ -283,7 +276,7 @@ if uw.mpi.size == 1:
 
     pl.add_arrows(arrow_loc, arrow_length_xy, mag=0.00005, color="Blue")
     pl.add_arrows(
-        arrow_loc + (0.0, 0.0, 0.0), arrow_length, mag=0.00005, color="Red"
+        arrow_loc + (0.005, 0.005, 0.0), arrow_length, mag=0.00005, color="Red"
     )
 
     pl.show(cpos="xy")
