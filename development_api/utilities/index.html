@@ -27,21 +27,19 @@
 </summary>
 <pre><code class="python"># A collection of utilities for the uw3 system
 
-from . import _api_tools</code></pre>
+from . import _api_tools
+
+# get/import petsc_gen_xdmf from the original petsc installation
+import sys
+import petsc4py
+conf = petsc4py.get_config()
+petsc_dir = conf[&#34;PETSC_DIR&#34;]
+if not petsc_dir+&#39;/lib/petsc/bin&#39; in sys.path:
+    sys.path.append(petsc_dir+&#39;/lib/petsc/bin&#39;)
+from petsc_gen_xdmf import *</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="underworld3.utilities.petsc_gen_xdmf" href="petsc_gen_xdmf.html">underworld3.utilities.petsc_gen_xdmf</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="underworld3.utilities.petsc_gen_xdmf_original" href="petsc_gen_xdmf_original.html">underworld3.utilities.petsc_gen_xdmf_original</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 </section>
 <section>
 </section>
@@ -59,12 +57,6 @@ from . import _api_tools</code></pre>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="underworld3" href="../index.html">underworld3</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
-<ul>
-<li><code><a title="underworld3.utilities.petsc_gen_xdmf" href="petsc_gen_xdmf.html">underworld3.utilities.petsc_gen_xdmf</a></code></li>
-<li><code><a title="underworld3.utilities.petsc_gen_xdmf_original" href="petsc_gen_xdmf_original.html">underworld3.utilities.petsc_gen_xdmf_original</a></code></li>
 </ul>
 </li>
 </ul>
