@@ -32,18 +32,64 @@ from . import _api_tools
 # get/import petsc_gen_xdmf from the original petsc installation
 import sys
 import petsc4py
+
 conf = petsc4py.get_config()
 petsc_dir = conf[&#34;PETSC_DIR&#34;]
-if not petsc_dir+&#39;/lib/petsc/bin&#39; in sys.path:
-    sys.path.append(petsc_dir+&#39;/lib/petsc/bin&#39;)
-from petsc_gen_xdmf import *</code></pre>
+if not petsc_dir + &#34;/lib/petsc/bin&#34; in sys.path:
+    sys.path.append(petsc_dir + &#34;/lib/petsc/bin&#34;)
+
+from .uw_petsc_gen_xdmf import *
+from .uw_swarmIO import *
+
+# A couple of useful h5 tricks
+def h5_scan(filename):
+
+    h5file = h5py.File(filename)
+    entities = []
+    h5file.visit(entities.append)
+    h5file.close()
+
+    return entities</code></pre>
 </details>
 </section>
 <section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="underworld3.utilities.uw_petsc_gen_xdmf" href="uw_petsc_gen_xdmf.html">underworld3.utilities.uw_petsc_gen_xdmf</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="underworld3.utilities.uw_swarmIO" href="uw_swarmIO.html">underworld3.utilities.uw_swarmIO</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
 </section>
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="underworld3.utilities.h5_scan"><code class="name flex">
+<span>def <span class="ident">h5_scan</span></span>(<span>filename)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def h5_scan(filename):
+
+    h5file = h5py.File(filename)
+    entities = []
+    h5file.visit(entities.append)
+    h5file.close()
+
+    return entities</code></pre>
+</details>
+</dd>
+</dl>
 </section>
 <section>
 </section>
@@ -57,6 +103,17 @@ from petsc_gen_xdmf import *</code></pre>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="underworld3" href="../index.html">underworld3</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="underworld3.utilities.uw_petsc_gen_xdmf" href="uw_petsc_gen_xdmf.html">underworld3.utilities.uw_petsc_gen_xdmf</a></code></li>
+<li><code><a title="underworld3.utilities.uw_swarmIO" href="uw_swarmIO.html">underworld3.utilities.uw_swarmIO</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="underworld3.utilities.h5_scan" href="#underworld3.utilities.h5_scan">h5_scan</a></code></li>
 </ul>
 </li>
 </ul>

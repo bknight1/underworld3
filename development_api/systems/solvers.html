@@ -320,6 +320,7 @@ class SNES_Stokes(SNES_Stokes):
         # User-facing operations are matrices / vectors by preference
 
         self._E = self.mesh.vector.strain_tensor(self._u.sym)
+        self._Estar = None
 
         # scalar 2nd invariant (incompressible)
         self._Einv2 = sympy.sqrt((sympy.Matrix(self._E) ** 2).trace() / 2)
@@ -351,10 +352,12 @@ class SNES_Stokes(SNES_Stokes):
         # terms that become part of the weighted integral
         self._u_f0 = self.UF0 - self.bodyforce
         # Integration by parts into the stiffness matrix (constitutive terms)
-        self._u_f1 = self.UF1 + self.stress + self.penalty * self.div_u * sympy.eye(dim)
+        self._u_f1 = sympy.simplify(
+            self.UF1 + self.stress + self.penalty * self.div_u * sympy.eye(dim)
+        )
 
         # forces in the constraint (pressure) equations
-        self._p_f0 = self.PF0 + sympy.Matrix((self.constraints))
+        self._p_f0 = sympy.simplify(self.PF0 + sympy.Matrix((self.constraints)))
 
         return
 
@@ -363,12 +366,44 @@ class SNES_Stokes(SNES_Stokes):
         return sympy.Matrix(self._E)
 
     @property
+    def strainrate_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.strainrate, self.mesh.dim)
+
+    # Over-ride this one as required
+    @property
+    def strainrate_star(self):
+        return None
+
+    @property
+    def strainrate_star_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.strainrate_star, self.mesh.dim)
+
+    # provide the strain-rate history in symbolic form
+    @strainrate_star.setter
+    def strainrate_star(self, strain_rate_fn):
+        self._is_setup = False
+        symval = sympify(strain_rate_fn)
+        self._Estar = symval
+
+    # This should return standard viscous behaviour if strainrate_star is None
+    @property
     def stress_deviator(self):
-        return self.constitutive_model.flux(self.strainrate)
+        return self.constitutive_model.flux(
+            self.strainrate,
+            self.strainrate_star,
+        )
+
+    @property
+    def stress_deviator_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.stress_deviator, self.mesh.dim)
 
     @property
     def stress(self):
         return self.stress_deviator - sympy.eye(self.mesh.dim) * (self.p.sym[0])
+
+    @property
+    def stress_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.stress, self.mesh.dim)
 
     @property
     def div_u(self):
@@ -659,6 +694,110 @@ class SNES_Vector_Projection(SNES_Vector):
         self._uw_weighting_function = user_uw_function
 
 
+class SNES_Tensor_Projection(SNES_Projection):
+    &#34;&#34;&#34;
+    Map underworld (pointwise) function to continuous
+    nodal point values in least-squares sense.
+
+    For tensor problems, we start with a component-by-component
+    solution that requires a work vector to hold the result.
+
+    Consitutive model for this solver is the identity tensor
+    &#34;&#34;&#34;
+
+    instances = 0
+
+    @timing.routine_timer_decorator
+    def __init__(
+        self,
+        mesh: uw.discretisation.Mesh,
+        tensor_Field: uw.discretisation.MeshVariable = None,
+        scalar_Field: uw.discretisation.MeshVariable = None,
+        solver_name: str = &#34;&#34;,
+        verbose=False,
+    ):
+
+        SNES_Tensor_Projection.instances += 1
+
+        if solver_name == &#34;&#34;:
+            solver_name = &#34;TProj{}_&#34;.format(self.instances)
+
+        self.t_field = tensor_Field
+
+        super().__init__(
+            mesh=mesh,
+            u_Field=scalar_Field,
+            solver_name=solver_name,
+            verbose=verbose,
+        )
+
+        return
+
+    ## Need to over-ride solve method to run over all components
+
+    def solve(self):
+
+        # Loop over the components of the tensor. If this is a symmetric
+        # tensor, we&#39;ll usually be given the 1d form to prevent duplication
+
+        if self.t_field.sym_1d.shape != self.uw_function.shape:
+            raise ValueError(
+                &#34;Tensor shapes for uw_function and MeshVariable are not the same&#34;
+            )
+
+        for c, component_function in enumerate(self.uw_function):
+
+            self.uw_scalar_function = sympy.Matrix([component_function])
+
+            # print(f&#34;Cpt {c} -&gt; {component_function} &#34;)
+
+            with self.mesh.access(self.u):
+                self.u.data[:, 0] = self.t_field.data[:, c]
+
+            # solver for the scalar problem
+
+            super().solve()
+
+            with self.mesh.access(self.t_field):
+                self.t_field.data[:, c] = self.u.data[:, 0]
+
+        # That might be all ...
+
+    # This is re-defined so it uses uw_scalar_function
+
+    @timing.routine_timer_decorator
+    def projection_problem_description(self):
+
+        dim = self.mesh.dim
+        N = self.mesh.N
+
+        # residual terms - defines the problem:
+        # solve for a best fit to the continuous mesh
+        # variable given the values in self.function
+        # F0 is left in place for the user to inject
+        # non-linear constraints if required
+
+        self._f0 = (
+            self.F0
+            + (self.u.sym - self.uw_scalar_function) * self.uw_weighting_function
+        )
+
+        # F1 is left in the users control ... e.g to add other gradient constraints to the stiffness matrix
+
+        self._f1 = self.F1 + self.smoothing * self.mesh.vector.gradient(self.u.sym)
+
+        return
+
+    @property
+    def uw_scalar_function(self):
+        return self._uw_scalar_function
+
+    @uw_scalar_function.setter
+    def uw_scalar_function(self, user_uw_function):
+        self.is_setup = False
+        self._uw_scalar_function = user_uw_function
+
+
 ## --------------------------------
 ## Project from pointwise vector
 ## functions to nodal point unknowns
@@ -850,6 +989,7 @@ class SNES_AdvectionDiffusion_SLCN(SNES_Poisson):
         nswarm.dm.addNPoints(
             self._u.coords.shape[0] + 1
         )  # why + 1 ? That&#39;s the number of spots actually allocated
+
         cellid = nswarm.dm.getField(&#34;DMSwarm_cellid&#34;)
         coords = nswarm.dm.getField(&#34;DMSwarmPIC_coor&#34;).reshape((-1, nswarm.dim))
         coords[...] = self._u.coords[...]
@@ -873,6 +1013,11 @@ class SNES_AdvectionDiffusion_SLCN(SNES_Poisson):
         # are designed to land on the mesh
 
         self._Lstar = self.mesh.vector.jacobian(self._u_star.sym)
+
+        ### add a mesh variable to project diffusivity values to, may want to modify name and degree (?)
+        self.k = uw.discretisation.MeshVariable(
+            f&#34;k{self.instances}&#34;, self.mesh, num_components=1, degree=1
+        )
 
         return
 
@@ -913,6 +1058,52 @@ class SNES_AdvectionDiffusion_SLCN(SNES_Poisson):
     def theta(self, value):
         self.is_setup = False
         self._theta = sympify(value)
+
+    @timing.routine_timer_decorator
+    def estimate_dt(self):
+        &#34;&#34;&#34;
+        Calculates an appropriate advective timestep for the given
+        mesh and diffusivity configuration.
+        &#34;&#34;&#34;
+        ## update the diffusivity values
+        self.k_proj = uw.systems.Projection(self.mesh, self.k)
+        self.k_proj.uw_function = self.constitutive_model.Parameters.diffusivity
+        self.k_proj.smoothing = 0.0
+        self.k_proj.solve(_force_setup=True)
+
+        ### required modules
+        import math
+        from mpi4py import MPI
+
+        with self.mesh.access(self.k):
+            ## get local max diff value
+            max_diffusivity = self.k.data[:, 0].max()
+            ### get the velocity values
+            vel = self._V.data
+
+        ## get global max dif value
+        comm = MPI.COMM_WORLD
+        diffusivity_glob = comm.allreduce(max_diffusivity, op=MPI.MAX)
+
+        ### get global velocity from velocity field
+        max_magvel = np.linalg.norm(vel, axis=1).max()
+        max_magvel_glob = comm.allreduce(max_magvel, op=MPI.MAX)
+
+        ## get radius
+        min_dx = self.mesh.get_min_radius()
+
+        ## estimate dt of adv and diff components
+        dt_diff = (min_dx**2) / diffusivity_glob
+        dt_adv = min_dx / max_magvel_glob
+        ### adv or diff could be 0 if only using one component
+        if dt_adv == 0.0:
+            dt_estimate = dt_diff
+        elif dt_diff == 0.0:
+            dt_estimate = dt_adv
+        else:
+            dt_estimate = min(dt_diff, dt_adv)
+
+        return dt_estimate
 
     @timing.routine_timer_decorator
     def solve(
@@ -1009,6 +1200,7 @@ class SNES_AdvectionDiffusion_Swarm(SNES_Poisson):
         self,
         mesh: uw.discretisation.Mesh,
         u_Field: uw.discretisation.MeshVariable = None,
+        V_Field: uw.discretisation.MeshVariable = None,
         u_Star_fn=None,
         theta: float = 0.5,
         solver_name: str = &#34;&#34;,
@@ -1017,6 +1209,7 @@ class SNES_AdvectionDiffusion_Swarm(SNES_Poisson):
         verbose: bool = False,
     ):
 
+        self.instance = SNES_AdvectionDiffusion_Swarm.instances
         SNES_AdvectionDiffusion_Swarm.instances += 1
 
         if solver_name == &#34;&#34;:
@@ -1030,11 +1223,18 @@ class SNES_AdvectionDiffusion_Swarm(SNES_Poisson):
         self.projection = projection
         self._u_star_raw_fn = u_Star_fn
 
+        self._V = V_Field
+
         self.restore_points_to_domain_func = restore_points_func
         self._setup_problem_description = self.adv_diff_swarm_problem_description
 
         self.is_setup = False
         self.u_star_is_valid = False
+
+        ### add a mesh variable to project diffusivity values to, may want to modify name and degree (?)
+        self.k = uw.discretisation.MeshVariable(
+            f&#34;k{self.instances}&#34;, self.mesh, num_components=1, degree=1
+        )
 
         if projection:
             # set up a projection solver
@@ -1111,6 +1311,52 @@ class SNES_AdvectionDiffusion_Swarm(SNES_Poisson):
     def theta(self, value):
         self.is_setup = False
         self._theta = sympify(value)
+
+    @timing.routine_timer_decorator
+    def estimate_dt(self):
+        &#34;&#34;&#34;
+        Calculates an appropriate advective timestep for the given
+        mesh and diffusivity configuration.
+        &#34;&#34;&#34;
+        ## update the diffusivity values
+        self.k_proj = uw.systems.Projection(self.mesh, self.k)
+        self.k_proj.uw_function = self.constitutive_model.Parameters.diffusivity
+        self.k_proj.smoothing = 0.0
+        self.k_proj.solve(_force_setup=True)
+
+        ### required modules
+        import math
+        from mpi4py import MPI
+
+        with self.mesh.access(self.k):
+            ## get local max dif value
+            max_diffusivity = self.k.data[:, 0].max()
+            ### get the velocity values
+            vel = self._V.data
+
+        ## get global max dif value
+        comm = MPI.COMM_WORLD
+        diffusivity_glob = comm.allreduce(max_diffusivity, op=MPI.MAX)
+
+        ### get global velocity from velocity field
+        max_magvel = np.linalg.norm(vel, axis=1).max()
+        max_magvel_glob = comm.allreduce(max_magvel, op=MPI.MAX)
+
+        ## get radius
+        min_dx = self.mesh.get_min_radius()
+
+        ## estimate dt of adv and diff components
+        dt_diff = (min_dx**2) / diffusivity_glob
+        dt_adv = min_dx / max_magvel_glob
+        ### adv or diff could be 0 if only using one component
+        if dt_adv == 0.0:
+            dt_estimate = dt_diff
+        elif dt_diff == 0.0:
+            dt_estimate = dt_adv
+        else:
+            dt_estimate = min(dt_diff, dt_adv)
+
+        return dt_estimate
 
     @timing.routine_timer_decorator
     def solve(
@@ -1227,6 +1473,9 @@ class SNES_NavierStokes_Swarm(SNES_Stokes):
             self._u_star_projector = uw.systems.solvers.SNES_Vector_Projection(
                 self.mesh, self._u_star_projected
             )
+
+            options = self._u_star_projector.petsc_options
+            options.delValue(&#34;ksp_monitor&#34;)
 
             # If we add smoothing, it should be small relative to actual diffusion (self.viscosity)
             self._u_star_projector.smoothing = 0.0
@@ -1406,7 +1655,7 @@ class SNES_NavierStokes_Swarm(SNES_Stokes):
 <dl>
 <dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN"><code class="flex name class">
 <span>class <span class="ident">SNES_AdvectionDiffusion_SLCN</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7f03bc993880> = None, V_Field: <function MeshVariable at 0x7f03bc993880> = None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7fb46860c670> = None, V_Field: <function MeshVariable at 0x7fb46860c670> = None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Characteristics-based advection diffusion solver:</p>
@@ -1474,6 +1723,7 @@ a mid-point advection scheme (based on our particle swarm implementation)</p></d
         nswarm.dm.addNPoints(
             self._u.coords.shape[0] + 1
         )  # why + 1 ? That&#39;s the number of spots actually allocated
+
         cellid = nswarm.dm.getField(&#34;DMSwarm_cellid&#34;)
         coords = nswarm.dm.getField(&#34;DMSwarmPIC_coor&#34;).reshape((-1, nswarm.dim))
         coords[...] = self._u.coords[...]
@@ -1497,6 +1747,11 @@ a mid-point advection scheme (based on our particle swarm implementation)</p></d
         # are designed to land on the mesh
 
         self._Lstar = self.mesh.vector.jacobian(self._u_star.sym)
+
+        ### add a mesh variable to project diffusivity values to, may want to modify name and degree (?)
+        self.k = uw.discretisation.MeshVariable(
+            f&#34;k{self.instances}&#34;, self.mesh, num_components=1, degree=1
+        )
 
         return
 
@@ -1537,6 +1792,52 @@ a mid-point advection scheme (based on our particle swarm implementation)</p></d
     def theta(self, value):
         self.is_setup = False
         self._theta = sympify(value)
+
+    @timing.routine_timer_decorator
+    def estimate_dt(self):
+        &#34;&#34;&#34;
+        Calculates an appropriate advective timestep for the given
+        mesh and diffusivity configuration.
+        &#34;&#34;&#34;
+        ## update the diffusivity values
+        self.k_proj = uw.systems.Projection(self.mesh, self.k)
+        self.k_proj.uw_function = self.constitutive_model.Parameters.diffusivity
+        self.k_proj.smoothing = 0.0
+        self.k_proj.solve(_force_setup=True)
+
+        ### required modules
+        import math
+        from mpi4py import MPI
+
+        with self.mesh.access(self.k):
+            ## get local max diff value
+            max_diffusivity = self.k.data[:, 0].max()
+            ### get the velocity values
+            vel = self._V.data
+
+        ## get global max dif value
+        comm = MPI.COMM_WORLD
+        diffusivity_glob = comm.allreduce(max_diffusivity, op=MPI.MAX)
+
+        ### get global velocity from velocity field
+        max_magvel = np.linalg.norm(vel, axis=1).max()
+        max_magvel_glob = comm.allreduce(max_magvel, op=MPI.MAX)
+
+        ## get radius
+        min_dx = self.mesh.get_min_radius()
+
+        ## estimate dt of adv and diff components
+        dt_diff = (min_dx**2) / diffusivity_glob
+        dt_adv = min_dx / max_magvel_glob
+        ### adv or diff could be 0 if only using one component
+        if dt_adv == 0.0:
+            dt_estimate = dt_diff
+        elif dt_diff == 0.0:
+            dt_estimate = dt_adv
+        else:
+            dt_estimate = min(dt_diff, dt_adv)
+
+        return dt_estimate
 
     @timing.routine_timer_decorator
     def solve(
@@ -1688,6 +1989,63 @@ def u(self):
     return</code></pre>
 </details>
 </dd>
+<dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.estimate_dt"><code class="name flex">
+<span>def <span class="ident">estimate_dt</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates an appropriate advective timestep for the given
+mesh and diffusivity configuration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@timing.routine_timer_decorator
+def estimate_dt(self):
+    &#34;&#34;&#34;
+    Calculates an appropriate advective timestep for the given
+    mesh and diffusivity configuration.
+    &#34;&#34;&#34;
+    ## update the diffusivity values
+    self.k_proj = uw.systems.Projection(self.mesh, self.k)
+    self.k_proj.uw_function = self.constitutive_model.Parameters.diffusivity
+    self.k_proj.smoothing = 0.0
+    self.k_proj.solve(_force_setup=True)
+
+    ### required modules
+    import math
+    from mpi4py import MPI
+
+    with self.mesh.access(self.k):
+        ## get local max diff value
+        max_diffusivity = self.k.data[:, 0].max()
+        ### get the velocity values
+        vel = self._V.data
+
+    ## get global max dif value
+    comm = MPI.COMM_WORLD
+    diffusivity_glob = comm.allreduce(max_diffusivity, op=MPI.MAX)
+
+    ### get global velocity from velocity field
+    max_magvel = np.linalg.norm(vel, axis=1).max()
+    max_magvel_glob = comm.allreduce(max_magvel, op=MPI.MAX)
+
+    ## get radius
+    min_dx = self.mesh.get_min_radius()
+
+    ## estimate dt of adv and diff components
+    dt_diff = (min_dx**2) / diffusivity_glob
+    dt_adv = min_dx / max_magvel_glob
+    ### adv or diff could be 0 if only using one component
+    if dt_adv == 0.0:
+        dt_estimate = dt_diff
+    elif dt_diff == 0.0:
+        dt_estimate = dt_adv
+    else:
+        dt_estimate = min(dt_diff, dt_adv)
+
+    return dt_estimate</code></pre>
+</details>
+</dd>
 <dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.solve"><code class="name flex">
 <span>def <span class="ident">solve</span></span>(<span>self, zero_init_guess: bool = True, timestep: float = None, coords: numpy.ndarray = None)</span>
 </code></dt>
@@ -1777,7 +2135,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm"><code class="flex name class">
 <span>class <span class="ident">SNES_AdvectionDiffusion_Swarm</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7f03bc993880> = None, u_Star_fn=None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, projection: bool = True, verbose: bool = False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7fb46860c670> = None, V_Field: <function MeshVariable at 0x7fb46860c670> = None, u_Star_fn=None, theta: float = 0.5, solver_name: str = '', restore_points_func: Callable = None, projection: bool = True, verbose: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Characteristics-based advection diffusion solver:</p>
@@ -1802,6 +2160,7 @@ a mid-point advection scheme (based on our particle swarm implementation)</p></d
         self,
         mesh: uw.discretisation.Mesh,
         u_Field: uw.discretisation.MeshVariable = None,
+        V_Field: uw.discretisation.MeshVariable = None,
         u_Star_fn=None,
         theta: float = 0.5,
         solver_name: str = &#34;&#34;,
@@ -1810,6 +2169,7 @@ a mid-point advection scheme (based on our particle swarm implementation)</p></d
         verbose: bool = False,
     ):
 
+        self.instance = SNES_AdvectionDiffusion_Swarm.instances
         SNES_AdvectionDiffusion_Swarm.instances += 1
 
         if solver_name == &#34;&#34;:
@@ -1823,11 +2183,18 @@ a mid-point advection scheme (based on our particle swarm implementation)</p></d
         self.projection = projection
         self._u_star_raw_fn = u_Star_fn
 
+        self._V = V_Field
+
         self.restore_points_to_domain_func = restore_points_func
         self._setup_problem_description = self.adv_diff_swarm_problem_description
 
         self.is_setup = False
         self.u_star_is_valid = False
+
+        ### add a mesh variable to project diffusivity values to, may want to modify name and degree (?)
+        self.k = uw.discretisation.MeshVariable(
+            f&#34;k{self.instances}&#34;, self.mesh, num_components=1, degree=1
+        )
 
         if projection:
             # set up a projection solver
@@ -1904,6 +2271,52 @@ a mid-point advection scheme (based on our particle swarm implementation)</p></d
     def theta(self, value):
         self.is_setup = False
         self._theta = sympify(value)
+
+    @timing.routine_timer_decorator
+    def estimate_dt(self):
+        &#34;&#34;&#34;
+        Calculates an appropriate advective timestep for the given
+        mesh and diffusivity configuration.
+        &#34;&#34;&#34;
+        ## update the diffusivity values
+        self.k_proj = uw.systems.Projection(self.mesh, self.k)
+        self.k_proj.uw_function = self.constitutive_model.Parameters.diffusivity
+        self.k_proj.smoothing = 0.0
+        self.k_proj.solve(_force_setup=True)
+
+        ### required modules
+        import math
+        from mpi4py import MPI
+
+        with self.mesh.access(self.k):
+            ## get local max dif value
+            max_diffusivity = self.k.data[:, 0].max()
+            ### get the velocity values
+            vel = self._V.data
+
+        ## get global max dif value
+        comm = MPI.COMM_WORLD
+        diffusivity_glob = comm.allreduce(max_diffusivity, op=MPI.MAX)
+
+        ### get global velocity from velocity field
+        max_magvel = np.linalg.norm(vel, axis=1).max()
+        max_magvel_glob = comm.allreduce(max_magvel, op=MPI.MAX)
+
+        ## get radius
+        min_dx = self.mesh.get_min_radius()
+
+        ## estimate dt of adv and diff components
+        dt_diff = (min_dx**2) / diffusivity_glob
+        dt_adv = min_dx / max_magvel_glob
+        ### adv or diff could be 0 if only using one component
+        if dt_adv == 0.0:
+            dt_estimate = dt_diff
+        elif dt_diff == 0.0:
+            dt_estimate = dt_adv
+        else:
+            dt_estimate = min(dt_diff, dt_adv)
+
+        return dt_estimate
 
     @timing.routine_timer_decorator
     def solve(
@@ -2042,6 +2455,63 @@ def u_star_fn(self):
     return</code></pre>
 </details>
 </dd>
+<dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.estimate_dt"><code class="name flex">
+<span>def <span class="ident">estimate_dt</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculates an appropriate advective timestep for the given
+mesh and diffusivity configuration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@timing.routine_timer_decorator
+def estimate_dt(self):
+    &#34;&#34;&#34;
+    Calculates an appropriate advective timestep for the given
+    mesh and diffusivity configuration.
+    &#34;&#34;&#34;
+    ## update the diffusivity values
+    self.k_proj = uw.systems.Projection(self.mesh, self.k)
+    self.k_proj.uw_function = self.constitutive_model.Parameters.diffusivity
+    self.k_proj.smoothing = 0.0
+    self.k_proj.solve(_force_setup=True)
+
+    ### required modules
+    import math
+    from mpi4py import MPI
+
+    with self.mesh.access(self.k):
+        ## get local max dif value
+        max_diffusivity = self.k.data[:, 0].max()
+        ### get the velocity values
+        vel = self._V.data
+
+    ## get global max dif value
+    comm = MPI.COMM_WORLD
+    diffusivity_glob = comm.allreduce(max_diffusivity, op=MPI.MAX)
+
+    ### get global velocity from velocity field
+    max_magvel = np.linalg.norm(vel, axis=1).max()
+    max_magvel_glob = comm.allreduce(max_magvel, op=MPI.MAX)
+
+    ## get radius
+    min_dx = self.mesh.get_min_radius()
+
+    ## estimate dt of adv and diff components
+    dt_diff = (min_dx**2) / diffusivity_glob
+    dt_adv = min_dx / max_magvel_glob
+    ### adv or diff could be 0 if only using one component
+    if dt_adv == 0.0:
+        dt_estimate = dt_diff
+    elif dt_diff == 0.0:
+        dt_estimate = dt_adv
+    else:
+        dt_estimate = min(dt_diff, dt_adv)
+
+    return dt_estimate</code></pre>
+</details>
+</dd>
 <dt id="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.solve"><code class="name flex">
 <span>def <span class="ident">solve</span></span>(<span>self, zero_init_guess: bool = True, timestep: float = None)</span>
 </code></dt>
@@ -2094,7 +2564,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Darcy"><code class="flex name class">
 <span>class <span class="ident">SNES_Darcy</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7f03bc993880>, v_Field: <function MeshVariable at 0x7f03bc993880>, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7fb46860c670>, v_Field: <function MeshVariable at 0x7fb46860c670>, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Darcy docstring &hellip;</p></div>
@@ -2393,7 +2863,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_NavierStokes_Swarm"><code class="flex name class">
 <span>class <span class="ident">SNES_NavierStokes_Swarm</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7f03bc993880> = None, pressureField: <function MeshVariable at 0x7f03bc993880> = None, velocityStar_fn=None, rho: Optional[float] = 0.0, theta: Optional[float] = 0.5, solver_name: Optional[str] = '', verbose: Optional[bool] = False, projection: Optional[bool] = False, restore_points_func: Callable = None)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7fb46860c670> = None, pressureField: <function MeshVariable at 0x7fb46860c670> = None, velocityStar_fn=None, rho: Optional[float] = 0.0, theta: Optional[float] = 0.5, solver_name: Optional[str] = '', verbose: Optional[bool] = False, projection: Optional[bool] = False, restore_points_func: Callable = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Swarm-based Navier Stokes:</p>
@@ -2467,6 +2937,9 @@ a mid-point advection scheme (based on our particle swarm implementation)</p>
             self._u_star_projector = uw.systems.solvers.SNES_Vector_Projection(
                 self.mesh, self._u_star_projected
             )
+
+            options = self._u_star_projector.petsc_options
+            options.delValue(&#34;ksp_monitor&#34;)
 
             # If we add smoothing, it should be small relative to actual diffusion (self.viscosity)
             self._u_star_projector.smoothing = 0.0
@@ -2844,7 +3317,7 @@ def solve(
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Poisson"><code class="flex name class">
 <span>class <span class="ident">SNES_Poisson</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7f03bc993880> = None, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7fb46860c670> = None, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>SNES-based poisson equation solver</p></div>
@@ -2978,7 +3451,7 @@ def poisson_problem_description(self):
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Projection"><code class="flex name class">
 <span>class <span class="ident">SNES_Projection</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7f03bc993880> = None, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7fb46860c670> = None, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map underworld (pointwise) function to continuous
@@ -3085,6 +3558,10 @@ non-linear constraints will be handled by SNES.</p>
 <ul class="hlist">
 <li>underworld3.cython.generic_solvers.SNES_Scalar</li>
 </ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="underworld3.systems.solvers.SNES_Tensor_Projection" href="#underworld3.systems.solvers.SNES_Tensor_Projection">SNES_Tensor_Projection</a></li>
+</ul>
 <h3>Class variables</h3>
 <dl>
 <dt id="underworld3.systems.solvers.SNES_Projection.instances"><code class="name">var <span class="ident">instances</span></code></dt>
@@ -3169,7 +3646,7 @@ def projection_problem_description(self):
 </dd>
 <dt id="underworld3.systems.solvers.SNES_Stokes"><code class="flex name class">
 <span>class <span class="ident">SNES_Stokes</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7f03bc993880>, pressureField: <function MeshVariable at 0x7f03bc993880>, solver_name: Optional[str] = '', verbose: Optional[str] = False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, velocityField: <function MeshVariable at 0x7fb46860c670>, pressureField: <function MeshVariable at 0x7fb46860c670>, solver_name: Optional[str] = '', verbose: Optional[str] = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This class provides functionality for a discrete representation
@@ -3290,6 +3767,7 @@ compatible with the PETSc naming conventions.</p>
         # User-facing operations are matrices / vectors by preference
 
         self._E = self.mesh.vector.strain_tensor(self._u.sym)
+        self._Estar = None
 
         # scalar 2nd invariant (incompressible)
         self._Einv2 = sympy.sqrt((sympy.Matrix(self._E) ** 2).trace() / 2)
@@ -3321,10 +3799,12 @@ compatible with the PETSc naming conventions.</p>
         # terms that become part of the weighted integral
         self._u_f0 = self.UF0 - self.bodyforce
         # Integration by parts into the stiffness matrix (constitutive terms)
-        self._u_f1 = self.UF1 + self.stress + self.penalty * self.div_u * sympy.eye(dim)
+        self._u_f1 = sympy.simplify(
+            self.UF1 + self.stress + self.penalty * self.div_u * sympy.eye(dim)
+        )
 
         # forces in the constraint (pressure) equations
-        self._p_f0 = self.PF0 + sympy.Matrix((self.constraints))
+        self._p_f0 = sympy.simplify(self.PF0 + sympy.Matrix((self.constraints)))
 
         return
 
@@ -3333,12 +3813,44 @@ compatible with the PETSc naming conventions.</p>
         return sympy.Matrix(self._E)
 
     @property
+    def strainrate_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.strainrate, self.mesh.dim)
+
+    # Over-ride this one as required
+    @property
+    def strainrate_star(self):
+        return None
+
+    @property
+    def strainrate_star_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.strainrate_star, self.mesh.dim)
+
+    # provide the strain-rate history in symbolic form
+    @strainrate_star.setter
+    def strainrate_star(self, strain_rate_fn):
+        self._is_setup = False
+        symval = sympify(strain_rate_fn)
+        self._Estar = symval
+
+    # This should return standard viscous behaviour if strainrate_star is None
+    @property
     def stress_deviator(self):
-        return self.constitutive_model.flux(self.strainrate)
+        return self.constitutive_model.flux(
+            self.strainrate,
+            self.strainrate_star,
+        )
+
+    @property
+    def stress_deviator_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.stress_deviator, self.mesh.dim)
 
     @property
     def stress(self):
         return self.stress_deviator - sympy.eye(self.mesh.dim) * (self.p.sym[0])
+
+    @property
+    def stress_1d(self):
+        return uw.maths.tensor.rank2_to_voigt(self.stress, self.mesh.dim)
 
     @property
     def div_u(self):
@@ -3504,6 +4016,42 @@ def strainrate(self):
     return sympy.Matrix(self._E)</code></pre>
 </details>
 </dd>
+<dt id="underworld3.systems.solvers.SNES_Stokes.strainrate_1d"><code class="name">var <span class="ident">strainrate_1d</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def strainrate_1d(self):
+    return uw.maths.tensor.rank2_to_voigt(self.strainrate, self.mesh.dim)</code></pre>
+</details>
+</dd>
+<dt id="underworld3.systems.solvers.SNES_Stokes.strainrate_star"><code class="name">var <span class="ident">strainrate_star</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def strainrate_star(self):
+    return None</code></pre>
+</details>
+</dd>
+<dt id="underworld3.systems.solvers.SNES_Stokes.strainrate_star_1d"><code class="name">var <span class="ident">strainrate_star_1d</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def strainrate_star_1d(self):
+    return uw.maths.tensor.rank2_to_voigt(self.strainrate_star, self.mesh.dim)</code></pre>
+</details>
+</dd>
 <dt id="underworld3.systems.solvers.SNES_Stokes.stress"><code class="name">var <span class="ident">stress</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -3516,6 +4064,18 @@ def stress(self):
     return self.stress_deviator - sympy.eye(self.mesh.dim) * (self.p.sym[0])</code></pre>
 </details>
 </dd>
+<dt id="underworld3.systems.solvers.SNES_Stokes.stress_1d"><code class="name">var <span class="ident">stress_1d</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def stress_1d(self):
+    return uw.maths.tensor.rank2_to_voigt(self.stress, self.mesh.dim)</code></pre>
+</details>
+</dd>
 <dt id="underworld3.systems.solvers.SNES_Stokes.stress_deviator"><code class="name">var <span class="ident">stress_deviator</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -3525,7 +4085,22 @@ def stress(self):
 </summary>
 <pre><code class="python">@property
 def stress_deviator(self):
-    return self.constitutive_model.flux(self.strainrate)</code></pre>
+    return self.constitutive_model.flux(
+        self.strainrate,
+        self.strainrate_star,
+    )</code></pre>
+</details>
+</dd>
+<dt id="underworld3.systems.solvers.SNES_Stokes.stress_deviator_1d"><code class="name">var <span class="ident">stress_deviator_1d</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def stress_deviator_1d(self):
+    return uw.maths.tensor.rank2_to_voigt(self.stress_deviator, self.mesh.dim)</code></pre>
 </details>
 </dd>
 </dl>
@@ -3592,19 +4167,245 @@ def stokes_problem_description(self):
     # terms that become part of the weighted integral
     self._u_f0 = self.UF0 - self.bodyforce
     # Integration by parts into the stiffness matrix (constitutive terms)
-    self._u_f1 = self.UF1 + self.stress + self.penalty * self.div_u * sympy.eye(dim)
+    self._u_f1 = sympy.simplify(
+        self.UF1 + self.stress + self.penalty * self.div_u * sympy.eye(dim)
+    )
 
     # forces in the constraint (pressure) equations
-    self._p_f0 = self.PF0 + sympy.Matrix((self.constraints))
+    self._p_f0 = sympy.simplify(self.PF0 + sympy.Matrix((self.constraints)))
 
     return</code></pre>
 </details>
 </dd>
 </dl>
 </dd>
+<dt id="underworld3.systems.solvers.SNES_Tensor_Projection"><code class="flex name class">
+<span>class <span class="ident">SNES_Tensor_Projection</span></span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, tensor_Field: <function MeshVariable at 0x7fb46860c670> = None, scalar_Field: <function MeshVariable at 0x7fb46860c670> = None, solver_name: str = '', verbose=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Map underworld (pointwise) function to continuous
+nodal point values in least-squares sense.</p>
+<p>For tensor problems, we start with a component-by-component
+solution that requires a work vector to hold the result.</p>
+<p>Consitutive model for this solver is the identity tensor</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SNES_Tensor_Projection(SNES_Projection):
+    &#34;&#34;&#34;
+    Map underworld (pointwise) function to continuous
+    nodal point values in least-squares sense.
+
+    For tensor problems, we start with a component-by-component
+    solution that requires a work vector to hold the result.
+
+    Consitutive model for this solver is the identity tensor
+    &#34;&#34;&#34;
+
+    instances = 0
+
+    @timing.routine_timer_decorator
+    def __init__(
+        self,
+        mesh: uw.discretisation.Mesh,
+        tensor_Field: uw.discretisation.MeshVariable = None,
+        scalar_Field: uw.discretisation.MeshVariable = None,
+        solver_name: str = &#34;&#34;,
+        verbose=False,
+    ):
+
+        SNES_Tensor_Projection.instances += 1
+
+        if solver_name == &#34;&#34;:
+            solver_name = &#34;TProj{}_&#34;.format(self.instances)
+
+        self.t_field = tensor_Field
+
+        super().__init__(
+            mesh=mesh,
+            u_Field=scalar_Field,
+            solver_name=solver_name,
+            verbose=verbose,
+        )
+
+        return
+
+    ## Need to over-ride solve method to run over all components
+
+    def solve(self):
+
+        # Loop over the components of the tensor. If this is a symmetric
+        # tensor, we&#39;ll usually be given the 1d form to prevent duplication
+
+        if self.t_field.sym_1d.shape != self.uw_function.shape:
+            raise ValueError(
+                &#34;Tensor shapes for uw_function and MeshVariable are not the same&#34;
+            )
+
+        for c, component_function in enumerate(self.uw_function):
+
+            self.uw_scalar_function = sympy.Matrix([component_function])
+
+            # print(f&#34;Cpt {c} -&gt; {component_function} &#34;)
+
+            with self.mesh.access(self.u):
+                self.u.data[:, 0] = self.t_field.data[:, c]
+
+            # solver for the scalar problem
+
+            super().solve()
+
+            with self.mesh.access(self.t_field):
+                self.t_field.data[:, c] = self.u.data[:, 0]
+
+        # That might be all ...
+
+    # This is re-defined so it uses uw_scalar_function
+
+    @timing.routine_timer_decorator
+    def projection_problem_description(self):
+
+        dim = self.mesh.dim
+        N = self.mesh.N
+
+        # residual terms - defines the problem:
+        # solve for a best fit to the continuous mesh
+        # variable given the values in self.function
+        # F0 is left in place for the user to inject
+        # non-linear constraints if required
+
+        self._f0 = (
+            self.F0
+            + (self.u.sym - self.uw_scalar_function) * self.uw_weighting_function
+        )
+
+        # F1 is left in the users control ... e.g to add other gradient constraints to the stiffness matrix
+
+        self._f1 = self.F1 + self.smoothing * self.mesh.vector.gradient(self.u.sym)
+
+        return
+
+    @property
+    def uw_scalar_function(self):
+        return self._uw_scalar_function
+
+    @uw_scalar_function.setter
+    def uw_scalar_function(self, user_uw_function):
+        self.is_setup = False
+        self._uw_scalar_function = user_uw_function</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="underworld3.systems.solvers.SNES_Projection" href="#underworld3.systems.solvers.SNES_Projection">SNES_Projection</a></li>
+<li>underworld3.cython.generic_solvers.SNES_Scalar</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="underworld3.systems.solvers.SNES_Tensor_Projection.instances"><code class="name">var <span class="ident">instances</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="underworld3.systems.solvers.SNES_Tensor_Projection.uw_scalar_function"><code class="name">var <span class="ident">uw_scalar_function</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def uw_scalar_function(self):
+    return self._uw_scalar_function</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="underworld3.systems.solvers.SNES_Tensor_Projection.projection_problem_description"><code class="name flex">
+<span>def <span class="ident">projection_problem_description</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@timing.routine_timer_decorator
+def projection_problem_description(self):
+
+    dim = self.mesh.dim
+    N = self.mesh.N
+
+    # residual terms - defines the problem:
+    # solve for a best fit to the continuous mesh
+    # variable given the values in self.function
+    # F0 is left in place for the user to inject
+    # non-linear constraints if required
+
+    self._f0 = (
+        self.F0
+        + (self.u.sym - self.uw_scalar_function) * self.uw_weighting_function
+    )
+
+    # F1 is left in the users control ... e.g to add other gradient constraints to the stiffness matrix
+
+    self._f1 = self.F1 + self.smoothing * self.mesh.vector.gradient(self.u.sym)
+
+    return</code></pre>
+</details>
+</dd>
+<dt id="underworld3.systems.solvers.SNES_Tensor_Projection.solve"><code class="name flex">
+<span>def <span class="ident">solve</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates solution to constructed system.</p>
+<h2 id="params">Params</h2>
+<p>zero_init_guess:
+If <code>True</code>, a zero initial guess will be used for the
+system solution. Otherwise, the current values of <code>self.u</code>
+and <code>self.p</code> will be used.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def solve(self):
+
+    # Loop over the components of the tensor. If this is a symmetric
+    # tensor, we&#39;ll usually be given the 1d form to prevent duplication
+
+    if self.t_field.sym_1d.shape != self.uw_function.shape:
+        raise ValueError(
+            &#34;Tensor shapes for uw_function and MeshVariable are not the same&#34;
+        )
+
+    for c, component_function in enumerate(self.uw_function):
+
+        self.uw_scalar_function = sympy.Matrix([component_function])
+
+        # print(f&#34;Cpt {c} -&gt; {component_function} &#34;)
+
+        with self.mesh.access(self.u):
+            self.u.data[:, 0] = self.t_field.data[:, c]
+
+        # solver for the scalar problem
+
+        super().solve()
+
+        with self.mesh.access(self.t_field):
+            self.t_field.data[:, c] = self.u.data[:, 0]
+
+    # That might be all ...</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
 <dt id="underworld3.systems.solvers.SNES_Vector_Projection"><code class="flex name class">
 <span>class <span class="ident">SNES_Vector_Projection</span></span>
-<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7f03bc993880> = None, solver_name: str = '', verbose=False)</span>
+<span>(</span><span>mesh: <a title="underworld3.discretisation.Mesh" href="../discretisation.html#underworld3.discretisation.Mesh">Mesh</a>, u_Field: <function MeshVariable at 0x7fb46860c670> = None, solver_name: str = '', verbose=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map underworld (pointwise) function to continuous
@@ -3850,6 +4651,7 @@ def projection_problem_description(self):
 <ul class="">
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.adv_diff_slcn_problem_description" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.adv_diff_slcn_problem_description">adv_diff_slcn_problem_description</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.delta_t" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.delta_t">delta_t</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.estimate_dt" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.estimate_dt">estimate_dt</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.instances" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.instances">instances</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.solve" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.solve">solve</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.theta" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_SLCN.theta">theta</a></code></li>
@@ -3861,6 +4663,7 @@ def projection_problem_description(self):
 <ul class="">
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.adv_diff_swarm_problem_description" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.adv_diff_swarm_problem_description">adv_diff_swarm_problem_description</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.delta_t" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.delta_t">delta_t</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.estimate_dt" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.estimate_dt">estimate_dt</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.instances" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.instances">instances</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.solve" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.solve">solve</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.theta" href="#underworld3.systems.solvers.SNES_AdvectionDiffusion_Swarm.theta">theta</a></code></li>
@@ -3925,8 +4728,22 @@ def projection_problem_description(self):
 <li><code><a title="underworld3.systems.solvers.SNES_Stokes.saddle_preconditioner" href="#underworld3.systems.solvers.SNES_Stokes.saddle_preconditioner">saddle_preconditioner</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_Stokes.stokes_problem_description" href="#underworld3.systems.solvers.SNES_Stokes.stokes_problem_description">stokes_problem_description</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_Stokes.strainrate" href="#underworld3.systems.solvers.SNES_Stokes.strainrate">strainrate</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Stokes.strainrate_1d" href="#underworld3.systems.solvers.SNES_Stokes.strainrate_1d">strainrate_1d</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Stokes.strainrate_star" href="#underworld3.systems.solvers.SNES_Stokes.strainrate_star">strainrate_star</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Stokes.strainrate_star_1d" href="#underworld3.systems.solvers.SNES_Stokes.strainrate_star_1d">strainrate_star_1d</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_Stokes.stress" href="#underworld3.systems.solvers.SNES_Stokes.stress">stress</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Stokes.stress_1d" href="#underworld3.systems.solvers.SNES_Stokes.stress_1d">stress_1d</a></code></li>
 <li><code><a title="underworld3.systems.solvers.SNES_Stokes.stress_deviator" href="#underworld3.systems.solvers.SNES_Stokes.stress_deviator">stress_deviator</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Stokes.stress_deviator_1d" href="#underworld3.systems.solvers.SNES_Stokes.stress_deviator_1d">stress_deviator_1d</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="underworld3.systems.solvers.SNES_Tensor_Projection" href="#underworld3.systems.solvers.SNES_Tensor_Projection">SNES_Tensor_Projection</a></code></h4>
+<ul class="">
+<li><code><a title="underworld3.systems.solvers.SNES_Tensor_Projection.instances" href="#underworld3.systems.solvers.SNES_Tensor_Projection.instances">instances</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Tensor_Projection.projection_problem_description" href="#underworld3.systems.solvers.SNES_Tensor_Projection.projection_problem_description">projection_problem_description</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Tensor_Projection.solve" href="#underworld3.systems.solvers.SNES_Tensor_Projection.solve">solve</a></code></li>
+<li><code><a title="underworld3.systems.solvers.SNES_Tensor_Projection.uw_scalar_function" href="#underworld3.systems.solvers.SNES_Tensor_Projection.uw_scalar_function">uw_scalar_function</a></code></li>
 </ul>
 </li>
 <li>

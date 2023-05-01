@@ -41,13 +41,17 @@ class VarType(_Enum):
     SCALAR = 1
     VECTOR = 2
     MATRIX = 3
-    NVECTOR = 4
+    NVECTOR = 4  ## Nvector can be a MATRIX
     COMPOSITE = 5
-    OTHER = 6  # add as required
+    TENSOR = 6  ## dim x dim tensor, otherwise use MATRIX
+    SYM_TENSOR = 7
+    OTHER = 9  # add as required
+
 
 # Needed everywhere
 from underworld3.utilities import _api_tools
 
+import underworld3.adaptivity
 import underworld3.coordinates
 import underworld3.discretisation
 import underworld3.meshing
@@ -61,6 +65,7 @@ import underworld3.utilities
 import underworld3.kdtree
 import underworld3.mpi
 import underworld3.cython
+import underworld3.scaling
 import numpy as _np
 
 # Info for JIT modules.
@@ -121,12 +126,31 @@ __pdoc__[&#34;function.analytic&#34;] = False
 # Here we nuke some of the placeholders in the parent class so that they do not mask the
 # child class modifications
 
-__pdoc__[&#34;systems.constitutive_models.Constitutive_Model.Parameters&#34;] = False</code></pre>
+__pdoc__[&#34;systems.constitutive_models.Constitutive_Model.Parameters&#34;] = False
+
+
+## Add an options dictionary for arbitrary underworld things
+
+options = PETSc.Options(&#34;uw_&#34;)
+
+
+def require_dirs(ListOfDirs):
+    &#34;&#34;&#34;
+    List of directories required by this run
+    &#34;&#34;&#34;
+    import os
+
+    for dir in ListOfDirs:
+        os.makedirs(dir, exist_ok=True)</code></pre>
 </details>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
+<dt><code class="name"><a title="underworld3.adaptivity" href="adaptivity.html">underworld3.adaptivity</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt><code class="name"><a title="underworld3.coordinates" href="coordinates.html">underworld3.coordinates</a></code></dt>
 <dd>
 <div class="desc"></div>
@@ -151,6 +175,10 @@ __pdoc__[&#34;systems.constitutive_models.Constitutive_Model.Parameters&#34;] = 
 <dd>
 <div class="desc"><p>This module contains routines related to parallel operation via
 the Message Passing Interface (MPI) …</p></div>
+</dd>
+<dt><code class="name"><a title="underworld3.scaling" href="scaling/index.html">underworld3.scaling</a></code></dt>
+<dd>
+<div class="desc"><p>The scaling module provides units and scaling capabilities.</p></div>
 </dd>
 <dt><code class="name"><a title="underworld3.swarm" href="swarm.html">underworld3.swarm</a></code></dt>
 <dd>
@@ -179,6 +207,28 @@ allowing users to determine how walltime is divided between different
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="underworld3.require_dirs"><code class="name flex">
+<span>def <span class="ident">require_dirs</span></span>(<span>ListOfDirs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List of directories required by this run</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def require_dirs(ListOfDirs):
+    &#34;&#34;&#34;
+    List of directories required by this run
+    &#34;&#34;&#34;
+    import os
+
+    for dir in ListOfDirs:
+        os.makedirs(dir, exist_ok=True)</code></pre>
+</details>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -197,9 +247,11 @@ allowing users to determine how walltime is divided between different
     SCALAR = 1
     VECTOR = 2
     MATRIX = 3
-    NVECTOR = 4
+    NVECTOR = 4  ## Nvector can be a MATRIX
     COMPOSITE = 5
-    OTHER = 6  # add as required</code></pre>
+    TENSOR = 6  ## dim x dim tensor, otherwise use MATRIX
+    SYM_TENSOR = 7
+    OTHER = 9  # add as required</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -227,6 +279,14 @@ allowing users to determine how walltime is divided between different
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="underworld3.VarType.SYM_TENSOR"><code class="name">var <span class="ident">SYM_TENSOR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="underworld3.VarType.TENSOR"><code class="name">var <span class="ident">TENSOR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="underworld3.VarType.VECTOR"><code class="name">var <span class="ident">VECTOR</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -244,17 +304,24 @@ allowing users to determine how walltime is divided between different
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
+<li><code><a title="underworld3.adaptivity" href="adaptivity.html">underworld3.adaptivity</a></code></li>
 <li><code><a title="underworld3.coordinates" href="coordinates.html">underworld3.coordinates</a></code></li>
 <li><code><a title="underworld3.discretisation" href="discretisation.html">underworld3.discretisation</a></code></li>
 <li><code><a title="underworld3.function" href="function/index.html">underworld3.function</a></code></li>
 <li><code><a title="underworld3.maths" href="maths/index.html">underworld3.maths</a></code></li>
 <li><code><a title="underworld3.meshing" href="meshing.html">underworld3.meshing</a></code></li>
 <li><code><a title="underworld3.mpi" href="mpi.html">underworld3.mpi</a></code></li>
+<li><code><a title="underworld3.scaling" href="scaling/index.html">underworld3.scaling</a></code></li>
 <li><code><a title="underworld3.swarm" href="swarm.html">underworld3.swarm</a></code></li>
 <li><code><a title="underworld3.systems" href="systems/index.html">underworld3.systems</a></code></li>
 <li><code><a title="underworld3.timing" href="timing.html">underworld3.timing</a></code></li>
 <li><code><a title="underworld3.tools" href="tools.html">underworld3.tools</a></code></li>
 <li><code><a title="underworld3.utilities" href="utilities/index.html">underworld3.utilities</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="underworld3.require_dirs" href="#underworld3.require_dirs">require_dirs</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
@@ -267,6 +334,8 @@ allowing users to determine how walltime is divided between different
 <li><code><a title="underworld3.VarType.NVECTOR" href="#underworld3.VarType.NVECTOR">NVECTOR</a></code></li>
 <li><code><a title="underworld3.VarType.OTHER" href="#underworld3.VarType.OTHER">OTHER</a></code></li>
 <li><code><a title="underworld3.VarType.SCALAR" href="#underworld3.VarType.SCALAR">SCALAR</a></code></li>
+<li><code><a title="underworld3.VarType.SYM_TENSOR" href="#underworld3.VarType.SYM_TENSOR">SYM_TENSOR</a></code></li>
+<li><code><a title="underworld3.VarType.TENSOR" href="#underworld3.VarType.TENSOR">TENSOR</a></code></li>
 <li><code><a title="underworld3.VarType.VECTOR" href="#underworld3.VarType.VECTOR">VECTOR</a></code></li>
 </ul>
 </li>

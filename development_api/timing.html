@@ -191,7 +191,9 @@ def get_data(group_by=&#34;line_routine&#34;):
     elif group_by == &#34;line_routine&#34;:
         keyfunc = lambda key: &#34;{}   {}&#34;.format(linefunc(key), key[0])
     else:
-        raise ValueError(&#34;&#39;group_by&#39; parameter should specify &#39;line&#39;, &#39;routine&#39; &#39;line_routine&#39;&#34;)
+        raise ValueError(
+            &#34;&#39;group_by&#39; parameter should specify &#39;line&#39;, &#39;routine&#39; &#39;line_routine&#39;&#34;
+        )
 
     # regroup data
     regrouped_dict = _dd(lambda: [0, 0.0])
@@ -204,7 +206,12 @@ def get_data(group_by=&#34;line_routine&#34;):
 
 
 def print_table(
-    group_by=&#34;line_routine&#34;, sort_by=&#34;total&#34;, display_fraction=0.95, float_precision=&#34;.3f&#34;, output_file=None, **kwargs
+    group_by=&#34;line_routine&#34;,
+    sort_by=&#34;total&#34;,
+    display_fraction=0.95,
+    float_precision=&#34;.3f&#34;,
+    output_file=None,
+    **kwargs
 ):
     &#34;&#34;&#34;
     Print timing results to stdout or to a provided file. Call this function
@@ -245,7 +252,9 @@ def print_table(
 
     sort_col = {&#34;total&#34;: 2, &#34;average&#34;: 3}
     if sort_by not in sort_col.keys():
-        raise ValueError(&#34;&#39;sort_by&#39; parameter should specify one of {}&#34;.format(sort_col.keys()))
+        raise ValueError(
+            &#34;&#39;sort_by&#39; parameter should specify one of {}&#34;.format(sort_col.keys())
+        )
     table_data = sorted(table_data, key=lambda x: x[sort_col[sort_by]], reverse=True)
 
     # max sure columns widths accommodate titles
@@ -292,10 +301,20 @@ def print_table(
             from IPython.display import HTML, display
 
             display(
-                HTML(tabulate(table_data[0:stop_row] + footerrow, row_title, tablefmt=&#34;html&#34;, floatfmt=&#34;.3f&#34;, **kwargs))
+                HTML(
+                    tabulate(
+                        table_data[0:stop_row] + footerrow,
+                        row_title,
+                        tablefmt=&#34;html&#34;,
+                        floatfmt=&#34;.3f&#34;,
+                        **kwargs
+                    )
+                )
             )
         else:
-            tabstr = tabulate(table_data[0:stop_row] + footerrow, row_title, floatfmt=&#34;.3f&#34;, **kwargs)
+            tabstr = tabulate(
+                table_data[0:stop_row] + footerrow, row_title, floatfmt=&#34;.3f&#34;, **kwargs
+            )
             tabstr += &#34;\n&#34;
     except:  # otherwise use homebake.. our hipster snowflake friends (and colleague) are not forgotten!
         # add header
@@ -469,7 +488,9 @@ def _class_timer_decorator(cls):
 
         setattr(cls, attr[0], timedroutine)
         print(&#34;   &#34; + attr[0])
-        _timedroutines.add(timedroutine)  # add to set of timed routines to avoid doubling up
+        _timedroutines.add(
+            timedroutine
+        )  # add to set of timed routines to avoid doubling up
     return cls
 
 
@@ -597,7 +618,9 @@ if &#34;UW_TIMING_AUTO&#34; in _os.environ:
     elif group_by == &#34;line_routine&#34;:
         keyfunc = lambda key: &#34;{}   {}&#34;.format(linefunc(key), key[0])
     else:
-        raise ValueError(&#34;&#39;group_by&#39; parameter should specify &#39;line&#39;, &#39;routine&#39; &#39;line_routine&#39;&#34;)
+        raise ValueError(
+            &#34;&#39;group_by&#39; parameter should specify &#39;line&#39;, &#39;routine&#39; &#39;line_routine&#39;&#34;
+        )
 
     # regroup data
     regrouped_dict = _dd(lambda: [0, 0.0])
@@ -687,7 +710,12 @@ module instructions for details.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def print_table(
-    group_by=&#34;line_routine&#34;, sort_by=&#34;total&#34;, display_fraction=0.95, float_precision=&#34;.3f&#34;, output_file=None, **kwargs
+    group_by=&#34;line_routine&#34;,
+    sort_by=&#34;total&#34;,
+    display_fraction=0.95,
+    float_precision=&#34;.3f&#34;,
+    output_file=None,
+    **kwargs
 ):
     &#34;&#34;&#34;
     Print timing results to stdout or to a provided file. Call this function
@@ -728,7 +756,9 @@ module instructions for details.</dd>
 
     sort_col = {&#34;total&#34;: 2, &#34;average&#34;: 3}
     if sort_by not in sort_col.keys():
-        raise ValueError(&#34;&#39;sort_by&#39; parameter should specify one of {}&#34;.format(sort_col.keys()))
+        raise ValueError(
+            &#34;&#39;sort_by&#39; parameter should specify one of {}&#34;.format(sort_col.keys())
+        )
     table_data = sorted(table_data, key=lambda x: x[sort_col[sort_by]], reverse=True)
 
     # max sure columns widths accommodate titles
@@ -775,10 +805,20 @@ module instructions for details.</dd>
             from IPython.display import HTML, display
 
             display(
-                HTML(tabulate(table_data[0:stop_row] + footerrow, row_title, tablefmt=&#34;html&#34;, floatfmt=&#34;.3f&#34;, **kwargs))
+                HTML(
+                    tabulate(
+                        table_data[0:stop_row] + footerrow,
+                        row_title,
+                        tablefmt=&#34;html&#34;,
+                        floatfmt=&#34;.3f&#34;,
+                        **kwargs
+                    )
+                )
             )
         else:
-            tabstr = tabulate(table_data[0:stop_row] + footerrow, row_title, floatfmt=&#34;.3f&#34;, **kwargs)
+            tabstr = tabulate(
+                table_data[0:stop_row] + footerrow, row_title, floatfmt=&#34;.3f&#34;, **kwargs
+            )
             tabstr += &#34;\n&#34;
     except:  # otherwise use homebake.. our hipster snowflake friends (and colleague) are not forgotten!
         # add header

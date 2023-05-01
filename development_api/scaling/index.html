@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.8.1" />
-<title>underworld3.systems API documentation</title>
-<meta name="description" content="" />
+<title>underworld3.scaling API documentation</title>
+<meta name="description" content="The scaling module provides units and scaling capabilities." />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -18,51 +18,26 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>underworld3.systems</code></h1>
+<h1 class="title">Module <code>underworld3.scaling</code></h1>
 </header>
 <section id="section-intro">
+<p>The scaling module provides units and scaling capabilities.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python"># Underworld systems includes solvers and constitutive equations
+<pre><code class="python">&#34;&#34;&#34;
+The scaling module provides units and scaling capabilities.
+&#34;&#34;&#34;
 
-
-from underworld3.cython.generic_solvers import (
-    SNES_Scalar,
-    SNES_Vector,
-    SNES_SaddlePoint,
-    SNES_Stokes,
-)
-
-from .solvers import SNES_Poisson as Poisson
-from .solvers import SNES_Darcy as SteadyStateDarcy
-from .solvers import SNES_Stokes as Stokes
-from .solvers import SNES_Projection as Projection
-from .solvers import SNES_Vector_Projection as Vector_Projection
-from .solvers import SNES_Tensor_Projection as Tensor_Projection
-
-# from .solvers import SNES_Solenoidal_Vector_Projection as Solenoidal_Vector_Projection  ## WIP / maybe some issues
-from .solvers import (
-    SNES_AdvectionDiffusion_SLCN as AdvDiffusion,
-)  # fix examples then remove this
-from .solvers import SNES_AdvectionDiffusion_SLCN as AdvDiffusionSLCN
-from .solvers import SNES_AdvectionDiffusion_Swarm as AdvDiffusionSwarm
-from .solvers import SNES_NavierStokes_Swarm as NavierStokesSwarm</code></pre>
+from ._scaling import non_dimensionalise
+from ._scaling import pint_degc_labels
+from ._scaling import dimensionalise
+from ._scaling import u as units
+from ._scaling import get_coefficients</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="underworld3.systems.constitutive_models" href="constitutive_models.html">underworld3.systems.constitutive_models</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="underworld3.systems.solvers" href="solvers.html">underworld3.systems.solvers</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 </section>
 <section>
 </section>
@@ -80,12 +55,6 @@ from .solvers import SNES_NavierStokes_Swarm as NavierStokesSwarm</code></pre>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="underworld3" href="../index.html">underworld3</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
-<ul>
-<li><code><a title="underworld3.systems.constitutive_models" href="constitutive_models.html">underworld3.systems.constitutive_models</a></code></li>
-<li><code><a title="underworld3.systems.solvers" href="solvers.html">underworld3.systems.solvers</a></code></li>
 </ul>
 </li>
 </ul>
