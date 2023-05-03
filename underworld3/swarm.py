@@ -516,15 +516,24 @@ class IndexSwarmVariable(SwarmVariable):
         self._MaskArray = sympy.Matrix.zeros(1, self.indices)
         self._meshLevelSetVars = [None] * self.indices
 
-        for i in range(indices):
-            self._meshLevelSetVars[i] = uw.discretisation.MeshVariable(
-                name + R"^{[" + str(i) + R"]}",
-                self.swarm.mesh,
-                num_components=1,
-                degree=proxy_degree,
-                continuous=proxy_continuous,
-            )
-            self._MaskArray[0, i] = self._meshLevelSetVars[i].sym[0, 0]
+        self._MaskArray = uw.discretisation.MeshVariable(
+            name,
+            self.swarm.mesh,
+            num_components=(1,self.indices),
+            vtype = uw.VarType.MATRIX, 
+            degree=proxy_degree,
+            continuous=proxy_continuous,
+        )
+
+        # for i in range(indices):
+        #     self._meshLevelSetVars[i] = uw.discretisation.MeshVariable(
+        #         name + R"^{[" + str(i) + R"]}",
+        #         self.swarm.mesh,
+        #         num_components=self,
+        #         degree=proxy_degree,
+        #         continuous=proxy_continuous,
+        #     )
+        #     self._MaskArray[0, i] = self._meshLevelSetVars[i].sym[0, 0]
 
         return
 
@@ -549,17 +558,18 @@ class IndexSwarmVariable(SwarmVariable):
 
         """
 
-        kd = uw.kdtree.KDTree(self._meshLevelSetVars[0].coords)
+        kd = uw.kdtree.KDTree(self._MaskArray.coords)
         kd.build_index()
 
         for ii in range(self.indices):
-            meshVar = self._meshLevelSetVars[ii]
+            meshVar = self._MaskArray
+            # meshVar = self._meshLevelSetVars[ii]
 
             # 1 - Average particles to nodes with distance weighted average
             with self.swarm.mesh.access(meshVar), self.swarm.access():
                 n, d, b = kd.find_closest_point(self.swarm.data)
 
-                node_values = np.zeros((meshVar.data.shape[0],))
+                node_values = np.zeros((meshVar.data.shape[0]))
                 w = np.zeros((meshVar.data.shape[0],))
 
                 for i in range(self.data.shape[0]):

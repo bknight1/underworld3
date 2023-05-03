@@ -1479,7 +1479,7 @@ class _MeshVariable(_api_tools.Stateful):
                         self._data_layout(i, j),
                     )(*self.mesh.r)
                     self._sym[i, j].mesh = self.mesh
-                    n += 1
+                    # n += 1
 
         # Suggest this should be deprecated - seems complicated
         # and liable to produce errors in development as well as use
@@ -1924,7 +1924,7 @@ class _MeshVariable(_api_tools.Stateful):
                 raise IndexError(
                     f"Vectors have shape {self.mesh.dim} or {(1, self.mesh.dim)} "
                 )
-        if self.vtype == uw.VarType.TENSOR or self.vtype == uw.VarType.MATRIX:
+        if self.vtype == uw.VarType.TENSOR :
             if self.mesh.dim == 2:
                 return ((0, 1), (2, 3))[i][j]
             else:
@@ -1935,6 +1935,10 @@ class _MeshVariable(_api_tools.Stateful):
                 return ((0, 2), (2, 1))[i][j]
             else:
                 return ((0, 3, 4), (3, 1, 5), (4, 5, 2))[i][j]
+            
+        if self.vtype == uw.VarType.MATRIX :
+            return i + j * self.shape[0]
+
 
     def _set_vec(self, available):
 
