@@ -17,7 +17,7 @@ import math
 import underworld3
 
 
-from underworld3.utilities import petsc_gen_xdmf
+from underworld3.utilities import uw_petsc_gen_xdmf
 
 
 # %%
@@ -64,6 +64,9 @@ options["snes_converged_reason"] = None
 options["snes_monitor_short"] = None
 
 
+if uw.mpi.size == 1:
+    options["pc_type"]  = "lu"
+    options["ksp_type"] = "preonly"
 
 # %%
 ### can be changed, currently using UW3 default values
@@ -123,7 +126,7 @@ swarm  = uw.swarm.Swarm(mesh)
 
 # %%
 ## # Add variable for material
-materialVariable      = swarm.add_variable(name="materialVariable", num_components=1, dtype=PETSc.IntType)
+materialVariable      = swarm.add_variable(name="materialVariable", size=1, dtype=PETSc.IntType)
 material              = uw.swarm.IndexSwarmVariable("M", swarm, indices=5) 
 
 swarm.populate()
@@ -298,7 +301,7 @@ def saveData(step, outputPath):
     viewer(strain_rate_inv2._gvec) # add strain rate
     viewer(node_viscosity._gvec)   # add viscosity
     viewer.destroy() 
-    petsc_gen_xdmf.generateXdmf(fname, xfname)
+    uw_petsc_gen_xdmf.generateXdmf(fname, xfname)
     
     if uw.mpi.size == 1:
         import pyvista as pv
@@ -351,6 +354,9 @@ slabYieldvisc =  Max(0.1, Min(vonMises, slabViscosity))
 # #### Density
 
 # %%
+material.sym
+
+# %%
 mantleDensity = 0.0
 slabDensity   = 1.0 
 
@@ -370,7 +376,7 @@ density = mantleDensity * material.sym[0] + \
 
 
 
-stokes.bodyforce =  Matrix([0, -1 * density]) # -density*mesh.N.j
+stokes.bodyforce =  Matrix([0, -1 * density]) #* -density*mesh.N.j
 
 
 # %% [markdown]
