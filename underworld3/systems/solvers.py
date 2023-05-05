@@ -784,7 +784,7 @@ class SNES_Tensor_Projection(SNES_Projection):
 ## Does not seem to be a well posed problem as currently written ...
 ## We will fall back to penalising the standard SNES_Vector
 
-'''
+r'''
 class SNES_Solenoidal_Vector_Projection(SNES_Stokes):
     """
     Map underworld (pointwise) function to continuous
