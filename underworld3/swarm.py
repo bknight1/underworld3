@@ -474,7 +474,7 @@ class IndexSwarmVariable(SwarmVariable):
     """
     The IndexSwarmVariable is a class for managing material point
     behaviour. The material index variable is rendered into a
-    collection of masks each representing the extent of one material
+    matrix of masks each representing the extent of one material
     """
 
     @timing.routine_timer_decorator
@@ -516,6 +516,7 @@ class IndexSwarmVariable(SwarmVariable):
         self._MaskArray = sympy.Matrix.zeros(1, self.indices)
         self._meshLevelSetVars = [None] * self.indices
 
+        # a matrix MeshVariable is created to hold each material mask field.
         self._MaskArray = uw.discretisation.MeshVariable(
             name,
             self.swarm.mesh,
@@ -537,10 +538,10 @@ class IndexSwarmVariable(SwarmVariable):
 
         return
 
-    # This is the sympy vector interface - it's meaningless if these are not spatial arrays
+    # This is the sympy matrix interface
     @property
     def sym(self):
-        return self._MaskArray
+        return self._MaskArray.sym
 
     def _update(self):
         """

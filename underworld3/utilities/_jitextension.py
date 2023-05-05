@@ -171,6 +171,7 @@ def _createext(
                 or var.vtype == VarType.COMPOSITE
                 or var.vtype == VarType.TENSOR
                 or var.vtype == VarType.SYM_TENSOR
+                or (var.vtype == VarType.MATRIX and var.shape[0] == 1)
             ):
                 # Pull out individual sub components
                 for comp in var.sym_1d:
