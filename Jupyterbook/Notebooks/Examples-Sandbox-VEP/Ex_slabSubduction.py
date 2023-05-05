@@ -111,6 +111,9 @@ with swarm.access(swarm.particle_coordinates):
       
 
 
+# %%
+stokes.constitutive_model.maskVariable = material
+
 # %% [markdown]
 # #### Project fields to mesh vars
 # Useful for visualising stuff on the mesh (Viscosity, material, strain rate etc) and saving to a grouped xdmf file
@@ -340,7 +343,6 @@ stokes.bodyforce =  Matrix([0, -1 * density]) # -density*mesh.N.j
 
 
 # %%
-material.viewMask(density)
 
 # %% [markdown]
 # ### Boundary conditions

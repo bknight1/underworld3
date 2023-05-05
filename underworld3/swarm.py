@@ -557,7 +557,7 @@ class IndexSwarmVariable(SwarmVariable):
 
         symo = sympy.simplify(0)
         for i in range( self.indices ):
-            symo += funcsList[i] * self._MaskArray[i]
+            symo += funcsList[i] * self.sym[i]
 
         return symo
 

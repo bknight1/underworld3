@@ -46,6 +46,7 @@ class Constitutive_Model:
         self,
         dim: int,
         u_dim: int,
+        maskVariable: Union[uw.swarm.SwarmVariable, uw.discretisation.MeshVariable] = None,
     ):
 
         # Define / identify the various properties in the class but leave
@@ -63,7 +64,7 @@ class Constitutive_Model:
         self.Parameters._solver = None
         self.Parameters._reset = self._reset
 
-        self._material_properties = None
+        self._maskVar = maskVariable
 
         ## Default consitutive tensor is the identity
 
@@ -85,7 +86,25 @@ class Constitutive_Model:
 
         def __init__(inner_self):
             inner_self._solver = None #### should this be here?
-    
+
+    @property
+    def maskSize(self):
+        if self.maskVariable:
+            return self.maskVariable.indices 
+        else:
+            return 0
+
+    ### Getter and setter for internel mask Variable
+    @property
+    def maskVariable(self):
+        return self._maskVar
+
+    @maskVariable.setter
+    def maskVariable(self, indexVar):
+        # error checking, only support IndexSwarmVariables for now
+        if isinstance( indexVar, uw.swarm.IndexSwarmVariable ):
+            self._maskVar = indexVar
+
     @property
     def K(self):
         ''' The constitutive property for this flow law '''
