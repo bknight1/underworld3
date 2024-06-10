@@ -18,6 +18,8 @@ from .solvers import (
     SNES_AdvectionDiffusion_SLCN as AdvDiffusion,
 )  # fix examples then remove this
 
+from .additional_solvers import SNES_Diffusion_SLCN as DiffusionSLCN
+
 from .solvers import SNES_AdvectionDiffusion_SLCN as AdvDiffusionSLCN
 from .solvers import SNES_AdvectionDiffusion as AdvDiffusion
 
