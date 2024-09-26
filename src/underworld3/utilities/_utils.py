@@ -132,13 +132,13 @@ def gather_data(val, masked_value=-999999, bcast=False):
 
     comm.barrier()
 
-    ## gather x values, can't do them together
+    ## gather the data on the root proc
     comm.Gatherv(sendbuf=val_local, recvbuf=(val_global, sendcounts), root=0)
 
     comm.barrier()
 
     if uw.mpi.rank == 0:
-        ### remove rows with NaN
+        ### remove rows with mask value
         val_global = val_global[val_global != masked_value]  
 
     comm.barrier()
